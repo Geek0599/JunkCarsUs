@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <g id="iconyellowarrow" fill-opacity="1">
+    <path d="M-97 -564L-97 -564L-97 -540L-121 -540L-121 -564L-97 -564Z" id="iconyellowarrow" fill="none" stroke="none" />
+    <path d="M0 0L24 0L24 24L0 24L0 0Z" id="Path" fill="none" fill-rule="evenodd" stroke="none" />
+    <path d="M12 13L4 13L4 11L12 11L12 4L20 12L12 20L12 13Z" id="Path" fill="#FFD72F" stroke="none" />
+  </g>
+</svg>
