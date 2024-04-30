@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="favicon.ico">
+	<title>Layout «JunkCars»</title>
+</head>
+
+<body>
+	<div class="project-body">
+		<div class="project-body__rootpage rootpage">
+			<h1>Layout «JunkCars»</h1>
+			<h2>Finished pages:</h2>
+			<ol class="rootpage__list">
+				<li><a target="_blank" href="home.html"># Home</a></li>
+				<li><a target="_blank" href="locations.html"># Locations</a></li>
+				<li><a target="_blank" href="blog.html"># Blog</a></li>
+				<li><a target="_blank" href="article-knowledge-page.html"># Blog Page</a></li>
+				<li><a target="_blank" href="knowledge-base.html"># Knowledge Base</a></li>
+				<li><a target="_blank" href="article-knowledge-base.html"># Knowledge Base / Article</a></li>
+				<li><a target="_blank" href="author.html"># Author</a></li>
+				<li><a target="_blank" href="faq.html"># FAQ</a></li>
+				<li><a target="_blank" href="about-us.html"># About us</a></li>
+				<li><a target="_blank" href="offer.html"># Offer</a></li>
+				<li><a target="_blank" href="contact-us.html"># Contact us</a></li>
+				<li><a target="_blank" href="car-value-calculator.html"># Car Value Calculator</a></li>
+				<li><a target="_blank" href="car-models.html"># Car Models</a></li>
+				<li><a target="_blank" href="thousand-dollars-cash.html"># 1000$</a></li>
+				<li><a target="_blank" href="ev-calculator.html"># EV Calculator</a></li>
+				<li><a target="_blank" href="locations-state.html"># Locations/State</a></li>
+				<li><a target="_blank" href="locations-state-country.html"># Locations/State/Country</a></li>
+				<li><a target="_blank" href="locations-state-city.html"># Locations/State/City</a></li>
+				<li><a target="_blank" href="locations-counties.html"># Locations/State/Counties</a></li>
+				<li><a target="_blank" href="salvage-yards.html"># Salvage Yards</a></li>
+				<li><a target="_blank" href="salvage-yards-locations.html"># Salvage Yards/Locations</a></li>
+				<li><a target="_blank" href="сar-condition.html"># Car/Condition</a></li>
+				<li><a target="_blank" href="сar-body.html"># Car/Body</a></li>
+				<li><a target="_blank" href="сar-brend.html"># Car/Brand</a></li>
+				<li><a target="_blank" href="сar-brend-model.html"># Car/Brand/Model</a></li>
+				<li><a target="_blank" href="diminished-calculator.html">! Diminished value calculator</a></li>
+				<li><a target="_blank" href="сar-life-expect-calculator.html">! Car Life Expectancy Calculator</a></li>
+			</ol>
+		</div>
+		<div class="project-body__image">
+			<img src="https://images2.imgbox.com/71/18/EYW8SC73_o.png" alt="«JunkCars»">
+		</div>
+	</div>
+</body>
+<style>
+	@charset "UTF-8";
+	@import url("https://fonts.googleapis.com/css?family=Montserrat:regular,700&display=swap");
+
+	*,
+	*::before,
+	*::after {
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		min-width: 320px;
+		width: 100%;
+		color: #fff;
+		background-color: #5e5373;
+	}
+
+	body {
+		font-family: Montserrat;
+		font-size: 100%;
+		line-height: 1;
+		font-size: 1rem;
+	}
+
+	a {
+		text-decoration: underline;
+		color: #ebe691
+	}
+
+	a:visited {
+		text-decoration: underline;
+		color: #aaa768;
+	}
+
+	a:hover {
+		text-decoration: none;
+	}
+
+	ul li {
+		list-style: none;
+	}
+
+	img {
+		vertical-align: top;
+	}
+
+	h1 {
+		color: #ebe691;
+		font-size: 2.5rem;
+		margin: 0px 0px 1.25rem 0px;
+	}
+
+	h2 {
+		color: #ebe691;
+		font-size: 1.25rem;
+		margin: 0px 0px 1rem 0px;
+	}
+
+	.wrapper {
+		width: 100%;
+		min-height: 100%;
+		overflow: hidden;
+	}
+
+	.project-body {
+		display: flex;
+		gap: 35px;
+		padding: 30px;
+	}
+
+	.project-body__rootpage {
+		flex: 0 1 30%;
+	}
+
+	.project-body__image {
+		flex: 0 1 70%;
+		position: relative;
+		padding-bottom: 480%;
+	}
+
+	.project-body__image img {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;
+		object-fit: contain;
+	}
+
+	.rootpage {
+		padding: 30px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	@media (max-width: 767px) {
+		.rootpage {
+			padding: 30px 15px;
+		}
+
+		.project-body {
+			padding: 15px;
+			flex-direction: column;
+		}
+
+		.project-body__image {
+			padding-bottom: 750%;
+		}
+	}
+
+	@media (max-width: 767px) {
+		h1 {
+			font-size: 1.85rem;
+			margin: 0px 0px 1.25rem 0px;
+		}
+	}
+
+	@media (max-width: 767px) {
+		h2 {
+			font-size: 1.125rem;
+			margin: 0px 0px 1rem 0px;
+		}
+	}
+
+	.rootpage__info {
+		line-height: 140%;
+		margin: 0px 0px 1.5rem 0px;
+	}
+
+	.rootpage__list {
+		margin: 0px 0px 2.25rem 1.25rem;
+	}
+
+	.rootpage__list li:not(:last-child) {
+		margin: 0px 0px 15px 0px;
+	}
+
+	.rootpage__contacts,
+	.rootpage__tnx {
+		border-radius: 200px;
+		padding: 20px 65px;
+		line-height: 140%;
+	}
+
+	.rootpage__contacts {
+		background: #32b5a4;
+
+	}
+
+	.rootpage__contacts a {
+		color: #ebe691;
+	}
+
+	.rootpage__tnx {
+		background: #c22d63;
+		margin: 0px 0px 1rem 0px;
+	}
+
+	@media (max-width: 767px) {
+
+		.rootpage__contacts,
+		.rootpage__tnx {
+			border-radius: 40px;
+			padding: 20px;
+		}
+	}
+</style>
+
+</html>
