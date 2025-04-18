@@ -2427,29 +2427,22 @@ Snippet (HTML): cnt
 .our-values-item__image-body {
   width: 4.5rem;
   height: 4.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   border-radius: 50%;
-  border: 0.0625rem solid #000;
-  position: relative;
   margin-bottom: 1.5rem;
-}
-
-.our-values-item__image-body::before {
-  content: "";
-  position: absolute;
-  bottom: 0.25rem;
-  right: 0.1875rem;
-  width: 2.875rem;
-  height: 2.875rem;
-  border-radius: 50%;
-  background-color: #d2d2d1;
+  background-color: #F7F7F6;
 }
 
 .our-values-item__image {
-  width: 4.5625rem;
-  position: absolute;
-  bottom: 0.5rem;
-  right: -1.0625rem;
-  z-index: 1;
+  width: 2.5rem;
 }
 
 .our-values-item__title {
