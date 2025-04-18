@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/black/search</title>
+    <g id="icon/black/search" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group">
+            <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+            <path d="M18.031,16.6168 L22.3137,20.8995 L20.8995,22.3137 L16.6168,18.031 C15.0769,19.263 13.124,20 11,20 C6.032,20 2,15.968 2,11 C2,6.032 6.032,2 11,2 C15.968,2 20,6.032 20,11 C20,13.124 19.263,15.0769 18.031,16.6168 Z M16.0247,15.8748 C17.2475,14.6146 18,12.8956 18,11 C18,7.1325 14.8675,4 11,4 C7.1325,4 4,7.1325 4,11 C4,14.8675 7.1325,18 11,18 C12.8956,18 14.6146,17.2475 15.8748,16.0247 L16.0247,15.8748 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>
