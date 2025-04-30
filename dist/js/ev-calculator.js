@@ -1,6 +1,6 @@
 (() => {
     var __webpack_modules__ = {
-        951: function(module, exports, __webpack_require__) {
+        227: function(module, exports, __webpack_require__) {
             var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;
             /*! @preserve
  * numeral.js
@@ -5578,7 +5578,7 @@
                 });
             }
         }
-        var numeral = __webpack_require__(951);
+        var numeral = __webpack_require__(227);
         function inputNumFormatting() {
             const inputs = document.querySelectorAll("[data-num-format]");
             if (inputs.length) inputs.forEach((input => {

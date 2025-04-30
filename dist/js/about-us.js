@@ -1,9 +1,9 @@
 (() => {
     var __webpack_modules__ = {
-        847: (module, __unused_webpack_exports, __webpack_require__) => {
-            __webpack_require__(974);
+        155: (module, __unused_webpack_exports, __webpack_require__) => {
+            __webpack_require__(746);
         },
-        974: () => {
+        746: () => {
             /**
  * Sticksy.js
  * A library for making cool things like fixed widgets.
@@ -4902,7 +4902,7 @@
                 });
             }
         }
-        __webpack_require__(847);
+        __webpack_require__(155);
         testimonialsSlider();
         setFontSizeForTestimonials();
         hoverTooltipOnStatesMap();
