@@ -294,6 +294,41 @@
             subMenuItems.forEach((item => item.classList.remove("_open")));
         }
     }
+    function checkboxRadioChecked() {
+        window.addEventListener("click", (e => {
+            if (e.target.closest(".checkbox") || e.target.closest(".radio")) {
+                let input = null;
+                if (e.target.closest(".checkbox")) {
+                    input = e.target.closest(".checkbox").querySelector('input[type="checkbox"]');
+                    input ? input.checked = !input.checked : null;
+                }
+                if (e.target.closest(".radio")) {
+                    input = e.target.closest(".radio").querySelector('input[type="radio"]');
+                    input ? input.checked = true : null;
+                }
+                let event = new Event("inputChange");
+                input ? input.dispatchEvent(event) : null;
+            }
+        }));
+        window.addEventListener("keydown", (e => {
+            if (e.key === "Enter") {
+                const focusedElement = document.activeElement;
+                if (focusedElement.closest(".checkbox") || focusedElement.closest(".radio")) {
+                    let input = null;
+                    if (focusedElement.closest(".checkbox")) {
+                        input = focusedElement.closest(".checkbox").querySelector('input[type="checkbox"]');
+                        input ? input.checked = !input.checked : null;
+                    }
+                    if (focusedElement.closest(".radio")) {
+                        input = focusedElement.closest(".radio").querySelector('input[type="radio"]');
+                        input ? input.checked = true : null;
+                    }
+                    let event = new Event("inputChange");
+                    input ? input.dispatchEvent(event) : null;
+                }
+            }
+        }));
+    }
     function getWindow_getWindow(node) {
         if (node == null) return window;
         if (node.toString() !== "[object Window]") {
@@ -1248,6 +1283,7 @@
     addLoadedClass();
     menuInit();
     showSubMenu();
+    checkboxRadioChecked();
     function ssr_window_esm_isObject(obj) {
         return obj !== null && typeof obj === "object" && "constructor" in obj && obj.constructor === Object;
     }

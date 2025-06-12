@@ -1493,6 +1493,7 @@
     addLoadedClass();
     menuInit();
     showSubMenu();
+    checkboxRadioChecked();
     function ssr_window_esm_isObject(obj) {
         return obj !== null && typeof obj === "object" && "constructor" in obj && obj.constructor === Object;
     }
@@ -9749,7 +9750,6 @@
     testimonialsSlider();
     setFontSizeForTestimonials();
     formValidate();
-    checkboxRadioChecked();
     stepsFillingAndValidate();
     function stepsFillingAndValidate() {
         const steps = document.querySelector("[data-steps]");
