@@ -38,6 +38,7 @@
   font-style: normal;
 }
 
+.value-calc-form .buttonclass ._icon-arrow-left::before,
 .main-black-btn::before,
 .main-yellow-btn::before,
 [class*=_icon-]:before {
@@ -56,6 +57,7 @@
 }
 
 ._icon-arrow-right:before,
+.value-calc-form .buttonclass ._icon-arrow-left:before,
 .main-black-btn:before,
 .main-yellow-btn:before {
   content: "\e900";
@@ -2787,17 +2789,69 @@ Snippet (HTML): cnt
   max-width: 23.75rem;
 }
 
+.value-calc-form {
+  display: -ms-grid;
+  display: grid;
+  gap: 2rem;
+}
+
 .value-calc-form__body {
-  margin-bottom: 2rem;
+  display: -ms-grid;
+  display: grid;
+  gap: 2.25rem;
+}
+
+.value-calc-form__body .form__label {
+  margin: 0;
+}
+
+.value-calc-form__body .form__item {
+  display: -ms-grid;
+  display: grid;
+  gap: 1rem;
+}
+
+.value-calc-form__body .odometer_info {
+  line-height: 128%;
+}
+
+.value-calc-form__body--submit {
+  gap: 1.25rem;
 }
 
 .value-calc-form__btn {
+  -ms-grid-column-align: start;
+      justify-self: start;
   min-width: 14.0625rem;
+}
+
+.value-calc-form .buttonclass {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.value-calc-form .buttonclass ._icon-arrow-left {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.value-calc-form .buttonclass ._icon-arrow-left::before {
+  -webkit-transform: scale(-1, 1);
+      -ms-transform: scale(-1, 1);
+          transform: scale(-1, 1);
 }
 
 .value-calc-aside {
   display: -ms-grid;
   display: grid;
+  -ms-flex-line-pack: start;
+      align-content: start;
   color: #000;
   background-color: #ffd833;
 }
@@ -5389,6 +5443,12 @@ html.with-fancybox body.hide-scrollbar {
     padding-bottom: 0.5rem;
   }
 
+  .value-calc-form__body .main-black-btn,
+  .value-calc-form__body .main-yellow-btn {
+    -ms-grid-column-align: start;
+        justify-self: start;
+  }
+
   .car-estimation-item__image {
     margin-bottom: 1rem;
   }
@@ -6681,6 +6741,12 @@ html.with-fancybox body.hide-scrollbar {
     -webkit-transform: scale(1.1);
         -ms-transform: scale(1.1);
             transform: scale(1.1);
+  }
+
+  .value-calc-form .buttonclass ._icon-arrow-left.gray-btn:hover::before {
+    -webkit-transform: scale(-1, 1) translateX(0.75rem);
+        -ms-transform: scale(-1, 1) translateX(0.75rem);
+            transform: scale(-1, 1) translateX(0.75rem);
   }
 
   .car-estimation-item__image:hover {

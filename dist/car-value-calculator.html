@@ -5,7 +5,7 @@
 	<title>Scrap Car Value Calculator</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/car-value-calculator.min.css?_v=20250430184353">
+	<link rel="stylesheet" href="css/car-value-calculator.min.css?_v=20250612160838">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
@@ -20,7 +20,7 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250430184353" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250612160838" rel="stylesheet">
 </head>
 
 <body>
@@ -325,40 +325,169 @@
 							<div class="value-calc-section__main value-calc-main">
 								<h2 class="value-calc-main__title title">Car Value Calculator</h2>
 								<form data-validate action="#" class="value-calc-main__form form value-calc-form">
-									<div class="form__body value-calc-form__body">
-										<div class="form__item">
-											<label for="year" class="form__label">Select Year</label>
-											<select required id="year" name="year" class="form__select">
-												<option selected value="">Year</option>
-												<option value="2024">2024</option>
-												<option value="2023">2023</option>
-												<option value="2022">2022</option>
-												<option value="2021">2021</option>
-												<option value="2020">2020</option>
-												<option value="2019">2019</option>
-												<option value="2018">2018</option>
-												<option value="2017">2017</option>
-												<option value="2016">2016</option>
-												<option value="2015">2015</option>
-												<option value="2014">2014</option>
-												<option value="2013">2013</option>
-												<option value="2012">2012</option>
-												<option value="2011">2011</option>
-												<option value="2010">2010</option>
-												<option value="2009">2009</option>
-												<option value="2008">2008</option>
-												<option value="2007">2007</option>
-												<option value="2006">2006</option>
-												<option value="2005">2005</option>
-												<option value="2004">2004</option>
-												<option value="2003">2003</option>
-												<option value="2002">2002</option>
-												<option value="2001">2001</option>
-												<option value="2000">2000</option>
-											</select>
+									<div class="stepclass d-none">
+										<div class="form__body value-calc-form__body">
+											<div class="form__item">
+												<label for="year" class="form__label">Select Year</label>
+												<select required id="year" name="year" class="form__select">
+													<option selected value="">Year</option>
+													<option value="2024">2024</option>
+													<option value="2023">2023</option>
+													<option value="2022">2022</option>
+													<option value="2021">2021</option>
+													<option value="2020">2020</option>
+													<option value="2019">2019</option>
+													<option value="2018">2018</option>
+													<option value="2017">2017</option>
+													<option value="2016">2016</option>
+													<option value="2015">2015</option>
+													<option value="2014">2014</option>
+													<option value="2013">2013</option>
+													<option value="2012">2012</option>
+													<option value="2011">2011</option>
+													<option value="2010">2010</option>
+													<option value="2009">2009</option>
+													<option value="2008">2008</option>
+													<option value="2007">2007</option>
+													<option value="2006">2006</option>
+													<option value="2005">2005</option>
+													<option value="2004">2004</option>
+													<option value="2003">2003</option>
+													<option value="2002">2002</option>
+													<option value="2001">2001</option>
+													<option value="2000">2000</option>
+												</select>
+											</div>
 										</div>
 									</div>
-									<button type="submit" class="form__btn-submit value-calc-form__btn gray-btn _icon-arrow-right">Next</button>
+									<div class="stepclass d-none">
+										<div class="form__body value-calc-form__body">
+											<div class="form__item">
+												<div class="form__label">Have you ever been in a car accident using this car?</div>
+												<div class="form__radios">
+													<div class="radio">
+														<input type="radio" name="is_car_accident" value="No">
+														<label>No</label>
+													</div>
+													<div class="radio">
+														<input type="radio" name="is_car_accident" value="Yes, 1 minor accident">
+														<label>Yes, 1 minor accident</label>
+													</div>
+													<div class="radio">
+														<input type="radio" name="is_car_accident" value="Yes, 1 major accident">
+														<label>Yes, 1 major accident</label>
+													</div>
+													<div class="radio">
+														<input type="radio" name="is_car_accident" value="Yes, 2 or more times">
+														<label>Yes, 2 or more times</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="stepclass d-none">
+										<div class="form__body value-calc-form__body">
+											<div class="form__item">
+												<div class="form__label">Indicate flat tires</div>
+												<div class="form__checkboxes">
+													<div class="checkbox">
+														<input type="checkbox" name="flat_tires" value="Driver-front-side ">
+														<label>No</label>
+													</div>
+													<div class="checkbox">
+														<input type="checkbox" name="flat_tires" value="Passenger-front-side">
+														<label>Passenger-front-side</label>
+													</div>
+													<div class="checkbox">
+														<input type="checkbox" name="flat_tires" value="Driver-rear-side">
+														<label>Driver-rear-side</label>
+													</div>
+													<div class="checkbox">
+														<input type="checkbox" name="flat_tires" value="Passenger-rear-side">
+														<label>Passenger-rear-side</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="stepclass d-none">
+										<div class="form__body value-calc-form__body">
+											<div class="form__item">
+												<div class="form__label">Some test question?</div>
+												<div class="form__radios">
+													<div class="radio">
+														<input type="radio" id="text_radio1" name="is_true" value="No">
+														<label for="text_radio1">No</label>
+													</div>
+													<div class="radio">
+														<input type="radio" id="text_radio2" name="is_true" value="Yes">
+														<label for="text_radio2">Yes</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="stepclass d-none">
+										<div class="form__body value-calc-form__body">
+											<div class="form__item">
+												<div class="form__label">Test Checkbox</div>
+												<div class="form__checkboxes">
+													<div class="checkbox">
+														<input type="checkbox" id="text_checkbox1" name="text_checkbox" value="Test No">
+														<label for="text_checkbox1">Test No</label>
+													</div>
+													<div class="checkbox">
+														<input type="checkbox" id="text_checkbox2" name="text_checkbox" value="Test Yes">
+														<label for="text_checkbox2">Test Yes</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="stepclass d-none">
+										<div class="form__body value-calc-form__body">
+											<div class="form__item">
+												<label class="form__label">What’s the mileage on the odometer?</label>
+												<input type="text" id="mileage_on_the_odometer_i" name="mileage_on_the_odometer_i" value="" maxlength="7" class="form__input">
+												<div class="checkbox">
+													<input type="checkbox" id="text_checkbox3" name="text_checkbox" value="1">
+													<label for="text_checkbox3">Unable to veryfy.</label>
+												</div>
+												<div id="mileage_on_the_odometer_info" class="odometer_info">Unable to verify mileage.<br>Selecting "Unable to verify" may decrease your offer and should only be selected if you cannot visually confirm the mileage of the vehicle upon inspection of the odometer.</div>
+											</div>
+										</div>
+									</div>
+									<div class="buttonclass">
+										<button type="button" class="form__btn-submit value-calc-form__btn gray-btn _icon-arrow-left">Prev</button>
+										<button type="button" class="form__btn-submit value-calc-form__btn gray-btn _icon-arrow-right">Next</button>
+									</div>
+									<div class="stepclass d-none">
+										<div class="form__body value-calc-form__body value-calc-form__body--submit">
+											<div class="form__item">
+												<label class="form__label">Last Step! Where do we send your offer?*</label>
+											</div>
+											<div class="form__item">
+												<span class="form_placeholder1">Name*</span>
+												<input class="form__input" value="" name="form_first_name" type="text">
+											</div>
+											<div class="form__item">
+												<span class="form_placeholder1">Enter your phone number*</span>
+												<input class="form__input" value="" name="email_order_phone" type="text" data-language="email_order_phone" required="" aria-required="true">
+												<div class="error-phone"></div>
+											</div>
+											<div class="form__item">
+												<span class="form_placeholder1">Enter your email</span>
+												<input class="form__input" value="" name="form_email" type="email" data-language="form_email">
+												<div class="error-email"></div>
+											</div>
+											<div class="form__item">
+												<span class="form_placeholder1">Zip code</span>
+												<input class="form__input" value="" name="form_zip" type="text" data-language="form_zip">
+											</div>
+											<input type="hidden" name="type" value="scrap-car-value-calculator">
+											<button type="button" class="service-available__btn main-black-btn">Submit</button>
+										</div>
+									</div>
 								</form>
 							</div>
 							<div class="value-calc-section__aside value-calc-aside">
@@ -1194,7 +1323,7 @@
 			</div>
 		</footer>
 	</div>
-	<script async src="js/car-value-calculator.min.js?_v=20250430184353"></script>
+	<script async src="js/car-value-calculator.min.js?_v=20250612160838"></script>
 </body>
 
 </html>
