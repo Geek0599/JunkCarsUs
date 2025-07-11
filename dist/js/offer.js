@@ -314,12 +314,12 @@
                                 }));
                             }
                             spollerTitle.classList.toggle("_spoller-active");
-                            _slideToggle(spollerTitle.nextElementSibling, spollerSpeed);
                             window.dispatchEvent(new CustomEvent("spoller-action", {
                                 detail: {
                                     spoller: spollerTitle
                                 }
                             }));
+                            _slideToggle(spollerTitle.nextElementSibling, spollerSpeed);
                         }
                         e.preventDefault();
                     }

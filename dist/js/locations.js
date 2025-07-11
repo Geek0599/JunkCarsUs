@@ -262,12 +262,12 @@
                             }));
                         }
                         spollerTitle.classList.toggle("_spoller-active");
-                        _slideToggle(spollerTitle.nextElementSibling, spollerSpeed);
                         window.dispatchEvent(new CustomEvent("spoller-action", {
                             detail: {
                                 spoller: spollerTitle
                             }
                         }));
+                        _slideToggle(spollerTitle.nextElementSibling, spollerSpeed);
                     }
                     e.preventDefault();
                 }
@@ -507,7 +507,6 @@
             }));
             let activeSpollerBody = null;
             window.addEventListener("spoller-action", (e => {
-                console.log(e.detail.spoller);
                 const title = e.detail.spoller;
                 if (title && title.classList.contains("_spoller-active")) {
                     const spollerBody = title.nextElementSibling;
@@ -515,6 +514,7 @@
                     const left = getLeftOffset(title, container);
                     spollerBody.style.left = `-${left}px`;
                     activeSpollerBody = title;
+                    spollerBody.height = spollerBody.clientHeight + "px";
                 } else activeSpollerBody = null;
             }));
             window.addEventListener("resize", (e => {
