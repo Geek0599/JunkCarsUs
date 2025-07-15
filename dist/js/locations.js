@@ -165,41 +165,29 @@
         if (target.hidden) return _slideDown(target, duration); else return _slideUp(target, duration);
     };
     let bodyLockStatus = true;
-    let bodyLockToggle = (delay = 500) => {
-        if (document.documentElement.classList.contains("lock")) bodyUnlock(delay); else bodyLock(delay);
-    };
     let bodyUnlock = (delay = 500) => {
-        let body = document.querySelector("body");
         if (bodyLockStatus) {
-            let lock_padding = document.querySelectorAll("[data-lp]");
-            setTimeout((() => {
-                for (let index = 0; index < lock_padding.length; index++) {
-                    const el = lock_padding[index];
-                    el.style.paddingRight = "0px";
-                }
-                body.style.paddingRight = "0px";
-                document.documentElement.classList.remove("lock");
-            }), delay);
             bodyLockStatus = false;
-            setTimeout((function() {
+            if (delay) setTimeout((function() {
                 bodyLockStatus = true;
-            }), delay);
+                document.documentElement.style.removeProperty("--scrollbar-compensate");
+                document.documentElement.classList.remove("lock");
+            }), delay); else {
+                bodyLockStatus = true;
+                document.documentElement.style.removeProperty("--scrollbar-compensate");
+                document.documentElement.classList.remove("lock");
+            }
         }
     };
     let bodyLock = (delay = 500) => {
-        let body = document.querySelector("body");
         if (bodyLockStatus) {
-            let lock_padding = document.querySelectorAll("[data-lp]");
-            for (let index = 0; index < lock_padding.length; index++) {
-                const el = lock_padding[index];
-                el.style.paddingRight = window.innerWidth - document.querySelector(".wrapper").offsetWidth + "px";
-            }
-            body.style.paddingRight = window.innerWidth - document.querySelector(".wrapper").offsetWidth + "px";
+            const scrollbarCompensate = window.innerWidth - document.querySelector(".wrapper").offsetWidth;
+            if (scrollbarCompensate > 0) document.documentElement.style.setProperty("--scrollbar-compensate", scrollbarCompensate + "px");
             document.documentElement.classList.add("lock");
             bodyLockStatus = false;
-            setTimeout((function() {
+            if (delay) setTimeout((function() {
                 bodyLockStatus = true;
-            }), delay);
+            }), delay); else bodyLockStatus = true;
         }
     };
     function spollers() {
@@ -293,31 +281,18 @@
         }
     }
     function menuInit() {
-        if (document.querySelector(".icon-menu")) {
-            document.addEventListener("click", (function(e) {
-                if (bodyLockStatus && e.target.closest(".icon-menu")) {
-                    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                    const isUnlock = !document.documentElement.classList.contains("menu-open");
-                    if (isUnlock) if (scrollTop > 0) scrollToTop(scrollTop); else {
-                        bodyLockToggle();
-                        document.documentElement.classList.toggle("menu-open");
-                    } else {
-                        bodyLockToggle();
-                        document.documentElement.classList.toggle("menu-open");
-                    }
+        if (document.querySelector(".icon-menu")) document.addEventListener("click", (function(e) {
+            if (bodyLockStatus && e.target.closest(".icon-menu")) {
+                const isUnlock = !document.documentElement.classList.contains("menu-open");
+                if (isUnlock) {
+                    bodyLock(300);
+                    document.documentElement.classList.add("menu-open");
+                } else {
+                    bodyUnlock(300);
+                    document.documentElement.classList.remove("menu-open");
                 }
-            }));
-            function scrollToTop(scrollTop) {
-                scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                if (scrollTop > 0) {
-                    window.requestAnimationFrame(scrollToTop);
-                    window.scrollTo(0, scrollTop - scrollTop / 1.2);
-                } else setTimeout((() => {
-                    bodyLockToggle();
-                    document.documentElement.classList.toggle("menu-open");
-                }), 10);
             }
-        }
+        }));
     }
     function uniqArray(array) {
         return array.filter((function(item, index, self) {
@@ -461,39 +436,47 @@
         }));
     }
     function hoverTooltipOnStatesMap() {
-        const stateNameLinks = document.querySelectorAll("[data-state-name]");
-        const activeAttribute = "data-show";
-        const containerOffset = 20;
-        if (stateNameLinks.length) {
-            const tooltip = document.createElement("div");
-            tooltip.setAttribute("data-tooltip", "");
-            tooltip.setAttribute("role", "tooltip");
-            document.documentElement.appendChild(tooltip);
-            stateNameLinks.forEach((state => {
-                state.addEventListener("mousemove", (e => {
-                    tooltip.innerText !== state.dataset.stateName ? tooltip.innerText = state.dataset.stateName : null;
-                    tooltip.style.top = scrollY + (e.y - 29) + "px";
-                    const tooltipWidth = tooltip.offsetWidth + containerOffset;
-                    if (document.documentElement.clientWidth - e.x - tooltipWidth <= 0) tooltip.style.left = e.x - tooltipWidth + containerOffset + "px"; else tooltip.style.left = e.x + containerOffset + "px";
-                }));
-                state.addEventListener("mouseenter", (e => {
-                    !tooltip.hasAttribute(activeAttribute) ? tooltip.setAttribute(activeAttribute, "") : null;
-                }));
-                state.addEventListener("mouseleave", (e => {
-                    tooltip.hasAttribute(activeAttribute) ? tooltip.removeAttribute(activeAttribute) : null;
-                }));
-                state.addEventListener("focus", (e => {
-                    tooltip.innerText !== state.dataset.stateName ? tooltip.innerText = state.dataset.stateName : null;
-                    tooltip.setAttribute(activeAttribute, "");
-                    const rect = state.getBoundingClientRect();
-                    tooltip.style.top = scrollY + rect.top + "px";
-                    if (rect.left > document.documentElement.clientWidth - tooltip.offsetWidth) tooltip.style.left = rect.left - tooltip.offsetWidth + "px"; else tooltip.style.left = rect.left + "px";
-                }));
-                state.addEventListener("blur", (e => {
-                    tooltip.removeAttribute("data-show");
-                }));
-            }));
+        const activeAttr = "data-show";
+        const offset = 20;
+        const tooltip = document.createElement("div");
+        tooltip.setAttribute("data-tooltip", "");
+        tooltip.setAttribute("role", "tooltip");
+        document.body.appendChild(tooltip);
+        function positionTooltip(e, target) {
+            const name = target.dataset.stateName;
+            if (tooltip.innerText !== name) tooltip.innerText = name;
+            const x = e.clientX;
+            const y = e.clientY;
+            tooltip.style.top = window.scrollY + (y - 29) + "px";
+            const tooltipWidth = tooltip.offsetWidth + offset;
+            if (document.documentElement.clientWidth - x - tooltipWidth <= 0) tooltip.style.left = x - tooltipWidth + offset / 2 + "px"; else tooltip.style.left = x + offset + "px";
         }
+        document.addEventListener("mousemove", (e => {
+            const target = e.target.closest("[data-state-name]");
+            if (target) positionTooltip(e, target);
+        }));
+        document.addEventListener("mouseover", (e => {
+            const target = e.target.closest("[data-state-name]");
+            if (target && !tooltip.hasAttribute(activeAttr)) tooltip.setAttribute(activeAttr, "");
+        }));
+        document.addEventListener("mouseout", (e => {
+            const leaveFrom = e.target.closest("[data-state-name]");
+            const enterTo = e.relatedTarget && e.relatedTarget.closest("[data-state-name]");
+            if (leaveFrom && leaveFrom !== enterTo) tooltip.removeAttribute(activeAttr);
+        }));
+        document.addEventListener("focusin", (e => {
+            const target = e.target.closest("[data-state-name]");
+            if (target) {
+                const rect = target.getBoundingClientRect();
+                tooltip.innerText = target.dataset.stateName;
+                tooltip.setAttribute(activeAttr, "");
+                tooltip.style.top = window.scrollY + rect.top + "px";
+                if (rect.left > document.documentElement.clientWidth - tooltip.offsetWidth) tooltip.style.left = rect.left - tooltip.offsetWidth + "px"; else tooltip.style.left = rect.left + "px";
+            }
+        }));
+        document.addEventListener("focusout", (e => {
+            if (e.target.closest("[data-state-name]")) tooltip.removeAttribute(activeAttr);
+        }));
     }
     function stretchSpollerListMapSubmenu() {
         const container = document.querySelector("[data-map-list]");
@@ -537,57 +520,187 @@
         if (validateForms.length) validateForms.forEach((form => {
             const inputs = form.querySelectorAll("input,select,textarea");
             const btnSubmit = form.querySelector('button[type="submit"]');
-            if (inputs.length) {
+            if (inputs.length > 0) {
                 form.addEventListener("submit", (e => {
-                    e.preventDefault();
+                    checkInputs({
+                        inputs,
+                        form,
+                        event: e
+                    });
                 }));
-                btnSubmit && btnSubmit.addEventListener("click", (() => {
-                    checkInputs(inputs, form);
+                btnSubmit && btnSubmit.addEventListener("click", (e => {
+                    checkInputs({
+                        inputs,
+                        form,
+                        event: e
+                    });
                 }));
                 inputs.forEach((input => {
-                    if ([ "text", "number", "email", "textarea" ].includes(input.type)) input.addEventListener("input", (() => {
-                        checkInput(input);
-                    })); else input.addEventListener("change", (() => {
-                        checkInput(input);
+                    input.addEventListener("input", (() => formatInput(input)));
+                    input.addEventListener("change", (() => setTimeout((() => {
+                        checkInput(input, form);
+                    }), 0)));
+                    input.addEventListener("blur", (() => {
+                        setTimeout((() => {
+                            if (input.value !== "") checkInput(input, form);
+                        }), 0);
                     }));
                 }));
                 form.addEventListener("reset", (e => {
-                    inputs.forEach((input => checkInput(input)));
+                    inputs.forEach((input => removeStatus(input)));
                 }));
+                const recaptchaField = form.querySelector("#g-recaptcha-response-field-contacts");
+                if (recaptchaField) setupRecaptchaHandler(form, recaptchaField);
             }
         }));
-        function checkInputs(inputs, form) {
+        async function checkInputs({inputs, form, event, onSuccessFormValidateCallback, onErrorFormValidateCallback}) {
+            if (event) event.preventDefault();
+            const isShowNotice = form?.hasAttribute("data-validate-notice");
+            !isShowNotice ? form.reportValidity() : null;
+            form.setAttribute("novalidate", true);
             let errors = 0;
-            inputs.forEach((input => {
-                if (checkInput(input)) errors++;
-            }));
-            errors === 0 ? form.submit() : null;
-        }
-        function checkInput(input) {
-            if (input.required) {
-                let isError = false;
-                const value = input.value;
-                if (input.value !== "") removeError(input); else isError = addError(input);
-                if (input.hasAttribute("data-num-format")) if (parseFloat(value) > 0) removeError(input); else isError = addError(input);
-                if (input.type === "email" && emailTest(input)) isError = addError(input);
-                if (input.hasAttribute("data-minlength") && value.length < input.dataset.minlength) isError = addError(input);
-                if (input.hasAttribute("data-maxlenght") && value.length > input.dataset.maxlenght) isError = addError(input);
-                if (input.inputmask) if (input.inputmask.isComplete()) removeError(input); else isError = addError(input);
-                return isError;
+            let firstErrorFound = false;
+            for (const input of inputs) if (await checkInput(input, form)) {
+                errors++;
+                if (!firstErrorFound) {
+                    input.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+                    firstErrorFound = true;
+                }
             }
+            if (!errors) {
+                const successEvent = new Event("form-validation-success");
+                form.dispatchEvent(successEvent);
+                if (onSuccessFormValidateCallback) onSuccessFormValidateCallback();
+            } else {
+                const errorEvent = new Event("form-validation-error");
+                form.dispatchEvent(errorEvent);
+                if (onErrorFormValidateCallback) onErrorFormValidateCallback();
+            }
+        }
+        async function checkInput(input, form) {
+            const value = input.value.trim();
+            let isError = false;
+            if (input.required) {
+                if (value === "" && !input.inputmask) {
+                    isError = true;
+                    showTextNotice(input, "This field is required");
+                    return isError;
+                }
+                if (input.hasAttribute("data-number-format")) if (!/^\d+$/.test(value)) {
+                    isError = true;
+                    showTextNotice(input, "Only numbers are allowed");
+                    return isError;
+                }
+                if (input.hasAttribute("data-text-format")) if (!/^[a-zA-Z\s]+$/.test(value)) {
+                    isError = true;
+                    showTextNotice(input, `Only ${/[а-яА-Я]/.test(value) ? "Latin" : ""} letters are allowed`);
+                    return isError;
+                }
+                if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
+                    isError = true;
+                    showTextNotice(input, "Your email address must be in the format of name@domain.com");
+                    return isError;
+                }
+                const minLength = input.hasAttribute("data-minlength") ? Number(input.dataset.minlength) : null;
+                const maxLength = input.hasAttribute("data-maxlength") ? Number(input.dataset.maxlength) : null;
+                if (minLength !== null && value.length < minLength) {
+                    isError = true;
+                    if (input.id == "year") showTextNotice(input, "Please enter the correct year"); else showTextNotice(input, `Please enter at least ${minLength} characters`);
+                    return isError;
+                }
+                if (maxLength !== null && value.length > maxLength) {
+                    isError = true;
+                    showTextNotice(input, `Please enter less than ${minLength} characters`);
+                    return isError;
+                }
+                const minValue = input.hasAttribute("data-min-value") ? Number(input.dataset.minValue) : null;
+                const maxValue = input.hasAttribute("data-max-value") ? Number(input.dataset.maxValue) : null;
+                if (minValue !== null && Number(value) < minValue) {
+                    isError = true;
+                    showTextNotice(input, `Please enter a value greater than or equal to ${minValue}`);
+                    return isError;
+                }
+                if (maxValue !== null && Number(value) > maxValue) {
+                    isError = true;
+                    showTextNotice(input, `Please enter a value less than or equal to ${maxValue}`);
+                    return isError;
+                }
+                if (input.inputmask) {
+                    input.dispatchEvent(new Event("input"));
+                    if (!input.inputmask.isComplete()) {
+                        isError = true;
+                        showTextNotice(input, "Please enter full phone number");
+                        if (value === "") showTextNotice(input, "This field is required");
+                        return isError;
+                    }
+                }
+                if (input.required) if (isError) addError(input); else removeError(input);
+            } else if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
+                isError = true;
+                addError(input);
+                showTextNotice(input, "Your email address must be in the format of name@domain.com");
+            } else if (value === "") removeStatus(input); else removeError(input);
+            return isError;
+        }
+        function formatInput(input) {
+            if (input.hasAttribute("data-maxlength")) {
+                const maxLength = input.getAttribute("data-maxlength");
+                if (input.value.length > maxLength) input.value = input.value.slice(0, maxLength);
+            }
+            if (input.hasAttribute("data-number-format")) input.value = input.value.replace(/\D/g, "");
         }
         function addError(input) {
             input.classList.remove("_validated");
             input.classList.add("_no-validated");
+            input.setAttribute("aria-invalid", "true");
+            !input.wasError && input.addEventListener("input", (() => setTimeout((() => {
+                checkInput(input);
+            }), 0)));
+            input.wasError = true;
             return true;
         }
         function removeError(input) {
             input.classList.remove("_no-validated");
             input.classList.add("_validated");
+            input.setAttribute("aria-invalid", "false");
+            removeTextNotice(input);
         }
-        function emailTest(formRequiredItem) {
-            return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(formRequiredItem.value);
+        function removeStatus(input) {
+            input.classList.remove("_no-validated", "_validated");
+            input.removeAttribute("aria-invalid");
+            removeTextNotice(input);
         }
+        function isEmailValid(input) {
+            return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(input.value);
+        }
+        function showTextNotice(input, text) {
+            const isShowNotice = input.form?.hasAttribute("data-validate-notice");
+            let notice = input.parentElement.querySelector(".form__item-notice");
+            if (isShowNotice) if (notice && notice.textContent !== text) notice.textContent = text; else if (!notice) {
+                notice = document.createElement("label");
+                notice.classList.add("form__item-notice");
+                notice.setAttribute("for", input.id);
+                notice.textContent = text;
+                input.parentElement.insertAdjacentElement("beforeend", notice);
+            }
+            addError(input);
+        }
+        function removeTextNotice(input) {
+            const notice = input.parentElement.querySelector(".form__item-notice");
+            notice && notice.remove();
+        }
+        window.formValidate = {
+            showTextNotice,
+            removeTextNotice,
+            removeError,
+            removeStatus,
+            addError,
+            checkInputs,
+            checkInput
+        };
     }
     function checkboxRadioChecked() {
         window.addEventListener("click", (e => {
@@ -1579,6 +1692,65 @@
     menuInit();
     showSubMenu();
     checkboxRadioChecked();
+    function mainSectionPaddingCompensateByHeaderHeight() {
+        const header = document.querySelector(".top-header");
+        const main = document.querySelector(".menu__body");
+        const iconMenu = document.querySelector(".icon-menu");
+        let currentHeaderHeight = header.offsetHeight;
+        const updatePadding = () => {
+            const newHeight = header.offsetHeight;
+            if (currentHeaderHeight !== newHeight) {
+                main.style.setProperty("--menu-top-p", newHeight / 16 + "rem");
+                currentHeaderHeight = newHeight;
+            }
+        };
+        const resizeObserver = new ResizeObserver((() => {
+            updatePadding();
+        }));
+        resizeObserver.observe(header);
+        function onFrameChange() {
+            requestAnimationFrame((() => {
+                requestAnimationFrame((() => {
+                    setTimeout((() => {
+                        updatePadding();
+                    }), 0);
+                }));
+            }));
+        }
+        onFrameChange();
+        window.addEventListener("load", onFrameChange);
+        iconMenu.addEventListener("click", onFrameChange);
+        window.addEventListener("scroll", onFrameChange);
+        window.addEventListener("resize", (() => {
+            updatePadding();
+            setTimeout((() => {
+                updatePadding();
+            }), 100);
+        }));
+        document.fonts.ready.then((() => {
+            onFrameChange();
+        }));
+    }
+    mainSectionPaddingCompensateByHeaderHeight();
+    function headerScroll() {
+        const header = document.querySelector("header.header");
+        const headerWrapper = document.querySelector(".header__wrapper");
+        const startPoint = header.dataset.scroll ? header.dataset.scroll : 1;
+        const eventScroll = new CustomEvent("header-scroll");
+        window.addEventListener("scroll", (function(e) {
+            const scrollTop = window.scrollY;
+            if (scrollTop >= startPoint) {
+                if (!header.classList.contains("_header-scroll")) {
+                    header.classList.add("_header-scroll");
+                    headerWrapper.dispatchEvent(eventScroll);
+                }
+            } else if (header.classList.contains("_header-scroll")) {
+                header.classList.remove("_header-scroll");
+                headerWrapper.dispatchEvent(eventScroll);
+            }
+        }));
+    }
+    headerScroll();
     function ssr_window_esm_isObject(obj) {
         return obj !== null && typeof obj === "object" && "constructor" in obj && obj.constructor === Object;
     }

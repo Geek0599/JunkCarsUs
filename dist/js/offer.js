@@ -217,41 +217,29 @@
             if (target.hidden) return _slideDown(target, duration); else return _slideUp(target, duration);
         };
         let bodyLockStatus = true;
-        let bodyLockToggle = (delay = 500) => {
-            if (document.documentElement.classList.contains("lock")) bodyUnlock(delay); else bodyLock(delay);
-        };
         let bodyUnlock = (delay = 500) => {
-            let body = document.querySelector("body");
             if (bodyLockStatus) {
-                let lock_padding = document.querySelectorAll("[data-lp]");
-                setTimeout((() => {
-                    for (let index = 0; index < lock_padding.length; index++) {
-                        const el = lock_padding[index];
-                        el.style.paddingRight = "0px";
-                    }
-                    body.style.paddingRight = "0px";
-                    document.documentElement.classList.remove("lock");
-                }), delay);
                 bodyLockStatus = false;
-                setTimeout((function() {
+                if (delay) setTimeout((function() {
                     bodyLockStatus = true;
-                }), delay);
+                    document.documentElement.style.removeProperty("--scrollbar-compensate");
+                    document.documentElement.classList.remove("lock");
+                }), delay); else {
+                    bodyLockStatus = true;
+                    document.documentElement.style.removeProperty("--scrollbar-compensate");
+                    document.documentElement.classList.remove("lock");
+                }
             }
         };
         let bodyLock = (delay = 500) => {
-            let body = document.querySelector("body");
             if (bodyLockStatus) {
-                let lock_padding = document.querySelectorAll("[data-lp]");
-                for (let index = 0; index < lock_padding.length; index++) {
-                    const el = lock_padding[index];
-                    el.style.paddingRight = window.innerWidth - document.querySelector(".wrapper").offsetWidth + "px";
-                }
-                body.style.paddingRight = window.innerWidth - document.querySelector(".wrapper").offsetWidth + "px";
+                const scrollbarCompensate = window.innerWidth - document.querySelector(".wrapper").offsetWidth;
+                if (scrollbarCompensate > 0) document.documentElement.style.setProperty("--scrollbar-compensate", scrollbarCompensate + "px");
                 document.documentElement.classList.add("lock");
                 bodyLockStatus = false;
-                setTimeout((function() {
+                if (delay) setTimeout((function() {
                     bodyLockStatus = true;
-                }), delay);
+                }), delay); else bodyLockStatus = true;
             }
         };
         function spollers() {
@@ -345,31 +333,18 @@
             }
         }
         function menuInit() {
-            if (document.querySelector(".icon-menu")) {
-                document.addEventListener("click", (function(e) {
-                    if (bodyLockStatus && e.target.closest(".icon-menu")) {
-                        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                        const isUnlock = !document.documentElement.classList.contains("menu-open");
-                        if (isUnlock) if (scrollTop > 0) scrollToTop(scrollTop); else {
-                            bodyLockToggle();
-                            document.documentElement.classList.toggle("menu-open");
-                        } else {
-                            bodyLockToggle();
-                            document.documentElement.classList.toggle("menu-open");
-                        }
+            if (document.querySelector(".icon-menu")) document.addEventListener("click", (function(e) {
+                if (bodyLockStatus && e.target.closest(".icon-menu")) {
+                    const isUnlock = !document.documentElement.classList.contains("menu-open");
+                    if (isUnlock) {
+                        bodyLock(300);
+                        document.documentElement.classList.add("menu-open");
+                    } else {
+                        bodyUnlock(300);
+                        document.documentElement.classList.remove("menu-open");
                     }
-                }));
-                function scrollToTop(scrollTop) {
-                    scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                    if (scrollTop > 0) {
-                        window.requestAnimationFrame(scrollToTop);
-                        window.scrollTo(0, scrollTop - scrollTop / 1.2);
-                    } else setTimeout((() => {
-                        bodyLockToggle();
-                        document.documentElement.classList.toggle("menu-open");
-                    }), 10);
                 }
-            }
+            }));
         }
         function uniqArray(array) {
             return array.filter((function(item, index, self) {
@@ -483,96 +458,234 @@
             }
         }
         function hoverTooltipOnStatesMap() {
-            const stateNameLinks = document.querySelectorAll("[data-state-name]");
-            const activeAttribute = "data-show";
-            const containerOffset = 20;
-            if (stateNameLinks.length) {
-                const tooltip = document.createElement("div");
-                tooltip.setAttribute("data-tooltip", "");
-                tooltip.setAttribute("role", "tooltip");
-                document.documentElement.appendChild(tooltip);
-                stateNameLinks.forEach((state => {
-                    state.addEventListener("mousemove", (e => {
-                        tooltip.innerText !== state.dataset.stateName ? tooltip.innerText = state.dataset.stateName : null;
-                        tooltip.style.top = scrollY + (e.y - 29) + "px";
-                        const tooltipWidth = tooltip.offsetWidth + containerOffset;
-                        if (document.documentElement.clientWidth - e.x - tooltipWidth <= 0) tooltip.style.left = e.x - tooltipWidth + containerOffset + "px"; else tooltip.style.left = e.x + containerOffset + "px";
-                    }));
-                    state.addEventListener("mouseenter", (e => {
-                        !tooltip.hasAttribute(activeAttribute) ? tooltip.setAttribute(activeAttribute, "") : null;
-                    }));
-                    state.addEventListener("mouseleave", (e => {
-                        tooltip.hasAttribute(activeAttribute) ? tooltip.removeAttribute(activeAttribute) : null;
-                    }));
-                    state.addEventListener("focus", (e => {
-                        tooltip.innerText !== state.dataset.stateName ? tooltip.innerText = state.dataset.stateName : null;
-                        tooltip.setAttribute(activeAttribute, "");
-                        const rect = state.getBoundingClientRect();
-                        tooltip.style.top = scrollY + rect.top + "px";
-                        if (rect.left > document.documentElement.clientWidth - tooltip.offsetWidth) tooltip.style.left = rect.left - tooltip.offsetWidth + "px"; else tooltip.style.left = rect.left + "px";
-                    }));
-                    state.addEventListener("blur", (e => {
-                        tooltip.removeAttribute("data-show");
-                    }));
-                }));
+            const activeAttr = "data-show";
+            const offset = 20;
+            const tooltip = document.createElement("div");
+            tooltip.setAttribute("data-tooltip", "");
+            tooltip.setAttribute("role", "tooltip");
+            document.body.appendChild(tooltip);
+            function positionTooltip(e, target) {
+                const name = target.dataset.stateName;
+                if (tooltip.innerText !== name) tooltip.innerText = name;
+                const x = e.clientX;
+                const y = e.clientY;
+                tooltip.style.top = window.scrollY + (y - 29) + "px";
+                const tooltipWidth = tooltip.offsetWidth + offset;
+                if (document.documentElement.clientWidth - x - tooltipWidth <= 0) tooltip.style.left = x - tooltipWidth + offset / 2 + "px"; else tooltip.style.left = x + offset + "px";
             }
+            document.addEventListener("mousemove", (e => {
+                const target = e.target.closest("[data-state-name]");
+                if (target) positionTooltip(e, target);
+            }));
+            document.addEventListener("mouseover", (e => {
+                const target = e.target.closest("[data-state-name]");
+                if (target && !tooltip.hasAttribute(activeAttr)) tooltip.setAttribute(activeAttr, "");
+            }));
+            document.addEventListener("mouseout", (e => {
+                const leaveFrom = e.target.closest("[data-state-name]");
+                const enterTo = e.relatedTarget && e.relatedTarget.closest("[data-state-name]");
+                if (leaveFrom && leaveFrom !== enterTo) tooltip.removeAttribute(activeAttr);
+            }));
+            document.addEventListener("focusin", (e => {
+                const target = e.target.closest("[data-state-name]");
+                if (target) {
+                    const rect = target.getBoundingClientRect();
+                    tooltip.innerText = target.dataset.stateName;
+                    tooltip.setAttribute(activeAttr, "");
+                    tooltip.style.top = window.scrollY + rect.top + "px";
+                    if (rect.left > document.documentElement.clientWidth - tooltip.offsetWidth) tooltip.style.left = rect.left - tooltip.offsetWidth + "px"; else tooltip.style.left = rect.left + "px";
+                }
+            }));
+            document.addEventListener("focusout", (e => {
+                if (e.target.closest("[data-state-name]")) tooltip.removeAttribute(activeAttr);
+            }));
         }
         function formValidate() {
             const validateForms = document.querySelectorAll("form[data-validate]");
             if (validateForms.length) validateForms.forEach((form => {
                 const inputs = form.querySelectorAll("input,select,textarea");
                 const btnSubmit = form.querySelector('button[type="submit"]');
-                if (inputs.length) {
+                if (inputs.length > 0) {
                     form.addEventListener("submit", (e => {
-                        e.preventDefault();
+                        checkInputs({
+                            inputs,
+                            form,
+                            event: e
+                        });
                     }));
-                    btnSubmit && btnSubmit.addEventListener("click", (() => {
-                        checkInputs(inputs, form);
+                    btnSubmit && btnSubmit.addEventListener("click", (e => {
+                        checkInputs({
+                            inputs,
+                            form,
+                            event: e
+                        });
                     }));
                     inputs.forEach((input => {
-                        if ([ "text", "number", "email", "textarea" ].includes(input.type)) input.addEventListener("input", (() => {
-                            checkInput(input);
-                        })); else input.addEventListener("change", (() => {
-                            checkInput(input);
+                        input.addEventListener("input", (() => formatInput(input)));
+                        input.addEventListener("change", (() => setTimeout((() => {
+                            checkInput(input, form);
+                        }), 0)));
+                        input.addEventListener("blur", (() => {
+                            setTimeout((() => {
+                                if (input.value !== "") checkInput(input, form);
+                            }), 0);
                         }));
                     }));
                     form.addEventListener("reset", (e => {
-                        inputs.forEach((input => checkInput(input)));
+                        inputs.forEach((input => removeStatus(input)));
                     }));
+                    const recaptchaField = form.querySelector("#g-recaptcha-response-field-contacts");
+                    if (recaptchaField) setupRecaptchaHandler(form, recaptchaField);
                 }
             }));
-            function checkInputs(inputs, form) {
+            async function checkInputs({inputs, form, event, onSuccessFormValidateCallback, onErrorFormValidateCallback}) {
+                if (event) event.preventDefault();
+                const isShowNotice = form?.hasAttribute("data-validate-notice");
+                !isShowNotice ? form.reportValidity() : null;
+                form.setAttribute("novalidate", true);
                 let errors = 0;
-                inputs.forEach((input => {
-                    if (checkInput(input)) errors++;
-                }));
-                errors === 0 ? form.submit() : null;
-            }
-            function checkInput(input) {
-                if (input.required) {
-                    let isError = false;
-                    const value = input.value;
-                    if (input.value !== "") removeError(input); else isError = addError(input);
-                    if (input.hasAttribute("data-num-format")) if (parseFloat(value) > 0) removeError(input); else isError = addError(input);
-                    if (input.type === "email" && emailTest(input)) isError = addError(input);
-                    if (input.hasAttribute("data-minlength") && value.length < input.dataset.minlength) isError = addError(input);
-                    if (input.hasAttribute("data-maxlenght") && value.length > input.dataset.maxlenght) isError = addError(input);
-                    if (input.inputmask) if (input.inputmask.isComplete()) removeError(input); else isError = addError(input);
-                    return isError;
+                let firstErrorFound = false;
+                for (const input of inputs) if (await checkInput(input, form)) {
+                    errors++;
+                    if (!firstErrorFound) {
+                        input.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+                        firstErrorFound = true;
+                    }
                 }
+                if (!errors) {
+                    const successEvent = new Event("form-validation-success");
+                    form.dispatchEvent(successEvent);
+                    if (onSuccessFormValidateCallback) onSuccessFormValidateCallback();
+                } else {
+                    const errorEvent = new Event("form-validation-error");
+                    form.dispatchEvent(errorEvent);
+                    if (onErrorFormValidateCallback) onErrorFormValidateCallback();
+                }
+            }
+            async function checkInput(input, form) {
+                const value = input.value.trim();
+                let isError = false;
+                if (input.required) {
+                    if (value === "" && !input.inputmask) {
+                        isError = true;
+                        showTextNotice(input, "This field is required");
+                        return isError;
+                    }
+                    if (input.hasAttribute("data-number-format")) if (!/^\d+$/.test(value)) {
+                        isError = true;
+                        showTextNotice(input, "Only numbers are allowed");
+                        return isError;
+                    }
+                    if (input.hasAttribute("data-text-format")) if (!/^[a-zA-Z\s]+$/.test(value)) {
+                        isError = true;
+                        showTextNotice(input, `Only ${/[а-яА-Я]/.test(value) ? "Latin" : ""} letters are allowed`);
+                        return isError;
+                    }
+                    if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
+                        isError = true;
+                        showTextNotice(input, "Your email address must be in the format of name@domain.com");
+                        return isError;
+                    }
+                    const minLength = input.hasAttribute("data-minlength") ? Number(input.dataset.minlength) : null;
+                    const maxLength = input.hasAttribute("data-maxlength") ? Number(input.dataset.maxlength) : null;
+                    if (minLength !== null && value.length < minLength) {
+                        isError = true;
+                        if (input.id == "year") showTextNotice(input, "Please enter the correct year"); else showTextNotice(input, `Please enter at least ${minLength} characters`);
+                        return isError;
+                    }
+                    if (maxLength !== null && value.length > maxLength) {
+                        isError = true;
+                        showTextNotice(input, `Please enter less than ${minLength} characters`);
+                        return isError;
+                    }
+                    const minValue = input.hasAttribute("data-min-value") ? Number(input.dataset.minValue) : null;
+                    const maxValue = input.hasAttribute("data-max-value") ? Number(input.dataset.maxValue) : null;
+                    if (minValue !== null && Number(value) < minValue) {
+                        isError = true;
+                        showTextNotice(input, `Please enter a value greater than or equal to ${minValue}`);
+                        return isError;
+                    }
+                    if (maxValue !== null && Number(value) > maxValue) {
+                        isError = true;
+                        showTextNotice(input, `Please enter a value less than or equal to ${maxValue}`);
+                        return isError;
+                    }
+                    if (input.inputmask) {
+                        input.dispatchEvent(new Event("input"));
+                        if (!input.inputmask.isComplete()) {
+                            isError = true;
+                            showTextNotice(input, "Please enter full phone number");
+                            if (value === "") showTextNotice(input, "This field is required");
+                            return isError;
+                        }
+                    }
+                    if (input.required) if (isError) addError(input); else removeError(input);
+                } else if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
+                    isError = true;
+                    addError(input);
+                    showTextNotice(input, "Your email address must be in the format of name@domain.com");
+                } else if (value === "") removeStatus(input); else removeError(input);
+                return isError;
+            }
+            function formatInput(input) {
+                if (input.hasAttribute("data-maxlength")) {
+                    const maxLength = input.getAttribute("data-maxlength");
+                    if (input.value.length > maxLength) input.value = input.value.slice(0, maxLength);
+                }
+                if (input.hasAttribute("data-number-format")) input.value = input.value.replace(/\D/g, "");
             }
             function addError(input) {
                 input.classList.remove("_validated");
                 input.classList.add("_no-validated");
+                input.setAttribute("aria-invalid", "true");
+                !input.wasError && input.addEventListener("input", (() => setTimeout((() => {
+                    checkInput(input);
+                }), 0)));
+                input.wasError = true;
                 return true;
             }
             function removeError(input) {
                 input.classList.remove("_no-validated");
                 input.classList.add("_validated");
+                input.setAttribute("aria-invalid", "false");
+                removeTextNotice(input);
             }
-            function emailTest(formRequiredItem) {
-                return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(formRequiredItem.value);
+            function removeStatus(input) {
+                input.classList.remove("_no-validated", "_validated");
+                input.removeAttribute("aria-invalid");
+                removeTextNotice(input);
             }
+            function isEmailValid(input) {
+                return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(input.value);
+            }
+            function showTextNotice(input, text) {
+                const isShowNotice = input.form?.hasAttribute("data-validate-notice");
+                let notice = input.parentElement.querySelector(".form__item-notice");
+                if (isShowNotice) if (notice && notice.textContent !== text) notice.textContent = text; else if (!notice) {
+                    notice = document.createElement("label");
+                    notice.classList.add("form__item-notice");
+                    notice.setAttribute("for", input.id);
+                    notice.textContent = text;
+                    input.parentElement.insertAdjacentElement("beforeend", notice);
+                }
+                addError(input);
+            }
+            function removeTextNotice(input) {
+                const notice = input.parentElement.querySelector(".form__item-notice");
+                notice && notice.remove();
+            }
+            window.formValidate = {
+                showTextNotice,
+                removeTextNotice,
+                removeError,
+                removeStatus,
+                addError,
+                checkInputs,
+                checkInput
+            };
         }
         function clickOnLabelKeyEnter() {
             const inputs = document.querySelectorAll("[data-tabi-input]");
@@ -617,6 +730,15 @@
                     }
                 }
             }));
+        }
+        function setInputmode() {
+            const items = document.querySelectorAll("[data-inputmode]");
+            if (items.length > 0) setTimeout((() => {
+                items.forEach((item => {
+                    const mode = item.dataset.inputmode;
+                    mode ? item.setAttribute("inputmode", mode) : null;
+                }));
+            }), 50);
         }
         function getWindow(node) {
             if (node == null) return window;
@@ -1573,6 +1695,65 @@
         menuInit();
         showSubMenu();
         checkboxRadioChecked();
+        function mainSectionPaddingCompensateByHeaderHeight() {
+            const header = document.querySelector(".top-header");
+            const main = document.querySelector(".menu__body");
+            const iconMenu = document.querySelector(".icon-menu");
+            let currentHeaderHeight = header.offsetHeight;
+            const updatePadding = () => {
+                const newHeight = header.offsetHeight;
+                if (currentHeaderHeight !== newHeight) {
+                    main.style.setProperty("--menu-top-p", newHeight / 16 + "rem");
+                    currentHeaderHeight = newHeight;
+                }
+            };
+            const resizeObserver = new ResizeObserver((() => {
+                updatePadding();
+            }));
+            resizeObserver.observe(header);
+            function onFrameChange() {
+                requestAnimationFrame((() => {
+                    requestAnimationFrame((() => {
+                        setTimeout((() => {
+                            updatePadding();
+                        }), 0);
+                    }));
+                }));
+            }
+            onFrameChange();
+            window.addEventListener("load", onFrameChange);
+            iconMenu.addEventListener("click", onFrameChange);
+            window.addEventListener("scroll", onFrameChange);
+            window.addEventListener("resize", (() => {
+                updatePadding();
+                setTimeout((() => {
+                    updatePadding();
+                }), 100);
+            }));
+            document.fonts.ready.then((() => {
+                onFrameChange();
+            }));
+        }
+        mainSectionPaddingCompensateByHeaderHeight();
+        function headerScroll() {
+            const header = document.querySelector("header.header");
+            const headerWrapper = document.querySelector(".header__wrapper");
+            const startPoint = header.dataset.scroll ? header.dataset.scroll : 1;
+            const eventScroll = new CustomEvent("header-scroll");
+            window.addEventListener("scroll", (function(e) {
+                const scrollTop = window.scrollY;
+                if (scrollTop >= startPoint) {
+                    if (!header.classList.contains("_header-scroll")) {
+                        header.classList.add("_header-scroll");
+                        headerWrapper.dispatchEvent(eventScroll);
+                    }
+                } else if (header.classList.contains("_header-scroll")) {
+                    header.classList.remove("_header-scroll");
+                    headerWrapper.dispatchEvent(eventScroll);
+                }
+            }));
+        }
+        headerScroll();
         __webpack_require__(740);
         __webpack_require__(678);
         __webpack_require__(195);
@@ -5187,15 +5368,368 @@
             const selector = document.querySelector("[data-phone-mask]");
             if (selector) {
                 new bundle({
-                    mask: "+1999 - 999 99 99",
+                    mask: "+1 999 - 999 99 99",
                     clearMaskOnLostFocus: false
                 }).mask(selector);
+                const form = selector.closest("form");
+                if (form) form.addEventListener("reset", (() => {
+                    selector.value = "";
+                }));
+                selector.addEventListener("focus", (() => {
+                    setTimeout((function() {
+                        selector.click();
+                    }), 300);
+                }));
             }
         }
+        function initPopupSimple() {
+            class PopupSimple {
+                constructor(bodyLock, bodyUnlock) {
+                    this.bodyLock = bodyLock;
+                    this.bodyUnlock = bodyUnlock;
+                    this.popUps = document.querySelectorAll(".popup");
+                    this.popUpsLinks = document.querySelectorAll("[data-popup]");
+                    this.lastFocusedElement = null;
+                    this.init();
+                }
+                init() {
+                    window.addEventListener("click", (e => {
+                        const target = e.target;
+                        if (target.closest(".popup") && !target.closest(".popup").hasAttribute("data-no-close-outside") && !target.closest(".popup__content") && target.closest(".popup").classList.contains("popup_show")) this.close(null, target.closest(".popup"));
+                        if (target.closest("[data-close]") && target.closest(".popup").classList.contains("popup_show")) this.close(null, target.closest(".popup"));
+                    }));
+                    if (this.popUps.length) {
+                        this.popUpsLinks.forEach((popUpLink => {
+                            popUpLink.addEventListener("click", (e => {
+                                e.preventDefault();
+                                const popupId = popUpLink.dataset.popup || popUpLink.hash;
+                                if (popupId) this.open(popupId);
+                            }));
+                        }));
+                        this.popUps.forEach((popup => {
+                            this.initPopupEvents(popup);
+                        }));
+                        document.addEventListener("keydown", (e => {
+                            if (e.key === "Escape") {
+                                e.preventDefault();
+                                this.popUps = document.querySelectorAll(".popup");
+                                this.popUps.forEach((popup => {
+                                    if (popup.classList.contains("popup_show") && !popup.hasAttribute("data-no-close-outside")) this.close(null, popup);
+                                }));
+                            }
+                        }));
+                    }
+                }
+                initPopupEvents(popup) {
+                    popup.addEventListener("keydown", (event => {
+                        if (event.key === "Tab") {
+                            const focusableElements = popup.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
+                            if (focusableElements.length === 0) return;
+                            const firstElement = focusableElements[0];
+                            const lastElement = focusableElements[focusableElements.length - 1];
+                            if (event.shiftKey && document.activeElement === firstElement) {
+                                lastElement.focus();
+                                event.preventDefault();
+                            } else if (!event.shiftKey && document.activeElement === lastElement) {
+                                firstElement.focus();
+                                event.preventDefault();
+                            }
+                        }
+                    }));
+                }
+                open(popUpID, popupElement) {
+                    const popUp = popupElement ? popupElement : document.querySelector(popUpID);
+                    if (popUp) {
+                        this.lastFocusedElement = document.activeElement;
+                        popUp.setAttribute("aria-hidden", "false");
+                        document.documentElement.classList.add("popup-open");
+                        popUp.classList.add("popup_show");
+                        this.bodyLock();
+                        const popupContent = popUp.querySelector(".popup__content");
+                        if (popupContent) {
+                            popupContent.setAttribute("tabindex", "-1");
+                            setTimeout((() => {
+                                popupContent.focus();
+                            }), 50);
+                        }
+                    }
+                }
+                close(popUpID, popupElement, delay = 300) {
+                    const popUp = popupElement ? popupElement : document.querySelector(popUpID);
+                    if (popUp) {
+                        popUp.setAttribute("aria-hidden", "true");
+                        document.documentElement.classList.remove("popup-open");
+                        popUp.classList.remove("popup_show");
+                        const popupContent = popUp.querySelector(".popup__content");
+                        popupContent ? popupContent.removeAttribute("tabindex") : null;
+                        if (this.lastFocusedElement) this.lastFocusedElement.focus();
+                        if (popUp.id === "custom-alert") {
+                            this.bodyUnlock(delay);
+                            setTimeout((() => {
+                                popUp.remove();
+                            }), delay);
+                        } else this.bodyUnlock(delay);
+                    }
+                }
+                showAlert({title = "Warning!", text = "", textBtn = "Close", typeIcon = "warn"}) {
+                    this.hideOtherAlerts();
+                    const icons = {
+                        warn: "warn.svg",
+                        error: "error.svg"
+                    };
+                    const isDev = "production" === "development";
+                    const basePath = isDev ? "/img/icons" : "/themes/junkcarsus/assets/img/icons";
+                    const alertPopupTemplate = `<div id="custom-alert" role="dialog" aria-modal="true" aria-label="${title}" class="popup">\n\t\t\t\t\t\t  <div class="popup__wrapper">\n\t\t\t\t\t\t\t\t<div class="popup__content text-center">\n\t\t\t\t\t\t\t\t\t <div class="popup__icon">\n\t\t\t\t\t\t\t\t\t\t  <img width="75" height="75" src="${basePath}/${icons[typeIcon]}" alt="${typeIcon} icon">\n\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t <div class="popup__title sub-title">${title}</div>\n\t\t\t\t\t\t\t\t\t <div class="popup__text text">${text}</div>\n\t\t\t\t\t\t\t\t\t <div class="popup__actions">\n\t\t\t\t\t\t\t\t\t\t  <button data-close type="button" class="popup__btn main-black-btn main-black-btn--no-icon">${textBtn}</button>\n\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t  </div>\n\t\t\t\t\t </div>`;
+                    document.body.insertAdjacentHTML("beforeend", alertPopupTemplate);
+                    const newPopup = document.querySelector("#custom-alert");
+                    this.initPopupEvents(newPopup);
+                    setTimeout((() => {
+                        this.open("#custom-alert", newPopup);
+                    }), 50);
+                }
+                hideAlert() {
+                    const alertPopup = document.querySelector("#custom-alert");
+                    this.close(null, alertPopup);
+                }
+                hideOtherAlerts() {
+                    const isOtherAlerts = document.querySelectorAll("#custom-alert");
+                    if (isOtherAlerts.length > 0) isOtherAlerts.forEach((el => el.remove()));
+                }
+            }
+            window.popupSimple = new PopupSimple(bodyLock, bodyUnlock);
+        }
+        function initUploadPhotoInput() {
+            const filesUpload = document.querySelectorAll(".file");
+            if (filesUpload && filesUpload.length > 0) filesUpload.forEach((function(fileUploadContainer) {
+                const el = fileUploadContainer.querySelector(".file__input");
+                const fileList = fileUploadContainer.querySelector(".file__list");
+                const fileListArr = [];
+                const form = el.closest("form");
+                if (form) form.addEventListener("reset", (() => {
+                    fileListArr.length = 0;
+                    el.value = "";
+                    fileList.innerHTML = "";
+                    window.fileListArr = fileListArr;
+                }));
+                el.addEventListener("change", (e => {
+                    const maxFilesAllowed = 5;
+                    const maxSizeMB = parseFloat(el.dataset.maxsize || 4);
+                    const maxSize = maxSizeMB * 1024 * 1024;
+                    const acceptTypes = el.getAttribute("accept");
+                    const allowedExtensions = acceptTypes ? acceptTypes.split(",").map((type => type.trim().replace(".", "").toLowerCase())) : [];
+                    let newFiles = Array.from(el.files);
+                    let existingFilesCount = fileListArr.length;
+                    let availableSlots = maxFilesAllowed - existingFilesCount;
+                    if (availableSlots <= 0 && newFiles.length > 0) {
+                        window.popupSimple.showAlert({
+                            title: "Maximum photos reached!",
+                            text: `Only ${maxFilesAllowed} ${maxFilesAllowed === 1 ? "photo" : "photos"} can be uploaded.`,
+                            typeIcon: "warn"
+                        });
+                        syncInputFiles();
+                        return;
+                    }
+                    let validFiles = newFiles.filter((file => {
+                        const fileExtension = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
+                        if (allowedExtensions.length > 0 && !allowedExtensions.includes(fileExtension)) {
+                            window.popupSimple.showAlert({
+                                title: "Photos only!",
+                                text: `Invalid file type. Allowed types are: ${acceptTypes}`,
+                                typeIcon: "warn"
+                            });
+                            return false;
+                        }
+                        if (file.size > maxSize) {
+                            window.popupSimple.showAlert({
+                                title: "Photo is too big!",
+                                text: `The size of the photo should not exceed ${maxSizeMB} MB`,
+                                typeIcon: "warn"
+                            });
+                            return false;
+                        }
+                        const isDuplicate = fileListArr.some((existing => existing.name === file.name && existing.size === file.size && ("lastModified" in existing ? existing.lastModified === file.lastModified : true)));
+                        if (isDuplicate) return false;
+                        return true;
+                    }));
+                    if (validFiles.length > availableSlots) {
+                        window.popupSimple.showAlert({
+                            title: "Maximum photos reached!",
+                            text: availableSlots === maxFilesAllowed ? `Only ${maxFilesAllowed} ${maxFilesAllowed === 1 ? "photo" : "photos"} can be uploaded.` : `Only ${availableSlots} additional ${availableSlots === 1 ? "photo" : "photos"} can be uploaded. The maximum limit is ${maxFilesAllowed} ${maxFilesAllowed === 1 ? "photo" : "photos"}. Any extra photos will be ignored.`,
+                            typeIcon: "warn"
+                        });
+                        validFiles = validFiles.slice(0, availableSlots);
+                    }
+                    if (validFiles.length > 0) {
+                        fileListArr.push(...validFiles);
+                        appendNewFilesToUI(validFiles);
+                        console.log("validFiles", validFiles);
+                    }
+                    syncInputFiles();
+                    window.fileListArr = fileListArr;
+                }));
+                function syncInputFiles() {
+                    const dataTransfer = new DataTransfer;
+                    fileListArr.forEach((file => dataTransfer.items.add(file)));
+                    el.files = dataTransfer.files;
+                }
+                function appendNewFilesToUI(newFiles) {
+                    const startIndex = fileListArr.length - newFiles.length;
+                    newFiles.forEach(((file, offset) => {
+                        const index = startIndex + offset;
+                        const fileListItem = createFileListItem(file, index);
+                        fileList.appendChild(fileListItem);
+                    }));
+                }
+                function createFileListItem(file, index) {
+                    const fileListItem = document.createElement("li");
+                    fileListItem.classList.add("file__list-item", "file-item");
+                    fileListItem.setAttribute("data-file-id", index);
+                    const fileExtension = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
+                    if ([ "jpg", "png", "jpeg" ].includes(fileExtension)) {
+                        const img = document.createElement("img");
+                        img.src = URL.createObjectURL(file);
+                        img.onload = () => URL.revokeObjectURL(img.src);
+                        img.onerror = () => URL.revokeObjectURL(img.src);
+                        img.alt = `Uploaded photo ${index + 1}`;
+                        img.classList.add("file-item__img");
+                        fileListItem.appendChild(img);
+                    } else {
+                        const div = document.createElement("div");
+                        div.innerHTML = fileExtension;
+                        div.classList.add("offer-modal__tabs-item_files-input-list-item_file");
+                        fileListItem.appendChild(div);
+                    }
+                    fileListItem.innerHTML += `\n\t\t\t\t\t\t <div class="file-item__name">${file.name}</div>\n\t\t\t\t\t\t <button type="button" class="file-item__btn" aria-label="Delete ${file.name}">Delete</button>\n\t\t\t\t\t`;
+                    const deleteBtn = fileListItem.querySelector(".file-item__btn");
+                    deleteBtn.addEventListener("click", (e => {
+                        e.preventDefault();
+                        const currentIndex = parseInt(fileListItem.getAttribute("data-file-id"));
+                        fileListArr.splice(currentIndex, 1);
+                        fileList.removeChild(fileListItem);
+                        syncInputFiles();
+                        updateFileIndices(currentIndex);
+                        console.log("After DELETE.", el.files, " window.fileListArr ==>", window.fileListArr);
+                        window.fileListArr = fileListArr;
+                    }));
+                    return fileListItem;
+                }
+                function updateFileIndices(startIndex) {
+                    const remainingItems = Array.from(fileList.querySelectorAll(".file-item"));
+                    remainingItems.forEach(((item, i) => {
+                        if (i >= startIndex) {
+                            const newIndex = i;
+                            item.setAttribute("data-file-id", newIndex);
+                            const deleteBtn = item.querySelector(".file-item__btn");
+                            const fileName = item.querySelector(".file-item__name").textContent;
+                            deleteBtn.setAttribute("aria-label", `Delete ${fileName}`);
+                            const img = item.querySelector(".file-item__img");
+                            if (img) img.alt = `Uploaded photo ${newIndex + 1}`;
+                        }
+                    }));
+                }
+            }));
+            window.initUploadPhotoInput = initUploadPhotoInput;
+        }
         initInputMask();
+        initPopupSimple();
+        initUploadPhotoInput();
         spollers();
         formValidate();
         clickOnLabelKeyEnter();
         hoverTooltipOnStatesMap();
+        setInputmode();
+        function carMakeValidation() {
+            const junkForm = document.querySelector("[data-instant-offer-form]");
+            if (junkForm) {
+                const selectCarMake = document.querySelector('select[name="make"]');
+                const selectCarModel = document.querySelector('select[name="model"]');
+                if (selectCarMake && selectCarModel) {
+                    let placeholderOption = selectCarModel.options[selectCarModel.selectedIndex];
+                    placeholderOption = placeholderOption && placeholderOption.value === "" ? placeholderOption.textContent.trim() : "Select model";
+                    selectCarMake.addEventListener("change", (e => {
+                        const value = e.target.value;
+                        const query = value.trim();
+                        if (query === placeholderOption || query === "") {
+                            reset();
+                            return false;
+                        }
+                        junkForm.addEventListener("reset", (() => {
+                            reset();
+                        }));
+                        function reset() {
+                            selectCarModel.classList.remove("_validated");
+                            selectCarModel.innerHTML = `<option value=''>${placeholderOption}</option>`;
+                        }
+                    }));
+                }
+            }
+        }
+        carMakeValidation();
+        function onSuccesFormValidate() {
+            const instantOfferForm = document.querySelector("[data-instant-offer-form]");
+            if (!instantOfferForm) return;
+            instantOfferForm.addEventListener("form-validation-success", (e => {
+                const formData = new FormData(instantOfferForm);
+                const submitButton = instantOfferForm.querySelector('[type="submit"]');
+                submitButton.classList.add("_disabled");
+                window.popupSimple.open("#popup-form-submiting");
+                makeRequest(instantOfferForm, formData);
+            }));
+        }
+        onSuccesFormValidate();
+        function makeRequest(form, data) {
+            const xhr = new XMLHttpRequest;
+            const submitButton = form.querySelector('[type="submit"]');
+            const progressBar = document.querySelector("[data-progress-bar]");
+            const thanksModal = document.getElementById("popup-form-success-submission");
+            const loadingModal = document.getElementById("popup-form-submiting");
+            xhr.upload.addEventListener("progress", (event => {
+                if (event.lengthComputable) progressBar.style.width = Math.round(event.loaded / event.total * 100) + "%";
+            }), false);
+            xhr.onerror = function(response) {
+                console.error("Request failed:", response);
+                window.popupSimple.showAlert({
+                    title: "Error!",
+                    text: `An error occurred while submitting the form. Try again later`,
+                    typeIcon: "error"
+                });
+                submitButton.classList.remove("_disabled");
+            };
+            xhr.onreadystatechange = function() {
+                if (this.readyState !== 4) return;
+                window.popupSimple.close(null, loadingModal, 0);
+                window.popupSimple.close(null, thanksModal, 0);
+                if (this.status >= 200 && this.status < 300) try {
+                    const jsonResponse = JSON.parse(this.responseText);
+                    if (Array.isArray(jsonResponse) && jsonResponse[0] === "OK") {
+                        form.reset();
+                        window.popupSimple.open(null, thanksModal);
+                        window.uetq = window.uetq || [];
+                        window.uetq.push("event", "submit_lead_form", {});
+                    } else window.popupSimple.showAlert({
+                        title: "Warning!",
+                        text: "The size of the photo should not exceed 4 MB",
+                        typeIcon: "warn"
+                    });
+                } catch (err) {
+                    window.popupSimple.showAlert({
+                        title: "Error!",
+                        text: "Unexpected response format",
+                        typeIcon: "error"
+                    });
+                } else {
+                    let errorText = "Something went wrong. Please try again.";
+                    if (this.status === 400) errorText = "Bad Request. Please check the form."; else if (this.status === 413) errorText = "The uploaded file is too large."; else if (this.status === 500) errorText = "Server error. Try again later.";
+                    window.popupSimple.showAlert({
+                        title: "Error!",
+                        text: errorText,
+                        typeIcon: "error"
+                    });
+                }
+                submitButton.classList.remove("_disabled");
+            };
+            xhr.open("POST", "/ajax/instant");
+            xhr.send(data);
+        }
     })();
 })();

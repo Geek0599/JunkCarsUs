@@ -162,69 +162,44 @@
         }
     };
     let bodyLockStatus = true;
-    let bodyLockToggle = (delay = 500) => {
-        if (document.documentElement.classList.contains("lock")) bodyUnlock(delay); else bodyLock(delay);
-    };
     let bodyUnlock = (delay = 500) => {
-        let body = document.querySelector("body");
         if (bodyLockStatus) {
-            let lock_padding = document.querySelectorAll("[data-lp]");
-            setTimeout((() => {
-                for (let index = 0; index < lock_padding.length; index++) {
-                    const el = lock_padding[index];
-                    el.style.paddingRight = "0px";
-                }
-                body.style.paddingRight = "0px";
-                document.documentElement.classList.remove("lock");
-            }), delay);
             bodyLockStatus = false;
-            setTimeout((function() {
+            if (delay) setTimeout((function() {
                 bodyLockStatus = true;
-            }), delay);
+                document.documentElement.style.removeProperty("--scrollbar-compensate");
+                document.documentElement.classList.remove("lock");
+            }), delay); else {
+                bodyLockStatus = true;
+                document.documentElement.style.removeProperty("--scrollbar-compensate");
+                document.documentElement.classList.remove("lock");
+            }
         }
     };
     let bodyLock = (delay = 500) => {
-        let body = document.querySelector("body");
         if (bodyLockStatus) {
-            let lock_padding = document.querySelectorAll("[data-lp]");
-            for (let index = 0; index < lock_padding.length; index++) {
-                const el = lock_padding[index];
-                el.style.paddingRight = window.innerWidth - document.querySelector(".wrapper").offsetWidth + "px";
-            }
-            body.style.paddingRight = window.innerWidth - document.querySelector(".wrapper").offsetWidth + "px";
+            const scrollbarCompensate = window.innerWidth - document.querySelector(".wrapper").offsetWidth;
+            if (scrollbarCompensate > 0) document.documentElement.style.setProperty("--scrollbar-compensate", scrollbarCompensate + "px");
             document.documentElement.classList.add("lock");
             bodyLockStatus = false;
-            setTimeout((function() {
+            if (delay) setTimeout((function() {
                 bodyLockStatus = true;
-            }), delay);
+            }), delay); else bodyLockStatus = true;
         }
     };
     function menuInit() {
-        if (document.querySelector(".icon-menu")) {
-            document.addEventListener("click", (function(e) {
-                if (bodyLockStatus && e.target.closest(".icon-menu")) {
-                    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                    const isUnlock = !document.documentElement.classList.contains("menu-open");
-                    if (isUnlock) if (scrollTop > 0) scrollToTop(scrollTop); else {
-                        bodyLockToggle();
-                        document.documentElement.classList.toggle("menu-open");
-                    } else {
-                        bodyLockToggle();
-                        document.documentElement.classList.toggle("menu-open");
-                    }
+        if (document.querySelector(".icon-menu")) document.addEventListener("click", (function(e) {
+            if (bodyLockStatus && e.target.closest(".icon-menu")) {
+                const isUnlock = !document.documentElement.classList.contains("menu-open");
+                if (isUnlock) {
+                    bodyLock(300);
+                    document.documentElement.classList.add("menu-open");
+                } else {
+                    bodyUnlock(300);
+                    document.documentElement.classList.remove("menu-open");
                 }
-            }));
-            function scrollToTop(scrollTop) {
-                scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                if (scrollTop > 0) {
-                    window.requestAnimationFrame(scrollToTop);
-                    window.scrollTo(0, scrollTop - scrollTop / 1.2);
-                } else setTimeout((() => {
-                    bodyLockToggle();
-                    document.documentElement.classList.toggle("menu-open");
-                }), 10);
             }
-        }
+        }));
     }
     function showSubMenu() {
         const maxWidth = 991.98;
@@ -296,13 +271,31 @@
     }
     function removePositionStickyOnMaxHeight() {
         const stickyItem = document.querySelector("[data-sticky-item]");
-        if (stickyItem) {
-            window.addEventListener("resize", onResize);
-            onResize();
+        if (!stickyItem) return;
+        const stickyHead = stickyItem.querySelector(".aside-blog__about-author");
+        const stickyCategory = stickyItem.querySelector(".aside-blog__category");
+        const topOffset = 10;
+        const bottomOffset = 20;
+        function applyMaxHeight() {
+            const headHeight = stickyHead.offsetHeight;
+            const headMarginBottom = parseFloat(getComputedStyle(stickyHead).marginBottom);
+            const offsetRem = (headHeight + headMarginBottom + topOffset + bottomOffset) / 17;
+            stickyCategory.style.maxHeight = `calc(100dvh - ${offsetRem}rem - ${133 / 16}rem)`;
         }
-        function onResize() {
+        function applyStickyClass() {
             if (stickyItem.offsetHeight + 30 >= window.innerHeight) stickyItem.classList.add("_no-sticky"); else stickyItem.classList.remove("_no-sticky");
         }
+        if (stickyHead && stickyCategory) requestAnimationFrame((() => setTimeout((() => {
+            applyMaxHeight();
+        }), 0))); else applyStickyClass();
+        let prevWidth = window.innerWidth;
+        window.addEventListener("resize", (() => {
+            const currentWidth = window.innerWidth;
+            if (currentWidth !== prevWidth) {
+                if (stickyHead && stickyCategory) applyMaxHeight(); else applyStickyClass();
+                prevWidth = currentWidth;
+            }
+        }));
     }
     function checkboxRadioChecked() {
         window.addEventListener("click", (e => {
@@ -1294,5 +1287,64 @@
     menuInit();
     showSubMenu();
     checkboxRadioChecked();
+    function mainSectionPaddingCompensateByHeaderHeight() {
+        const header = document.querySelector(".top-header");
+        const main = document.querySelector(".menu__body");
+        const iconMenu = document.querySelector(".icon-menu");
+        let currentHeaderHeight = header.offsetHeight;
+        const updatePadding = () => {
+            const newHeight = header.offsetHeight;
+            if (currentHeaderHeight !== newHeight) {
+                main.style.setProperty("--menu-top-p", newHeight / 16 + "rem");
+                currentHeaderHeight = newHeight;
+            }
+        };
+        const resizeObserver = new ResizeObserver((() => {
+            updatePadding();
+        }));
+        resizeObserver.observe(header);
+        function onFrameChange() {
+            requestAnimationFrame((() => {
+                requestAnimationFrame((() => {
+                    setTimeout((() => {
+                        updatePadding();
+                    }), 0);
+                }));
+            }));
+        }
+        onFrameChange();
+        window.addEventListener("load", onFrameChange);
+        iconMenu.addEventListener("click", onFrameChange);
+        window.addEventListener("scroll", onFrameChange);
+        window.addEventListener("resize", (() => {
+            updatePadding();
+            setTimeout((() => {
+                updatePadding();
+            }), 100);
+        }));
+        document.fonts.ready.then((() => {
+            onFrameChange();
+        }));
+    }
+    mainSectionPaddingCompensateByHeaderHeight();
+    function headerScroll() {
+        const header = document.querySelector("header.header");
+        const headerWrapper = document.querySelector(".header__wrapper");
+        const startPoint = header.dataset.scroll ? header.dataset.scroll : 1;
+        const eventScroll = new CustomEvent("header-scroll");
+        window.addEventListener("scroll", (function(e) {
+            const scrollTop = window.scrollY;
+            if (scrollTop >= startPoint) {
+                if (!header.classList.contains("_header-scroll")) {
+                    header.classList.add("_header-scroll");
+                    headerWrapper.dispatchEvent(eventScroll);
+                }
+            } else if (header.classList.contains("_header-scroll")) {
+                header.classList.remove("_header-scroll");
+                headerWrapper.dispatchEvent(eventScroll);
+            }
+        }));
+    }
+    headerScroll();
     removePositionStickyOnMaxHeight();
 })();
