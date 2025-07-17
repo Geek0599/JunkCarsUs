@@ -1457,6 +1457,7 @@ body::after {
   position: fixed;
   width: 100%;
   left: 0;
+  padding-right: var(--scrollbar-compensate, 0);
 }
 
 .header__top {
@@ -2558,6 +2559,10 @@ body::after {
   min-height: 3.8125rem;
   font-weight: 500;
   text-transform: none;
+}
+
+.popular-services-section__item a {
+  height: 100%;
 }
 
 .popular-services-section__btn-all {

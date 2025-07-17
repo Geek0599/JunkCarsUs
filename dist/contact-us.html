@@ -5,7 +5,7 @@
 	<title>Contact us</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/contact-us.min.css?_v=20250716024201">
+	<link rel="stylesheet" href="css/contact-us.min.css?_v=20250717133355">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
@@ -20,7 +20,7 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250716024201" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250717133355" rel="stylesheet">
 </head>
 
 <body>
@@ -412,7 +412,7 @@
 					<div class="write-us__body">
 						<div class="write-us__content write-us-content">
 							<h2 class="write-us-content__title sub-title">Write us</h2>
-							<form data-validate data-validate-notice action="#" class="write-us-content__form form write-us-form">
+							<form data-contact-us-form data-validate data-validate-notice action="#" class="write-us-content__form form write-us-form">
 								<div class="form__body write-us-form__body">
 									<div class="write-us-form__row">
 										<div class="form__item write-us-form__item">
@@ -593,7 +593,43 @@
 			</div>
 		</footer>
 	</div>
-	<script async src="js/contact-us.min.js?_v=20250716024201"></script>
+	<div id="popup-form-success-submission" role="dialog" aria-hidden="true" aria-modal="true" aria-label="The form has been submitted." class="popup">
+		<div class="popup__wrapper">
+			<div class="popup__content">
+				<a href="tel:+18555471550" class="popup__banner call-now">
+					<span class="call-now__title">Call now for Instant Offer</span>
+					<span class="call-now__phone sub-title btn-phone _icon-phone">
+						<span>855-547-1550</span>
+					</span>
+				</a>
+				<div class="popup__title title-second">Thank you!</div>
+				<p class="popup__text text text--lh">The form has been submitted. We will call you back soon.</p>
+				<div class="popup__actions">
+					<button data-close="" type="button" class="popup__btn main-black-btn main-black-btn--no-icon">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="popup-form-submiting" data-no-close-outside="" role="dialog" aria-hidden="false" aria-modal="true" aria-label="The form is being submitted…" class="popup">
+		<div class="popup__wrapper">
+			<div class="popup__content">
+				<a href="tel:+18555471550" class="popup__banner call-now">
+					<span class="call-now__title">Call now for Instant Offer</span>
+					<span class="call-now__phone sub-title btn-phone _icon-phone">
+						<span>855-547-1550</span>
+					</span>
+				</a>
+				<div class="popup__actions popup__actions--gap">
+					<p class="popup__text text text--lh">The form is being submitted…</p>
+					<div class="progress-bar">
+						<div data-progress-bar="" class="progress-bar__line"><span></span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script async src="js/contact-us.min.js?_v=20250717133355"></script>
 </body>
 
 </html>

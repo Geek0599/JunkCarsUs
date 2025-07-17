@@ -5185,7 +5185,190 @@
                 }));
             }
         }
+        function initPopupSimple() {
+            class PopupSimple {
+                constructor(bodyLock, bodyUnlock) {
+                    this.bodyLock = bodyLock;
+                    this.bodyUnlock = bodyUnlock;
+                    this.popUps = document.querySelectorAll(".popup");
+                    this.popUpsLinks = document.querySelectorAll("[data-popup]");
+                    this.lastFocusedElement = null;
+                    this.init();
+                }
+                init() {
+                    window.addEventListener("click", (e => {
+                        const target = e.target;
+                        if (target.closest(".popup") && !target.closest(".popup").hasAttribute("data-no-close-outside") && !target.closest(".popup__content") && target.closest(".popup").classList.contains("popup_show")) this.close(null, target.closest(".popup"));
+                        if (target.closest("[data-close]") && target.closest(".popup").classList.contains("popup_show")) this.close(null, target.closest(".popup"));
+                    }));
+                    if (this.popUps.length) {
+                        this.popUpsLinks.forEach((popUpLink => {
+                            popUpLink.addEventListener("click", (e => {
+                                e.preventDefault();
+                                const popupId = popUpLink.dataset.popup || popUpLink.hash;
+                                if (popupId) this.open(popupId);
+                            }));
+                        }));
+                        this.popUps.forEach((popup => {
+                            this.initPopupEvents(popup);
+                        }));
+                        document.addEventListener("keydown", (e => {
+                            if (e.key === "Escape") {
+                                e.preventDefault();
+                                this.popUps = document.querySelectorAll(".popup");
+                                this.popUps.forEach((popup => {
+                                    if (popup.classList.contains("popup_show") && !popup.hasAttribute("data-no-close-outside")) this.close(null, popup);
+                                }));
+                            }
+                        }));
+                    }
+                }
+                initPopupEvents(popup) {
+                    popup.addEventListener("keydown", (event => {
+                        if (event.key === "Tab") {
+                            const focusableElements = popup.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
+                            if (focusableElements.length === 0) return;
+                            const firstElement = focusableElements[0];
+                            const lastElement = focusableElements[focusableElements.length - 1];
+                            if (event.shiftKey && document.activeElement === firstElement) {
+                                lastElement.focus();
+                                event.preventDefault();
+                            } else if (!event.shiftKey && document.activeElement === lastElement) {
+                                firstElement.focus();
+                                event.preventDefault();
+                            }
+                        }
+                    }));
+                }
+                open(popUpID, popupElement) {
+                    const popUp = popupElement ? popupElement : document.querySelector(popUpID);
+                    if (popUp) {
+                        this.lastFocusedElement = document.activeElement;
+                        popUp.setAttribute("aria-hidden", "false");
+                        document.documentElement.classList.add("popup-open");
+                        popUp.classList.add("popup_show");
+                        this.bodyLock();
+                        const popupContent = popUp.querySelector(".popup__content");
+                        if (popupContent) {
+                            popupContent.setAttribute("tabindex", "-1");
+                            setTimeout((() => {
+                                popupContent.focus();
+                            }), 50);
+                        }
+                    }
+                }
+                close(popUpID, popupElement, delay = 300) {
+                    const popUp = popupElement ? popupElement : document.querySelector(popUpID);
+                    if (popUp) {
+                        popUp.setAttribute("aria-hidden", "true");
+                        document.documentElement.classList.remove("popup-open");
+                        popUp.classList.remove("popup_show");
+                        const popupContent = popUp.querySelector(".popup__content");
+                        popupContent ? popupContent.removeAttribute("tabindex") : null;
+                        if (this.lastFocusedElement) this.lastFocusedElement.focus();
+                        if (popUp.id === "custom-alert") {
+                            this.bodyUnlock(delay);
+                            setTimeout((() => {
+                                popUp.remove();
+                            }), delay);
+                        } else this.bodyUnlock(delay);
+                    }
+                }
+                showAlert({title = "Warning!", text = "", textBtn = "Close", typeIcon = "warn"}) {
+                    this.hideOtherAlerts();
+                    const icons = {
+                        warn: "warn.svg",
+                        error: "error.svg"
+                    };
+                    const isDev = "production" === "development";
+                    const basePath = isDev ? "/img/icons" : "/themes/junkcarsus/assets/img/icons";
+                    const alertPopupTemplate = `<div id="custom-alert" role="dialog" aria-modal="true" aria-label="${title}" class="popup">\n\t\t\t\t\t\t  <div class="popup__wrapper">\n\t\t\t\t\t\t\t\t<div class="popup__content text-center">\n\t\t\t\t\t\t\t\t\t <div class="popup__icon">\n\t\t\t\t\t\t\t\t\t\t  <img width="75" height="75" src="${basePath}/${icons[typeIcon]}" alt="${typeIcon} icon">\n\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t <div class="popup__title sub-title">${title}</div>\n\t\t\t\t\t\t\t\t\t <div class="popup__text text">${text}</div>\n\t\t\t\t\t\t\t\t\t <div class="popup__actions">\n\t\t\t\t\t\t\t\t\t\t  <button data-close type="button" class="popup__btn main-black-btn main-black-btn--no-icon">${textBtn}</button>\n\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t  </div>\n\t\t\t\t\t </div>`;
+                    document.body.insertAdjacentHTML("beforeend", alertPopupTemplate);
+                    const newPopup = document.querySelector("#custom-alert");
+                    this.initPopupEvents(newPopup);
+                    setTimeout((() => {
+                        this.open("#custom-alert", newPopup);
+                    }), 50);
+                }
+                hideAlert() {
+                    const alertPopup = document.querySelector("#custom-alert");
+                    this.close(null, alertPopup);
+                }
+                hideOtherAlerts() {
+                    const isOtherAlerts = document.querySelectorAll("#custom-alert");
+                    if (isOtherAlerts.length > 0) isOtherAlerts.forEach((el => el.remove()));
+                }
+            }
+            window.popupSimple = new PopupSimple(bodyLock, bodyUnlock);
+        }
+        initPopupSimple();
         initInputMask();
         formValidate();
+        function onSuccesFormValidate() {
+            const contactUsForm = document.querySelector("[data-contact-us-form]");
+            if (!contactUsForm) return;
+            contactUsForm.addEventListener("form-validation-success", (e => {
+                const formData = new FormData(contactUsForm);
+                const submitButton = contactUsForm.querySelector('[type="submit"]');
+                submitButton.classList.add("_disabled");
+                window.popupSimple.open("#popup-form-submiting");
+                makeRequest(contactUsForm, formData);
+            }));
+        }
+        onSuccesFormValidate();
+        function makeRequest(form, data) {
+            const xhr = new XMLHttpRequest;
+            const submitButton = form.querySelector('[type="submit"]');
+            const progressBar = document.querySelector("[data-progress-bar]");
+            const thanksModal = document.getElementById("popup-form-success-submission");
+            const loadingModal = document.getElementById("popup-form-submiting");
+            xhr.upload.addEventListener("progress", (event => {
+                if (event.lengthComputable) progressBar.style.width = Math.round(event.loaded / event.total * 100) + "%";
+            }), false);
+            xhr.onerror = function(response) {
+                console.error("Request failed:", response);
+                window.popupSimple.showAlert({
+                    title: "Error!",
+                    text: `An error occurred while submitting the form. Try again later`,
+                    typeIcon: "error"
+                });
+                submitButton.classList.remove("_disabled");
+            };
+            xhr.onreadystatechange = function() {
+                if (this.readyState !== 4) return;
+                window.popupSimple.close(null, loadingModal, 0);
+                window.popupSimple.close(null, thanksModal, 0);
+                if (this.status >= 200 && this.status < 300) try {
+                    const jsonResponse = JSON.parse(this.responseText);
+                    if (Array.isArray(jsonResponse) && jsonResponse[0] === "OK") {
+                        form.reset();
+                        window.popupSimple.open(null, thanksModal);
+                        window.uetq = window.uetq || [];
+                        window.uetq.push("event", "submit_lead_form", {});
+                    } else window.popupSimple.showAlert({
+                        title: "Warning!",
+                        text: "The size of the photo should not exceed 4 MB",
+                        typeIcon: "warn"
+                    });
+                } catch (err) {
+                    window.popupSimple.showAlert({
+                        title: "Error!",
+                        text: "Unexpected response format",
+                        typeIcon: "error"
+                    });
+                } else {
+                    let errorText = "Something went wrong. Please try again.";
+                    if (this.status === 400) errorText = "Bad Request. Please check the form."; else if (this.status === 413) errorText = "The uploaded file is too large."; else if (this.status === 500) errorText = "Server error. Try again later.";
+                    window.popupSimple.showAlert({
+                        title: "Error!",
+                        text: errorText,
+                        typeIcon: "error"
+                    });
+                }
+                submitButton.classList.remove("_disabled");
+            };
+            xhr.open("POST", "/ajax/contact-us");
+            xhr.send(data);
+        }
     })();
 })();

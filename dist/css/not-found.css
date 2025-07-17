@@ -1391,6 +1391,7 @@ body::after {
   position: fixed;
   width: 100%;
   left: 0;
+  padding-right: var(--scrollbar-compensate, 0);
 }
 
 .header__top {
