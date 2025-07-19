@@ -1664,7 +1664,7 @@
             const headerWrapper = document.querySelector(".header__wrapper");
             const startPoint = header.dataset.scroll ? header.dataset.scroll : 1;
             const eventScroll = new CustomEvent("header-scroll");
-            window.addEventListener("scroll", (function(e) {
+            function check() {
                 const scrollTop = window.scrollY;
                 if (scrollTop >= startPoint) {
                     if (!header.classList.contains("_header-scroll")) {
@@ -1675,7 +1675,9 @@
                     header.classList.remove("_header-scroll");
                     headerWrapper.dispatchEvent(eventScroll);
                 }
-            }));
+            }
+            window.addEventListener("scroll", check);
+            check();
         }
         headerScroll();
         function ssr_window_esm_isObject(obj) {

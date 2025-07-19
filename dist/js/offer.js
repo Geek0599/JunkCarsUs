@@ -1740,7 +1740,7 @@
             const headerWrapper = document.querySelector(".header__wrapper");
             const startPoint = header.dataset.scroll ? header.dataset.scroll : 1;
             const eventScroll = new CustomEvent("header-scroll");
-            window.addEventListener("scroll", (function(e) {
+            function check() {
                 const scrollTop = window.scrollY;
                 if (scrollTop >= startPoint) {
                     if (!header.classList.contains("_header-scroll")) {
@@ -1751,7 +1751,9 @@
                     header.classList.remove("_header-scroll");
                     headerWrapper.dispatchEvent(eventScroll);
                 }
-            }));
+            }
+            window.addEventListener("scroll", check);
+            check();
         }
         headerScroll();
         __webpack_require__(740);
@@ -5478,7 +5480,8 @@
                         error: "error.svg"
                     };
                     const isDev = "production" === "development";
-                    const basePath = isDev ? "/img/icons" : "/themes/junkcarsus/assets/img/icons";
+                    const origin = window.location.origin;
+                    const basePath = isDev ? "/img/icons" : `${origin}/themes/junkcarsus/assets/img/icons`;
                     const alertPopupTemplate = `<div id="custom-alert" role="dialog" aria-modal="true" aria-label="${title}" class="popup">\n\t\t\t\t\t\t  <div class="popup__wrapper">\n\t\t\t\t\t\t\t\t<div class="popup__content text-center">\n\t\t\t\t\t\t\t\t\t <div class="popup__icon">\n\t\t\t\t\t\t\t\t\t\t  <img width="75" height="75" src="${basePath}/${icons[typeIcon]}" alt="${typeIcon} icon">\n\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t\t <div class="popup__title sub-title">${title}</div>\n\t\t\t\t\t\t\t\t\t <div class="popup__text text">${text}</div>\n\t\t\t\t\t\t\t\t\t <div class="popup__actions">\n\t\t\t\t\t\t\t\t\t\t  <button data-close type="button" class="popup__btn main-black-btn main-black-btn--no-icon">${textBtn}</button>\n\t\t\t\t\t\t\t\t\t </div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t  </div>\n\t\t\t\t\t </div>`;
                     document.body.insertAdjacentHTML("beforeend", alertPopupTemplate);
                     const newPopup = document.querySelector("#custom-alert");

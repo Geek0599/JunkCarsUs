@@ -269,193 +269,6 @@
             subMenuItems.forEach((item => item.classList.remove("_open")));
         }
     }
-    function formValidate() {
-        const validateForms = document.querySelectorAll("form[data-validate]");
-        if (validateForms.length) validateForms.forEach((form => {
-            const inputs = form.querySelectorAll("input,select,textarea");
-            const btnSubmit = form.querySelector('button[type="submit"]');
-            if (inputs.length > 0) {
-                form.addEventListener("submit", (e => {
-                    checkInputs({
-                        inputs,
-                        form,
-                        event: e
-                    });
-                }));
-                btnSubmit && btnSubmit.addEventListener("click", (e => {
-                    checkInputs({
-                        inputs,
-                        form,
-                        event: e
-                    });
-                }));
-                inputs.forEach((input => {
-                    input.addEventListener("input", (() => formatInput(input)));
-                    input.addEventListener("change", (() => setTimeout((() => {
-                        checkInput(input, form);
-                    }), 0)));
-                    input.addEventListener("blur", (() => {
-                        setTimeout((() => {
-                            if (input.value !== "") checkInput(input, form);
-                        }), 0);
-                    }));
-                }));
-                form.addEventListener("reset", (e => {
-                    inputs.forEach((input => removeStatus(input)));
-                }));
-                const recaptchaField = form.querySelector("#g-recaptcha-response-field-contacts");
-                if (recaptchaField) setupRecaptchaHandler(form, recaptchaField);
-            }
-        }));
-        async function checkInputs({inputs, form, event, onSuccessFormValidateCallback, onErrorFormValidateCallback}) {
-            if (event) event.preventDefault();
-            const isShowNotice = form?.hasAttribute("data-validate-notice");
-            !isShowNotice ? form.reportValidity() : null;
-            form.setAttribute("novalidate", true);
-            let errors = 0;
-            let firstErrorFound = false;
-            for (const input of inputs) if (await checkInput(input, form)) {
-                errors++;
-                if (!firstErrorFound) {
-                    input.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center"
-                    });
-                    firstErrorFound = true;
-                }
-            }
-            if (!errors) {
-                const successEvent = new Event("form-validation-success");
-                form.dispatchEvent(successEvent);
-                if (onSuccessFormValidateCallback) onSuccessFormValidateCallback();
-            } else {
-                const errorEvent = new Event("form-validation-error");
-                form.dispatchEvent(errorEvent);
-                if (onErrorFormValidateCallback) onErrorFormValidateCallback();
-            }
-        }
-        async function checkInput(input, form) {
-            const value = input.value.trim();
-            let isError = false;
-            if (input.required) {
-                if (value === "" && !input.inputmask) {
-                    isError = true;
-                    showTextNotice(input, "This field is required");
-                    return isError;
-                }
-                if (input.hasAttribute("data-number-format")) if (!/^\d+$/.test(value)) {
-                    isError = true;
-                    showTextNotice(input, "Only numbers are allowed");
-                    return isError;
-                }
-                if (input.hasAttribute("data-text-format")) if (!/^[a-zA-Z\s]+$/.test(value)) {
-                    isError = true;
-                    showTextNotice(input, `Only ${/[а-яА-Я]/.test(value) ? "Latin" : ""} letters are allowed`);
-                    return isError;
-                }
-                if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
-                    isError = true;
-                    showTextNotice(input, "Your email address must be in the format of name@domain.com");
-                    return isError;
-                }
-                const minLength = input.hasAttribute("data-minlength") ? Number(input.dataset.minlength) : null;
-                const maxLength = input.hasAttribute("data-maxlength") ? Number(input.dataset.maxlength) : null;
-                if (minLength !== null && value.length < minLength) {
-                    isError = true;
-                    if (input.id == "year") showTextNotice(input, "Please enter the correct year"); else showTextNotice(input, `Please enter at least ${minLength} characters`);
-                    return isError;
-                }
-                if (maxLength !== null && value.length > maxLength) {
-                    isError = true;
-                    showTextNotice(input, `Please enter less than ${minLength} characters`);
-                    return isError;
-                }
-                const minValue = input.hasAttribute("data-min-value") ? Number(input.dataset.minValue) : null;
-                const maxValue = input.hasAttribute("data-max-value") ? Number(input.dataset.maxValue) : null;
-                if (minValue !== null && Number(value) < minValue) {
-                    isError = true;
-                    showTextNotice(input, `Please enter a value greater than or equal to ${minValue}`);
-                    return isError;
-                }
-                if (maxValue !== null && Number(value) > maxValue) {
-                    isError = true;
-                    showTextNotice(input, `Please enter a value less than or equal to ${maxValue}`);
-                    return isError;
-                }
-                if (input.inputmask) {
-                    input.dispatchEvent(new Event("input"));
-                    if (!input.inputmask.isComplete()) {
-                        isError = true;
-                        showTextNotice(input, "Please enter full phone number");
-                        if (value === "") showTextNotice(input, "This field is required");
-                        return isError;
-                    }
-                }
-                if (input.required) if (isError) addError(input); else removeError(input);
-            } else if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
-                isError = true;
-                addError(input);
-                showTextNotice(input, "Your email address must be in the format of name@domain.com");
-            } else if (value === "") removeStatus(input); else removeError(input);
-            return isError;
-        }
-        function formatInput(input) {
-            if (input.hasAttribute("data-maxlength")) {
-                const maxLength = input.getAttribute("data-maxlength");
-                if (input.value.length > maxLength) input.value = input.value.slice(0, maxLength);
-            }
-            if (input.hasAttribute("data-number-format")) input.value = input.value.replace(/\D/g, "");
-        }
-        function addError(input) {
-            input.classList.remove("_validated");
-            input.classList.add("_no-validated");
-            input.setAttribute("aria-invalid", "true");
-            !input.wasError && input.addEventListener("input", (() => setTimeout((() => {
-                checkInput(input);
-            }), 0)));
-            input.wasError = true;
-            return true;
-        }
-        function removeError(input) {
-            input.classList.remove("_no-validated");
-            input.classList.add("_validated");
-            input.setAttribute("aria-invalid", "false");
-            removeTextNotice(input);
-        }
-        function removeStatus(input) {
-            input.classList.remove("_no-validated", "_validated");
-            input.removeAttribute("aria-invalid");
-            removeTextNotice(input);
-        }
-        function isEmailValid(input) {
-            return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(input.value);
-        }
-        function showTextNotice(input, text) {
-            const isShowNotice = input.form?.hasAttribute("data-validate-notice");
-            let notice = input.parentElement.querySelector(".form__item-notice");
-            if (isShowNotice) if (notice && notice.textContent !== text) notice.textContent = text; else if (!notice) {
-                notice = document.createElement("label");
-                notice.classList.add("form__item-notice");
-                notice.setAttribute("for", input.id);
-                notice.textContent = text;
-                input.parentElement.insertAdjacentElement("beforeend", notice);
-            }
-            addError(input);
-        }
-        function removeTextNotice(input) {
-            const notice = input.parentElement.querySelector(".form__item-notice");
-            notice && notice.remove();
-        }
-        window.formValidate = {
-            showTextNotice,
-            removeTextNotice,
-            removeError,
-            removeStatus,
-            addError,
-            checkInputs,
-            checkInput
-        };
-    }
     function checkboxRadioChecked() {
         window.addEventListener("click", (e => {
             if (e.target.closest(".checkbox") || e.target.closest(".radio")) {
@@ -490,15 +303,6 @@
                 }
             }
         }));
-    }
-    function setInputmode() {
-        const items = document.querySelectorAll("[data-inputmode]");
-        if (items.length > 0) setTimeout((() => {
-            items.forEach((item => {
-                const mode = item.dataset.inputmode;
-                mode ? item.setAttribute("inputmode", mode) : null;
-            }));
-        }), 50);
     }
     function getWindow(node) {
         if (node == null) return window;
@@ -1500,7 +1304,7 @@
         const headerWrapper = document.querySelector(".header__wrapper");
         const startPoint = header.dataset.scroll ? header.dataset.scroll : 1;
         const eventScroll = new CustomEvent("header-scroll");
-        window.addEventListener("scroll", (function(e) {
+        function check() {
             const scrollTop = window.scrollY;
             if (scrollTop >= startPoint) {
                 if (!header.classList.contains("_header-scroll")) {
@@ -1511,9 +1315,9 @@
                 header.classList.remove("_header-scroll");
                 headerWrapper.dispatchEvent(eventScroll);
             }
-        }));
+        }
+        window.addEventListener("scroll", check);
+        check();
     }
     headerScroll();
-    formValidate();
-    setInputmode();
 })();

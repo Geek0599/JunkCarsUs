@@ -95,6 +95,13 @@
             }), 0);
         }));
     }
+    function getHash() {
+        if (location.hash) return location.hash.replace("#", "");
+    }
+    function setHash(hash) {
+        hash = hash ? `#${hash}` : window.location.href.split("#")[0];
+        history.pushState("", "", hash);
+    }
     let _slideUp = (target, duration = 500, showmore = 0) => {
         if (!target.classList.contains("_slide")) {
             target.classList.add("_slide");
@@ -331,6 +338,66 @@
                 }
             }
         }));
+    }
+    function scrollToBlock() {
+        function safeQuerySelector(selector) {
+            if (selector.startsWith("#") && !selector.includes(" ")) return document.getElementById(selector.slice(1));
+            try {
+                return document.querySelector(selector);
+            } catch (e) {
+                console.warn("Invalid selector:", selector, e);
+                return null;
+            }
+        }
+        let gotoBlock = ({targetBlock, headerItem = false, speed = 500, offsetTop = 0}) => {
+            const targetBlockElement = safeQuerySelector(targetBlock);
+            if (targetBlockElement) {
+                let headerItemHeight = 0;
+                if (headerItem) headerItemHeight = document.querySelector(headerItem).offsetHeight;
+                document.documentElement.classList.contains("menu-open") ? menuClose() : null;
+                let targetBlockElementPosition = targetBlockElement.getBoundingClientRect().top + scrollY;
+                targetBlockElementPosition = headerItemHeight ? targetBlockElementPosition - headerItemHeight : targetBlockElementPosition;
+                targetBlockElementPosition = offsetTop ? targetBlockElementPosition - offsetTop : targetBlockElementPosition;
+                window.scrollTo({
+                    top: targetBlockElementPosition,
+                    behavior: "smooth"
+                });
+            }
+        };
+        const navBlock = document.querySelector(".category-articles");
+        if (!navBlock) return;
+        const btns = document.querySelectorAll(".category-articles__link");
+        const offsetTop = () => 10;
+        if (btns.length > 0) {
+            const headerItem = "header .header__wrapper";
+            btns.forEach((btn => {
+                btn.addEventListener("click", (e => {
+                    e.preventDefault();
+                    const targetBlock = btn.hash;
+                    gotoBlock({
+                        targetBlock,
+                        headerItem,
+                        offsetTop: offsetTop()
+                    });
+                    setHash(btn.hash.replace("#", ""));
+                }));
+            }));
+            if (getHash()) {
+                let goToHash;
+                if (safeQuerySelector(`#${getHash()}`)) goToHash = `#${getHash()}`;
+                if (goToHash) if (goToHash) window.addEventListener("load", (() => {
+                    requestAnimationFrame((() => {
+                        setTimeout((() => {
+                            gotoBlock({
+                                targetBlock: goToHash,
+                                headerItem,
+                                offsetTop: offsetTop()
+                            });
+                        }), 300);
+                    }));
+                }));
+            }
+        }
     }
     function getWindow(node) {
         if (node == null) return window;
@@ -1332,7 +1399,7 @@
         const headerWrapper = document.querySelector(".header__wrapper");
         const startPoint = header.dataset.scroll ? header.dataset.scroll : 1;
         const eventScroll = new CustomEvent("header-scroll");
-        window.addEventListener("scroll", (function(e) {
+        function check() {
             const scrollTop = window.scrollY;
             if (scrollTop >= startPoint) {
                 if (!header.classList.contains("_header-scroll")) {
@@ -1343,7 +1410,9 @@
                 header.classList.remove("_header-scroll");
                 headerWrapper.dispatchEvent(eventScroll);
             }
-        }));
+        }
+        window.addEventListener("scroll", check);
+        check();
     }
     headerScroll();
     function starRating() {
@@ -1410,4 +1479,5 @@
     }
     starRating();
     removePositionStickyOnMaxHeight();
+    scrollToBlock();
 })();
