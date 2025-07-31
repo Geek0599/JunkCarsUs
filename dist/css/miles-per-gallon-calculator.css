@@ -38,6 +38,7 @@
   font-style: normal;
 }
 
+.text-section__content ul li::before,
 .main-black-btn::before,
 .main-yellow-btn::before,
 [class*=_icon-]:before {
@@ -63,6 +64,7 @@
 }
 
 ._icon-arrow-right:before,
+.text-section__content ul li:before,
 .main-black-btn:before,
 .main-yellow-btn:before {
   content: "\e900";
@@ -354,6 +356,7 @@ Snippet (HTML): cnt
 
 .form__select {
   width: 100%;
+  line-height: 140%;
   cursor: pointer;
   height: 3.5rem;
   appearance: none;
@@ -454,6 +457,7 @@ Snippet (HTML): cnt
   display: -ms-grid;
   display: grid;
   gap: 1.5rem;
+  justify-items: start;
 }
 
 .form__item-notice {
@@ -739,6 +743,43 @@ Snippet (HTML): cnt
      object-fit: contain;
 }
 
+.points-list__point-items--counter {
+  list-style-type: none;
+  counter-reset: item;
+}
+
+.points-list__point-items--counter li {
+  position: relative;
+  padding-left: 2.75rem;
+}
+
+.points-list__point-items--counter li:before {
+  content: counter(item);
+  counter-increment: item;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #ffd833;
+  color: #000;
+  border-radius: 50%;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.1875rem;
+  line-height: 0;
+  font-weight: 900;
+  font-size: 0.75rem;
+  margin: 0.1875rem 0 0;
+}
+
 .vehicles-card,
 .car-estimation-item,
 .poster-yellow-section__body {
@@ -836,6 +877,27 @@ Snippet (HTML): cnt
 @supports not (font-size: clamp( 3rem , 2.5714285714rem  +  1.9047619048vw , 4rem )) {
   .title {
     font-size: calc(3rem + 1 * (100vw - 22.5rem) / 52.5);
+  }
+}
+
+.title-md,
+.working-info__phone.btn-phone {
+  font-family: "Barlow Condensed";
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+@supports (font-size: clamp( 2.625rem , 2.25rem  +  1.6666666667vw , 3.5rem )) {
+  .title-md,
+  .working-info__phone.btn-phone {
+    font-size: clamp( 2.625rem , 2.25rem  +  1.6666666667vw , 3.5rem );
+  }
+}
+
+@supports not (font-size: clamp( 2.625rem , 2.25rem  +  1.6666666667vw , 3.5rem )) {
+  .title-md,
+  .working-info__phone.btn-phone {
+    font-size: calc(2.625rem + 0.875 * (100vw - 22.5rem) / 52.5);
   }
 }
 
@@ -1468,6 +1530,50 @@ body::after {
   text-decoration-line: underline;
 }
 
+.points-list__points-title {
+  font-weight: 700;
+  line-height: 1.875;
+  margin-bottom: 1rem;
+}
+
+.points-list__point-items {
+  display: -ms-grid;
+  display: grid;
+  gap: 1rem;
+}
+
+.point-item,
+.text-section__content ul li {
+  position: relative;
+  padding-left: 3.375rem;
+}
+
+.point-item::before,
+.text-section__content ul li::before {
+  font-size: 1.5rem;
+  color: #ffd833;
+  margin-top: 0.1875rem;
+  margin-left: 0.25rem;
+  position: absolute;
+  left: 0;
+}
+
+.point-item p,
+.text-section__content ul li p {
+  font-weight: 500;
+  line-height: 187.5%;
+}
+
+.point-item a,
+.text-section__content ul li a {
+  text-decoration: underline;
+}
+
+.point-item span,
+.text-section__content ul li span {
+  font-weight: 700;
+}
+
 .menu__item._open .menu__sub-menu {
   opacity: 1;
   visibility: visible;
@@ -1507,10 +1613,10 @@ body::after {
 }
 
 .loaded .header__body {
-  -webkit-transition: padding 0.35s ease, background-color 0.15s ease, -webkit-box-shadow 0.35s ease;
-  transition: padding 0.35s ease, background-color 0.15s ease, -webkit-box-shadow 0.35s ease;
-  transition: padding 0.35s ease, box-shadow 0.35s ease, background-color 0.15s ease;
-  transition: padding 0.35s ease, box-shadow 0.35s ease, background-color 0.15s ease, -webkit-box-shadow 0.35s ease;
+  -webkit-transition: padding 0.35s ease, background-color 0.1s ease, -webkit-box-shadow 0.35s ease;
+  transition: padding 0.35s ease, background-color 0.1s ease, -webkit-box-shadow 0.35s ease;
+  transition: padding 0.35s ease, box-shadow 0.35s ease, background-color 0.1s ease;
+  transition: padding 0.35s ease, box-shadow 0.35s ease, background-color 0.1s ease, -webkit-box-shadow 0.35s ease;
 }
 
 .header._header-scroll .header__body {
@@ -2218,6 +2324,7 @@ body::after {
       -ms-flex-align: center;
           align-items: center;
   position: relative;
+  gap: 0.3125rem;
 }
 
 .main-section__image {
@@ -2419,6 +2526,22 @@ body::after {
   max-width: unset;
 }
 
+.content-main-section__working-info {
+  margin-top: 0.5rem;
+}
+
+.working-info {
+  display: -ms-grid;
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+
+.working-info__schedule {
+  font-weight: 600;
+  text-align: center;
+}
+
 .homepage-bg-img {
   position: absolute;
   right: -41.5%;
@@ -2451,6 +2574,11 @@ body::after {
 
 .text-section__content {
   overflow-x: auto;
+}
+
+.text-section__content ul li {
+  font-weight: 500;
+  line-height: 187.5%;
 }
 
 .text-section__text {
@@ -3156,6 +3284,11 @@ body::after {
 
   .location-sub-menu__bottom .location-sub-menu__columns:nth-child(odd) {
     border-right: 1px solid rgb(229, 229, 229);
+  }
+
+  .working-info__schedule p {
+    text-align: left;
+    display: inline;
   }
 
   .call-us-section--small .call-us-section__center,
@@ -3939,11 +4072,16 @@ body::after {
     gap: 0.5rem;
   }
 
+  .point-item,
+  .text-section__content ul li {
+    padding-left: 3rem;
+  }
+
   .header._header-scroll .header__body {
     padding: 0.5rem 0;
   }
 
-  .header._header-scroll .header__body .body-header__main-btn {
+  .header._header-scroll:not(.hide-front-btn) .header__body .body-header__main-btn {
     -webkit-box-flex: 1;
         -ms-flex: auto;
             flex: auto;
@@ -3985,19 +4123,19 @@ body::after {
     }
 }
 
-  .header._header-scroll .header__body .body-header__main-btn::before {
+  .header._header-scroll:not(.hide-front-btn) .header__body .body-header__main-btn::before {
     display: none;
   }
 
-  .header._header-scroll .header__body .body-header__menu {
+  .header._header-scroll:not(.hide-front-btn) .header__body .body-header__menu {
     display: contents;
   }
 
-  .header._header-scroll .header__body .logo {
+  .header._header-scroll:not(.hide-front-btn) .header__body .logo {
     margin-right: 0.4375rem;
   }
 
-  .header._header-scroll .header__body .logo__text-box {
+  .header._header-scroll:not(.hide-front-btn) .header__body .logo__text-box {
     display: none;
   }
 
@@ -4112,6 +4250,10 @@ body::after {
 
   .call-us-section--small .call-us-section__schedule {
     font-size: 0.75rem;
+    display: -ms-grid;
+    display: grid;
+    justify-items: center;
+    text-align: center;
   }
 
   .call-us-section__title {

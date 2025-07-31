@@ -1,6 +1,6 @@
 (() => {
     var __webpack_modules__ = {
-        678: () => {
+        42: () => {
             if (!Array.prototype.includes) Object.defineProperty(Array.prototype, "includes", {
                 value: function(searchElement, fromIndex) {
                     if (this == null) throw new TypeError('"this" is null or not defined');
@@ -17,7 +17,7 @@
                 }
             });
         },
-        195: () => {
+        407: () => {
             const reduce = Function.bind.call(Function.call, Array.prototype.reduce);
             const isEnumerable = Function.bind.call(Function.call, Object.prototype.propertyIsEnumerable);
             const concat = Function.bind.call(Function.call, Array.prototype.concat);
@@ -26,14 +26,14 @@
                 return reduce(keys(O), ((e, k) => concat(e, typeof k === "string" && isEnumerable(O, k) ? [ [ k, O[k] ] ] : [])), []);
             };
         },
-        740: () => {
+        376: () => {
             if (typeof Object.getPrototypeOf !== "function") Object.getPrototypeOf = typeof "test".__proto__ === "object" ? function(object) {
                 return object.__proto__;
             } : function(object) {
                 return object.constructor.prototype;
             };
         },
-        512: () => {
+        572: () => {
             if (!String.prototype.includes) String.prototype.includes = function(search, start) {
                 if (typeof start !== "number") start = 0;
                 if (start + search.length > this.length) return false; else return this.indexOf(search, start) !== -1;
@@ -322,9 +322,9 @@
             }
         }
         function formValidate() {
-            const validateForms = document.querySelectorAll("form[data-validate]");
+            const validateForms = document.querySelectorAll("[data-validate]");
             if (validateForms.length) validateForms.forEach((form => {
-                const inputs = form.querySelectorAll("input,select,textarea");
+                const inputs = form.querySelectorAll('input:not([type="hidden"]), select, textarea');
                 const btnSubmit = form.querySelector('button[type="submit"]');
                 if (inputs.length > 0) {
                     form.addEventListener("submit", (e => {
@@ -342,13 +342,19 @@
                         });
                     }));
                     inputs.forEach((input => {
-                        input.addEventListener("input", (() => formatInput(input)));
+                        input.addEventListener("input", (e => formatInput(input)));
                         input.addEventListener("change", (() => setTimeout((() => {
-                            checkInput(input, form);
+                            checkInput({
+                                input,
+                                form
+                            });
                         }), 0)));
                         input.addEventListener("blur", (() => {
                             setTimeout((() => {
-                                if (input.value !== "") checkInput(input, form);
+                                if (input.value !== "") checkInput({
+                                    input,
+                                    form
+                                });
                             }), 0);
                         }));
                     }));
@@ -366,7 +372,10 @@
                 form.setAttribute("novalidate", true);
                 let errors = 0;
                 let firstErrorFound = false;
-                for (const input of inputs) if (await checkInput(input, form)) {
+                for (const input of inputs) if (await checkInput({
+                    input,
+                    form
+                })) {
                     errors++;
                     if (!firstErrorFound) {
                         input.scrollIntoView({
@@ -386,68 +395,103 @@
                     if (onErrorFormValidateCallback) onErrorFormValidateCallback();
                 }
             }
-            async function checkInput(input, form) {
+            async function checkInput({input, form, isTextNotice = false}) {
                 const value = input.value.trim();
                 let isError = false;
-                if (input.required) {
-                    if (value === "" && !input.inputmask) {
+                if (input.required || value !== "") {
+                    if (value === "") {
                         isError = true;
-                        showTextNotice(input, "This field is required");
+                        showTextNotice({
+                            input,
+                            text: "This field is required",
+                            isTextNotice
+                        });
                         return isError;
                     }
                     if (input.hasAttribute("data-number-format")) if (!/^\d+$/.test(value)) {
                         isError = true;
-                        showTextNotice(input, "Only numbers are allowed");
+                        showTextNotice({
+                            input,
+                            text: "Only numbers are allowed",
+                            isTextNotice
+                        });
                         return isError;
                     }
                     if (input.hasAttribute("data-text-format")) if (!/^[a-zA-Z\s]+$/.test(value)) {
                         isError = true;
-                        showTextNotice(input, `Only ${/[а-яА-Я]/.test(value) ? "Latin" : ""} letters are allowed`);
+                        showTextNotice({
+                            input,
+                            text: `Only ${/[а-яА-Я]/.test(value) ? "Latin" : ""} letters are allowed`,
+                            isTextNotice
+                        });
                         return isError;
                     }
                     if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
                         isError = true;
-                        showTextNotice(input, "Your email address must be in the format of name@domain.com");
+                        showTextNotice({
+                            input,
+                            text: "Your email address must be in the format of name@domain.com",
+                            isTextNotice
+                        });
                         return isError;
                     }
                     const minLength = input.hasAttribute("data-minlength") ? Number(input.dataset.minlength) : null;
                     const maxLength = input.hasAttribute("data-maxlength") ? Number(input.dataset.maxlength) : null;
                     if (minLength !== null && value.length < minLength) {
                         isError = true;
-                        if (input.id == "year") showTextNotice(input, "Please enter the correct year"); else showTextNotice(input, `Please enter at least ${minLength} characters`);
+                        if (input.id == "year") showTextNotice({
+                            input,
+                            text: "Please enter the correct year",
+                            isTextNotice
+                        }); else showTextNotice({
+                            input,
+                            text: `Please enter at least ${minLength} characters`,
+                            isTextNotice
+                        });
                         return isError;
                     }
                     if (maxLength !== null && value.length > maxLength) {
                         isError = true;
-                        showTextNotice(input, `Please enter less than ${minLength} characters`);
+                        showTextNotice({
+                            input,
+                            text: `Please enter less than ${minLength} characters`,
+                            isTextNotice
+                        });
                         return isError;
                     }
                     const minValue = input.hasAttribute("data-min-value") ? Number(input.dataset.minValue) : null;
                     const maxValue = input.hasAttribute("data-max-value") ? Number(input.dataset.maxValue) : null;
                     if (minValue !== null && Number(value) < minValue) {
                         isError = true;
-                        showTextNotice(input, `Please enter a value greater than or equal to ${minValue}`);
+                        showTextNotice({
+                            input,
+                            text: `Please enter a value greater than or equal to ${minValue}`,
+                            isTextNotice
+                        });
                         return isError;
                     }
                     if (maxValue !== null && Number(value) > maxValue) {
                         isError = true;
-                        showTextNotice(input, `Please enter a value less than or equal to ${maxValue}`);
+                        showTextNotice({
+                            input,
+                            text: `Please enter a value less than or equal to ${maxValue}`,
+                            isTextNotice
+                        });
                         return isError;
                     }
                     if (input.inputmask) {
-                        input.dispatchEvent(new Event("input"));
-                        if (!input.inputmask.isComplete()) {
+                        const status = !input.inputmask.isComplete();
+                        if (status && value !== "") {
                             isError = true;
-                            showTextNotice(input, "Please enter full phone number");
-                            if (value === "") showTextNotice(input, "This field is required");
+                            showTextNotice({
+                                input,
+                                text: "Please enter full phone number",
+                                isTextNotice
+                            });
                             return isError;
                         }
                     }
-                    if (input.required) if (isError) addError(input); else removeError(input);
-                } else if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
-                    isError = true;
-                    addError(input);
-                    showTextNotice(input, "Your email address must be in the format of name@domain.com");
+                    if (input.required || value !== "") if (isError) addError(input); else removeError(input);
                 } else if (value === "") removeStatus(input); else removeError(input);
                 return isError;
             }
@@ -462,10 +506,14 @@
                 input.classList.remove("_validated");
                 input.classList.add("_no-validated");
                 input.setAttribute("aria-invalid", "true");
-                !input.wasError && input.addEventListener("input", (() => setTimeout((() => {
-                    checkInput(input);
-                }), 0)));
-                input.wasError = true;
+                if (!input.wasError) {
+                    input.addEventListener("input", (() => setTimeout((() => {
+                        checkInput({
+                            input
+                        });
+                    }), 0)));
+                    input.wasError = true;
+                }
                 return true;
             }
             function removeError(input) {
@@ -482,15 +530,15 @@
             function isEmailValid(input) {
                 return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(input.value);
             }
-            function showTextNotice(input, text) {
-                const isShowNotice = input.form?.hasAttribute("data-validate-notice");
+            function showTextNotice({input, text, isTextNotice = false}) {
+                const isShowNotice = isTextNotice || input.closest("[data-validate]")?.hasAttribute("data-validate-notice");
                 let notice = input.parentElement.querySelector(".form__item-notice");
                 if (isShowNotice) if (notice && notice.textContent !== text) notice.textContent = text; else if (!notice) {
                     notice = document.createElement("label");
                     notice.classList.add("form__item-notice");
                     notice.setAttribute("for", input.id);
                     notice.textContent = text;
-                    input.parentElement.insertAdjacentElement("beforeend", notice);
+                    input.insertAdjacentElement("afterend", notice);
                 }
                 addError(input);
             }
@@ -507,6 +555,15 @@
                 checkInputs,
                 checkInput
             };
+        }
+        function clickOnLabelKeyEnter() {
+            const inputs = document.querySelectorAll("[data-tabi-input]");
+            if (inputs.length) inputs.forEach((input => {
+                const label = document.querySelector(`label[data-tabi-label][for="${input.id}"]`);
+                if (label) label.addEventListener("keydown", (e => {
+                    if (e.key === "Enter") input.click();
+                }));
+            }));
         }
         function checkboxRadioChecked() {
             window.addEventListener("click", (e => {
@@ -542,6 +599,15 @@
                     }
                 }
             }));
+        }
+        function setInputmode() {
+            const items = document.querySelectorAll("[data-inputmode]");
+            if (items.length > 0) setTimeout((() => {
+                items.forEach((item => {
+                    const mode = item.dataset.inputmode;
+                    mode ? item.setAttribute("inputmode", mode) : null;
+                }));
+            }), 50);
         }
         function getWindow(node) {
             if (node == null) return window;
@@ -1498,17 +1564,15 @@
         menuInit();
         showSubMenu();
         checkboxRadioChecked();
+        clickOnLabelKeyEnter();
+        setInputmode();
         function mainSectionPaddingCompensateByHeaderHeight() {
             const header = document.querySelector(".top-header");
             const main = document.querySelector(".menu__body");
             const iconMenu = document.querySelector(".icon-menu");
-            let currentHeaderHeight = header.offsetHeight;
             const updatePadding = () => {
                 const newHeight = header.offsetHeight;
-                if (currentHeaderHeight !== newHeight) {
-                    main.style.setProperty("--menu-top-p", newHeight / 16 + "rem");
-                    currentHeaderHeight = newHeight;
-                }
+                main.style.setProperty("--menu-top-p", newHeight / 16 + "rem");
             };
             const resizeObserver = new ResizeObserver((() => {
                 updatePadding();
@@ -1559,10 +1623,10 @@
             check();
         }
         headerScroll();
-        __webpack_require__(740);
-        __webpack_require__(678);
-        __webpack_require__(195);
-        __webpack_require__(512);
+        __webpack_require__(376);
+        __webpack_require__(42);
+        __webpack_require__(407);
+        __webpack_require__(572);
         const keyCode = {
             AltGraph: 18,
             ArrowDown: 40,
@@ -5304,74 +5368,141 @@
             }
             window.popupSimple = new PopupSimple(bodyLock, bodyUnlock);
         }
-        initPopupSimple();
-        initInputMask();
-        formValidate();
-        function onSuccesFormValidate() {
-            const contactUsForm = document.querySelector("[data-contact-us-form]");
-            if (!contactUsForm) return;
-            contactUsForm.addEventListener("form-validation-success", (e => {
-                const formData = new FormData(contactUsForm);
-                const submitButton = contactUsForm.querySelector('[type="submit"]');
-                submitButton.classList.add("_disabled");
-                window.popupSimple.open("#popup-form-submiting");
-                makeRequest(contactUsForm, formData);
-            }));
-        }
-        onSuccesFormValidate();
-        function makeRequest(form, data) {
-            const xhr = new XMLHttpRequest;
-            const submitButton = form.querySelector('[type="submit"]');
-            const progressBar = document.querySelector("[data-progress-bar]");
-            const thanksModal = document.getElementById("popup-form-success-submission");
-            const loadingModal = document.getElementById("popup-form-submiting");
-            xhr.upload.addEventListener("progress", (event => {
-                if (event.lengthComputable) progressBar.style.width = Math.round(event.loaded / event.total * 100) + "%";
-            }), false);
-            xhr.onerror = function(response) {
-                console.error("Request failed:", response);
-                window.popupSimple.showAlert({
-                    title: "Error!",
-                    text: `An error occurred while submitting the form. Try again later`,
-                    typeIcon: "error"
-                });
-                submitButton.classList.remove("_disabled");
-            };
-            xhr.onreadystatechange = function() {
-                if (this.readyState !== 4) return;
-                window.popupSimple.close(null, loadingModal, 0);
-                window.popupSimple.close(null, thanksModal, 0);
-                if (this.status >= 200 && this.status < 300) try {
-                    const jsonResponse = JSON.parse(this.responseText);
-                    if (Array.isArray(jsonResponse) && jsonResponse[0] === "OK") {
-                        form.reset();
-                        window.popupSimple.open(null, thanksModal);
-                        window.uetq = window.uetq || [];
-                        window.uetq.push("event", "submit_lead_form", {});
-                    } else window.popupSimple.showAlert({
-                        title: "Warning!",
-                        text: "The size of the photo should not exceed 4 MB",
-                        typeIcon: "warn"
-                    });
-                } catch (err) {
-                    window.popupSimple.showAlert({
-                        title: "Error!",
-                        text: "Unexpected response format",
-                        typeIcon: "error"
-                    });
-                } else {
-                    let errorText = "Something went wrong. Please try again.";
-                    if (this.status === 400) errorText = "Bad Request. Please check the form."; else if (this.status === 413) errorText = "The uploaded file is too large."; else if (this.status === 500) errorText = "Server error. Try again later.";
-                    window.popupSimple.showAlert({
-                        title: "Error!",
-                        text: errorText,
-                        typeIcon: "error"
-                    });
+        function initUploadPhotoInput() {
+            const filesUpload = document.querySelectorAll(".file");
+            if (filesUpload && filesUpload.length > 0) filesUpload.forEach((function(fileUploadContainer) {
+                const el = fileUploadContainer.querySelector(".file__input");
+                const fileList = fileUploadContainer.querySelector(".file__list");
+                const fileListArr = [];
+                const form = el.closest("form");
+                if (form) form.addEventListener("reset", (() => {
+                    fileListArr.length = 0;
+                    el.value = "";
+                    fileList.innerHTML = "";
+                    window.fileListArr = fileListArr;
+                }));
+                el.addEventListener("change", (e => {
+                    const maxFilesAllowed = el.dataset.maxFilesAllowed || 5;
+                    const maxSizeMB = parseFloat(el.dataset.maxsize || 4);
+                    const maxSize = maxSizeMB * 1024 * 1024;
+                    const acceptTypes = el.getAttribute("accept");
+                    const allowedExtensions = acceptTypes ? acceptTypes.split(",").map((type => type.trim().replace(".", "").toLowerCase())) : [];
+                    let newFiles = Array.from(el.files);
+                    let existingFilesCount = fileListArr.length;
+                    let availableSlots = maxFilesAllowed - existingFilesCount;
+                    if (availableSlots <= 0 && newFiles.length > 0) {
+                        window.popupSimple.showAlert({
+                            title: "Maximum photos reached!",
+                            text: `Only ${maxFilesAllowed} ${maxFilesAllowed === 1 ? "photo" : "photos"} can be uploaded.`,
+                            typeIcon: "warn"
+                        });
+                        syncInputFiles();
+                        return;
+                    }
+                    let validFiles = newFiles.filter((file => {
+                        const fileExtension = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
+                        if (allowedExtensions.length > 0 && !allowedExtensions.includes(fileExtension)) {
+                            window.popupSimple.showAlert({
+                                title: "Photos only!",
+                                text: `Invalid file type. Allowed types are: ${acceptTypes}`,
+                                typeIcon: "warn"
+                            });
+                            return false;
+                        }
+                        if (file.size > maxSize) {
+                            window.popupSimple.showAlert({
+                                title: "Photo is too big!",
+                                text: `The size of the photo should not exceed ${maxSizeMB} MB`,
+                                typeIcon: "warn"
+                            });
+                            return false;
+                        }
+                        const isDuplicate = fileListArr.some((existing => existing.name === file.name && existing.size === file.size && ("lastModified" in existing ? existing.lastModified === file.lastModified : true)));
+                        if (isDuplicate) return false;
+                        return true;
+                    }));
+                    if (validFiles.length > availableSlots) {
+                        window.popupSimple.showAlert({
+                            title: "Maximum photos reached!",
+                            text: availableSlots === maxFilesAllowed ? `Only ${maxFilesAllowed} ${maxFilesAllowed === 1 ? "photo" : "photos"} can be uploaded.` : `Only ${availableSlots} additional ${availableSlots === 1 ? "photo" : "photos"} can be uploaded. The maximum limit is ${maxFilesAllowed} ${maxFilesAllowed === 1 ? "photo" : "photos"}. Any extra photos will be ignored.`,
+                            typeIcon: "warn"
+                        });
+                        validFiles = validFiles.slice(0, availableSlots);
+                    }
+                    if (validFiles.length > 0) {
+                        fileListArr.push(...validFiles);
+                        appendNewFilesToUI(validFiles);
+                        console.log("validFiles", validFiles);
+                    }
+                    syncInputFiles();
+                    window.fileListArr = fileListArr;
+                }));
+                function syncInputFiles() {
+                    const dataTransfer = new DataTransfer;
+                    fileListArr.forEach((file => dataTransfer.items.add(file)));
+                    el.files = dataTransfer.files;
                 }
-                submitButton.classList.remove("_disabled");
-            };
-            xhr.open("POST", "/ajax/contact-us");
-            xhr.send(data);
+                function appendNewFilesToUI(newFiles) {
+                    const startIndex = fileListArr.length - newFiles.length;
+                    newFiles.forEach(((file, offset) => {
+                        const index = startIndex + offset;
+                        const fileListItem = createFileListItem(file, index);
+                        fileList.appendChild(fileListItem);
+                    }));
+                }
+                function createFileListItem(file, index) {
+                    const fileListItem = document.createElement("li");
+                    fileListItem.classList.add("file__list-item", "file-item");
+                    fileListItem.setAttribute("data-file-id", index);
+                    const fileExtension = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
+                    if ([ "jpg", "png", "jpeg" ].includes(fileExtension)) {
+                        const img = document.createElement("img");
+                        img.src = URL.createObjectURL(file);
+                        img.onload = () => URL.revokeObjectURL(img.src);
+                        img.onerror = () => URL.revokeObjectURL(img.src);
+                        img.alt = `Uploaded photo ${index + 1}`;
+                        img.classList.add("file-item__img");
+                        fileListItem.appendChild(img);
+                    } else {
+                        const div = document.createElement("div");
+                        div.innerHTML = fileExtension;
+                        div.classList.add("offer-modal__tabs-item_files-input-list-item_file");
+                        fileListItem.appendChild(div);
+                    }
+                    fileListItem.innerHTML += `\n\t\t\t\t\t\t <div class="file-item__name">${file.name}</div>\n\t\t\t\t\t\t <button type="button" class="file-item__btn" aria-label="Delete ${file.name}">Delete</button>\n\t\t\t\t\t`;
+                    const deleteBtn = fileListItem.querySelector(".file-item__btn");
+                    deleteBtn.addEventListener("click", (e => {
+                        e.preventDefault();
+                        const currentIndex = parseInt(fileListItem.getAttribute("data-file-id"));
+                        fileListArr.splice(currentIndex, 1);
+                        fileList.removeChild(fileListItem);
+                        syncInputFiles();
+                        updateFileIndices(currentIndex);
+                        console.log("After DELETE.", el.files, " window.fileListArr ==>", window.fileListArr);
+                        window.fileListArr = fileListArr;
+                    }));
+                    return fileListItem;
+                }
+                function updateFileIndices(startIndex) {
+                    const remainingItems = Array.from(fileList.querySelectorAll(".file-item"));
+                    remainingItems.forEach(((item, i) => {
+                        if (i >= startIndex) {
+                            const newIndex = i;
+                            item.setAttribute("data-file-id", newIndex);
+                            const deleteBtn = item.querySelector(".file-item__btn");
+                            const fileName = item.querySelector(".file-item__name").textContent;
+                            deleteBtn.setAttribute("aria-label", `Delete ${fileName}`);
+                            const img = item.querySelector(".file-item__img");
+                            if (img) img.alt = `Uploaded photo ${newIndex + 1}`;
+                        }
+                    }));
+                }
+            }));
+            window.initUploadPhotoInput = initUploadPhotoInput;
         }
+        initInputMask();
+        initUploadPhotoInput();
+        initPopupSimple();
+        formValidate();
     })();
 })();

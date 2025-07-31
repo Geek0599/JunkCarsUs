@@ -281,9 +281,9 @@
         }
     }
     function formValidate() {
-        const validateForms = document.querySelectorAll("form[data-validate]");
+        const validateForms = document.querySelectorAll("[data-validate]");
         if (validateForms.length) validateForms.forEach((form => {
-            const inputs = form.querySelectorAll("input,select,textarea");
+            const inputs = form.querySelectorAll('input:not([type="hidden"]), select, textarea');
             const btnSubmit = form.querySelector('button[type="submit"]');
             if (inputs.length > 0) {
                 form.addEventListener("submit", (e => {
@@ -301,13 +301,19 @@
                     });
                 }));
                 inputs.forEach((input => {
-                    input.addEventListener("input", (() => formatInput(input)));
+                    input.addEventListener("input", (e => formatInput(input)));
                     input.addEventListener("change", (() => setTimeout((() => {
-                        checkInput(input, form);
+                        checkInput({
+                            input,
+                            form
+                        });
                     }), 0)));
                     input.addEventListener("blur", (() => {
                         setTimeout((() => {
-                            if (input.value !== "") checkInput(input, form);
+                            if (input.value !== "") checkInput({
+                                input,
+                                form
+                            });
                         }), 0);
                     }));
                 }));
@@ -325,7 +331,10 @@
             form.setAttribute("novalidate", true);
             let errors = 0;
             let firstErrorFound = false;
-            for (const input of inputs) if (await checkInput(input, form)) {
+            for (const input of inputs) if (await checkInput({
+                input,
+                form
+            })) {
                 errors++;
                 if (!firstErrorFound) {
                     input.scrollIntoView({
@@ -345,68 +354,103 @@
                 if (onErrorFormValidateCallback) onErrorFormValidateCallback();
             }
         }
-        async function checkInput(input, form) {
+        async function checkInput({input, form, isTextNotice = false}) {
             const value = input.value.trim();
             let isError = false;
-            if (input.required) {
-                if (value === "" && !input.inputmask) {
+            if (input.required || value !== "") {
+                if (value === "") {
                     isError = true;
-                    showTextNotice(input, "This field is required");
+                    showTextNotice({
+                        input,
+                        text: "This field is required",
+                        isTextNotice
+                    });
                     return isError;
                 }
                 if (input.hasAttribute("data-number-format")) if (!/^\d+$/.test(value)) {
                     isError = true;
-                    showTextNotice(input, "Only numbers are allowed");
+                    showTextNotice({
+                        input,
+                        text: "Only numbers are allowed",
+                        isTextNotice
+                    });
                     return isError;
                 }
                 if (input.hasAttribute("data-text-format")) if (!/^[a-zA-Z\s]+$/.test(value)) {
                     isError = true;
-                    showTextNotice(input, `Only ${/[а-яА-Я]/.test(value) ? "Latin" : ""} letters are allowed`);
+                    showTextNotice({
+                        input,
+                        text: `Only ${/[а-яА-Я]/.test(value) ? "Latin" : ""} letters are allowed`,
+                        isTextNotice
+                    });
                     return isError;
                 }
                 if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
                     isError = true;
-                    showTextNotice(input, "Your email address must be in the format of name@domain.com");
+                    showTextNotice({
+                        input,
+                        text: "Your email address must be in the format of name@domain.com",
+                        isTextNotice
+                    });
                     return isError;
                 }
                 const minLength = input.hasAttribute("data-minlength") ? Number(input.dataset.minlength) : null;
                 const maxLength = input.hasAttribute("data-maxlength") ? Number(input.dataset.maxlength) : null;
                 if (minLength !== null && value.length < minLength) {
                     isError = true;
-                    if (input.id == "year") showTextNotice(input, "Please enter the correct year"); else showTextNotice(input, `Please enter at least ${minLength} characters`);
+                    if (input.id == "year") showTextNotice({
+                        input,
+                        text: "Please enter the correct year",
+                        isTextNotice
+                    }); else showTextNotice({
+                        input,
+                        text: `Please enter at least ${minLength} characters`,
+                        isTextNotice
+                    });
                     return isError;
                 }
                 if (maxLength !== null && value.length > maxLength) {
                     isError = true;
-                    showTextNotice(input, `Please enter less than ${minLength} characters`);
+                    showTextNotice({
+                        input,
+                        text: `Please enter less than ${minLength} characters`,
+                        isTextNotice
+                    });
                     return isError;
                 }
                 const minValue = input.hasAttribute("data-min-value") ? Number(input.dataset.minValue) : null;
                 const maxValue = input.hasAttribute("data-max-value") ? Number(input.dataset.maxValue) : null;
                 if (minValue !== null && Number(value) < minValue) {
                     isError = true;
-                    showTextNotice(input, `Please enter a value greater than or equal to ${minValue}`);
+                    showTextNotice({
+                        input,
+                        text: `Please enter a value greater than or equal to ${minValue}`,
+                        isTextNotice
+                    });
                     return isError;
                 }
                 if (maxValue !== null && Number(value) > maxValue) {
                     isError = true;
-                    showTextNotice(input, `Please enter a value less than or equal to ${maxValue}`);
+                    showTextNotice({
+                        input,
+                        text: `Please enter a value less than or equal to ${maxValue}`,
+                        isTextNotice
+                    });
                     return isError;
                 }
                 if (input.inputmask) {
-                    input.dispatchEvent(new Event("input"));
-                    if (!input.inputmask.isComplete()) {
+                    const status = !input.inputmask.isComplete();
+                    if (status && value !== "") {
                         isError = true;
-                        showTextNotice(input, "Please enter full phone number");
-                        if (value === "") showTextNotice(input, "This field is required");
+                        showTextNotice({
+                            input,
+                            text: "Please enter full phone number",
+                            isTextNotice
+                        });
                         return isError;
                     }
                 }
-                if (input.required) if (isError) addError(input); else removeError(input);
-            } else if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
-                isError = true;
-                addError(input);
-                showTextNotice(input, "Your email address must be in the format of name@domain.com");
+                if (input.required || value !== "") if (isError) addError(input); else removeError(input);
             } else if (value === "") removeStatus(input); else removeError(input);
             return isError;
         }
@@ -421,10 +465,14 @@
             input.classList.remove("_validated");
             input.classList.add("_no-validated");
             input.setAttribute("aria-invalid", "true");
-            !input.wasError && input.addEventListener("input", (() => setTimeout((() => {
-                checkInput(input);
-            }), 0)));
-            input.wasError = true;
+            if (!input.wasError) {
+                input.addEventListener("input", (() => setTimeout((() => {
+                    checkInput({
+                        input
+                    });
+                }), 0)));
+                input.wasError = true;
+            }
             return true;
         }
         function removeError(input) {
@@ -441,15 +489,15 @@
         function isEmailValid(input) {
             return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(input.value);
         }
-        function showTextNotice(input, text) {
-            const isShowNotice = input.form?.hasAttribute("data-validate-notice");
+        function showTextNotice({input, text, isTextNotice = false}) {
+            const isShowNotice = isTextNotice || input.closest("[data-validate]")?.hasAttribute("data-validate-notice");
             let notice = input.parentElement.querySelector(".form__item-notice");
             if (isShowNotice) if (notice && notice.textContent !== text) notice.textContent = text; else if (!notice) {
                 notice = document.createElement("label");
                 notice.classList.add("form__item-notice");
                 notice.setAttribute("for", input.id);
                 notice.textContent = text;
-                input.parentElement.insertAdjacentElement("beforeend", notice);
+                input.insertAdjacentElement("afterend", notice);
             }
             addError(input);
         }
@@ -466,6 +514,15 @@
             checkInputs,
             checkInput
         };
+    }
+    function clickOnLabelKeyEnter() {
+        const inputs = document.querySelectorAll("[data-tabi-input]");
+        if (inputs.length) inputs.forEach((input => {
+            const label = document.querySelector(`label[data-tabi-label][for="${input.id}"]`);
+            if (label) label.addEventListener("keydown", (e => {
+                if (e.key === "Enter") input.click();
+            }));
+        }));
     }
     function showMoreHideGridElems() {
         const wrapperBlock = document.querySelectorAll("[data-showmore-wrapper]");
@@ -692,6 +749,15 @@
                 }
             }
         }));
+    }
+    function setInputmode() {
+        const items = document.querySelectorAll("[data-inputmode]");
+        if (items.length > 0) setTimeout((() => {
+            items.forEach((item => {
+                const mode = item.dataset.inputmode;
+                mode ? item.setAttribute("inputmode", mode) : null;
+            }));
+        }), 50);
     }
     function getWindow_getWindow(node) {
         if (node == null) return window;
@@ -1648,17 +1714,15 @@
     menuInit();
     showSubMenu();
     checkboxRadioChecked();
+    clickOnLabelKeyEnter();
+    setInputmode();
     function mainSectionPaddingCompensateByHeaderHeight() {
         const header = document.querySelector(".top-header");
         const main = document.querySelector(".menu__body");
         const iconMenu = document.querySelector(".icon-menu");
-        let currentHeaderHeight = header.offsetHeight;
         const updatePadding = () => {
             const newHeight = header.offsetHeight;
-            if (currentHeaderHeight !== newHeight) {
-                main.style.setProperty("--menu-top-p", newHeight / 16 + "rem");
-                currentHeaderHeight = newHeight;
-            }
+            main.style.setProperty("--menu-top-p", newHeight / 16 + "rem");
         };
         const resizeObserver = new ResizeObserver((() => {
             updatePadding();
@@ -1744,20 +1808,31 @@
                     }));
                     ratingItem.addEventListener("click", (function(e) {
                         initRatingVars(rating);
-                        if (rating.dataset.ajax) setRatingValue(ratingItem.value, rating); else {
+                        rating.dispatchEvent(new CustomEvent("rating-set", {
+                            detail: {
+                                value: ratingItem.value
+                            }
+                        }));
+                        if (rating.dataset.ajax) setRatingValue(rating, ratingItem.value); else {
                             ratingValue.innerHTML = index + 1;
                             setRatingActiveWidth();
                         }
                     }));
                 }
             }
-            async function setRatingValue(value, rating) {
+            async function setRatingValue(rating, value) {
                 if (!rating.classList.contains("rating--sending")) {
                     rating.classList.add("rating--sending");
-                    let response = await fetch("rating.json", {
-                        method: "GET"
+                    let response = await fetch("ajax/article-rating", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            userRating: value
+                        }),
+                        headers: {
+                            "content-type": "application/json"
+                        }
                     });
-                    if (response.ok) {
+                    if (response.success) {
                         const result = await response.json();
                         const newRating = result.newRating;
                         ratingValue.innerHTML = newRating;

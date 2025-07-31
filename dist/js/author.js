@@ -269,6 +269,15 @@
             subMenuItems.forEach((item => item.classList.remove("_open")));
         }
     }
+    function clickOnLabelKeyEnter() {
+        const inputs = document.querySelectorAll("[data-tabi-input]");
+        if (inputs.length) inputs.forEach((input => {
+            const label = document.querySelector(`label[data-tabi-label][for="${input.id}"]`);
+            if (label) label.addEventListener("keydown", (e => {
+                if (e.key === "Enter") input.click();
+            }));
+        }));
+    }
     function checkboxRadioChecked() {
         window.addEventListener("click", (e => {
             if (e.target.closest(".checkbox") || e.target.closest(".radio")) {
@@ -303,6 +312,15 @@
                 }
             }
         }));
+    }
+    function setInputmode() {
+        const items = document.querySelectorAll("[data-inputmode]");
+        if (items.length > 0) setTimeout((() => {
+            items.forEach((item => {
+                const mode = item.dataset.inputmode;
+                mode ? item.setAttribute("inputmode", mode) : null;
+            }));
+        }), 50);
     }
     function getWindow_getWindow(node) {
         if (node == null) return window;
@@ -1259,17 +1277,15 @@
     menuInit();
     showSubMenu();
     checkboxRadioChecked();
+    clickOnLabelKeyEnter();
+    setInputmode();
     function mainSectionPaddingCompensateByHeaderHeight() {
         const header = document.querySelector(".top-header");
         const main = document.querySelector(".menu__body");
         const iconMenu = document.querySelector(".icon-menu");
-        let currentHeaderHeight = header.offsetHeight;
         const updatePadding = () => {
             const newHeight = header.offsetHeight;
-            if (currentHeaderHeight !== newHeight) {
-                main.style.setProperty("--menu-top-p", newHeight / 16 + "rem");
-                currentHeaderHeight = newHeight;
-            }
+            main.style.setProperty("--menu-top-p", newHeight / 16 + "rem");
         };
         const resizeObserver = new ResizeObserver((() => {
             updatePadding();

@@ -5,7 +5,7 @@
 	<title>Contact us</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/contact-us.min.css?_v=20250719122401">
+	<link rel="stylesheet" href="css/contact-us.min.css?_v=20250731195753">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
@@ -20,7 +20,7 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250719122401" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250731195753" rel="stylesheet">
 </head>
 
 <body>
@@ -357,7 +357,8 @@
 					<div class="poster-section__body">
 						<h2 class="poster-section__title sub-title">We serve <br>the Whole USA</h2>
 						<div class="poster-section__text">
-							<p>Scheduling pickups and finding the right drop-off points <br>are the two major challenges for a junk removal business owner</p>
+							<p>Scheduling pickups and finding the right drop-off points <br>are the two major challenges for a
+								junk removal business owner</p>
 						</div>
 						<div class="poster-section__image">
 							<img width="171" height="110" fetchpriority="high" loading="eager" decoding="async" src="img/services-by-state/map-without-states.svg" alt="usa map">
@@ -407,6 +408,42 @@
 					</div>
 				</div>
 			</section>
+			<div id="popup-form-success-submission" role="dialog" aria-hidden="true" aria-modal="true" aria-label="The form has been submitted." class="popup">
+				<div class="popup__wrapper">
+					<div class="popup__content">
+						<a href="tel:+18555471550" class="popup__banner call-now">
+							<span class="call-now__title">Call now for Instant Offer</span>
+							<span class="call-now__phone sub-title btn-phone _icon-phone">
+								<span>855-547-1550</span>
+							</span>
+						</a>
+						<div class="popup__title title-second">Thank you!</div>
+						<p class="popup__text text text--lh">The form has been submitted. We will call you back soon.</p>
+						<div class="popup__actions">
+							<button data-close="" type="button" class="popup__btn main-black-btn main-black-btn--no-icon">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="popup-form-submiting" data-no-close-outside="" role="dialog" aria-hidden="false" aria-modal="true" aria-label="The form is being submitted…" class="popup">
+				<div class="popup__wrapper">
+					<div class="popup__content">
+						<a href="tel:+18555471550" class="popup__banner call-now">
+							<span class="call-now__title">Call now for Instant Offer</span>
+							<span class="call-now__phone sub-title btn-phone _icon-phone">
+								<span>855-547-1550</span>
+							</span>
+						</a>
+						<div class="popup__actions popup__actions--gap">
+							<p class="popup__text text text--lh">The form is being submitted…</p>
+							<div class="progress-bar">
+								<div data-progress-bar="" class="progress-bar__line"><span></span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<section class="page__write-us write-us">
 				<div class="write-us__container">
 					<div class="write-us__body">
@@ -439,13 +476,15 @@
 								</div>
 								<div class="write-us-form__bottom">
 									<div class="write-us-form__text">All fields are required to be filled out.</div>
-									<button type="submit" class="write-us-form__btn-submit gray-btn _icon-send">Send Message</button>
+									<button type="submit" class="write-us-form__btn-submit gray-btn _icon-send">Send
+										Message</button>
 								</div>
 							</form>
 						</div>
 						<div class="write-us__poster poster-write-us">
 							<h2 class="poster-write-us__title sub-title">Feel free to contact us</h2>
-							<div class="poster-write-us__text">Write us for junk cars removal inquiries. No matter what part of the country you are in!</div>
+							<div class="poster-write-us__text">Write us for junk cars removal inquiries. No matter what part of
+								the country you are in!</div>
 							<div class="poster-write-us__images">
 								<picture><source srcset="img/backgrounds/man-bg.webp, img/backgrounds/man-bg@2x.webp 2x" type="image/webp"><img width="288" height="166" class="poster-write-us__img-man" loading="lazy" decoding="async" src="img/backgrounds/man-bg.png" srcset="img/backgrounds/man-bg@2x.png 2x" alt="man in work uniform"></picture>
 								<picture><source srcset="img/backgrounds/tow-truck.webp, img/backgrounds/tow-truck@2x.webp 2x" type="image/webp"><img width="288" height="166" class="poster-write-us__img-truck" loading="lazy" decoding="async" src="img/backgrounds/tow-truck.png" srcset="img/backgrounds/tow-truck@2x.png 2x" alt="tow truck"></picture>
@@ -454,6 +493,101 @@
 					</div>
 				</div>
 			</section>
+			<script>
+				// On SuccesFormValidate
+				function onSuccesFormValidate() {
+					const contactUsForm = document.querySelector('[data-contact-us-form]');
+					if (!contactUsForm) return
+					contactUsForm.addEventListener('form-validation-success', (e) => {
+						const formData = new FormData(contactUsForm);
+						const submitButton = contactUsForm.querySelector('[type="submit"]');
+						submitButton.classList.add('_disabled');
+						window.popupSimple.open('#popup-form-submiting');
+						makeRequest(contactUsForm, formData);
+					})
+				}
+				onSuccesFormValidate()
+
+				function makeRequest(form, data) {
+					const xhr = new XMLHttpRequest();
+
+					const submitButton = form.querySelector('[type="submit"]');
+					const progressBar = document.querySelector('[data-progress-bar]');
+					const thanksModal = document.getElementById('popup-form-success-submission');
+					const loadingModal = document.getElementById('popup-form-submiting');
+
+					xhr.upload.addEventListener('progress', (event) => {
+						if (event.lengthComputable) {
+							progressBar.style.width = Math.round((event.loaded / event.total) * 100) + '%'
+						}
+					}, false);
+
+					xhr.onerror = function(response) {
+						console.error('Request failed:', response);
+						window.popupSimple.showAlert({
+							title: 'Error!',
+							text: `An error occurred while submitting the form. Try again later`,
+							typeIcon: 'error',
+						});
+						submitButton.classList.remove('_disabled');
+					};
+
+					xhr.onreadystatechange = function() {
+						if (this.readyState !== 4) return;
+
+						window.popupSimple.close(null, loadingModal, 0);
+						window.popupSimple.close(null, thanksModal, 0);
+
+						if (this.status >= 200 && this.status < 300) {
+							try {
+								const jsonResponse = JSON.parse(this.responseText);
+
+								if (Array.isArray(jsonResponse) && jsonResponse[0] === 'OK') {
+									// If Succes
+									form.reset();
+									window.popupSimple.open(null, thanksModal);
+									window.uetq = window.uetq || [];
+									window.uetq.push('event', 'submit_lead_form', {});
+								} else {
+									window.popupSimple.showAlert({
+										title: 'Warning!',
+										text: 'The size of the photo should not exceed 4 MB',
+										typeIcon: 'warn',
+									});
+								}
+							} catch (err) {
+								window.popupSimple.showAlert({
+									title: 'Error!',
+									text: 'Unexpected response format',
+									typeIcon: 'error',
+								});
+							}
+						} else {
+							let errorText = 'Something went wrong. Please try again.';
+
+							if (this.status === 400) {
+								errorText = 'Bad Request. Please check the form.';
+							} else if (this.status === 413) {
+								errorText = 'The uploaded file is too large.';
+							} else if (this.status === 500) {
+								errorText = 'Server error. Try again later.';
+							}
+
+							window.popupSimple.showAlert({
+								title: 'Error!',
+								text: errorText,
+								typeIcon: 'error',
+							});
+						}
+
+						submitButton.classList.remove('_disabled');
+					};
+
+					xhr.open('POST', '/ajax/contact-us');
+					xhr.send(data);
+
+				}
+			</script>
 		</main>
 		<footer class="footer">
 			<div class="footer__container">
@@ -593,43 +727,8 @@
 			</div>
 		</footer>
 	</div>
-	<div id="popup-form-success-submission" role="dialog" aria-hidden="true" aria-modal="true" aria-label="The form has been submitted." class="popup">
-		<div class="popup__wrapper">
-			<div class="popup__content">
-				<a href="tel:+18555471550" class="popup__banner call-now">
-					<span class="call-now__title">Call now for Instant Offer</span>
-					<span class="call-now__phone sub-title btn-phone _icon-phone">
-						<span>855-547-1550</span>
-					</span>
-				</a>
-				<div class="popup__title title-second">Thank you!</div>
-				<p class="popup__text text text--lh">The form has been submitted. We will call you back soon.</p>
-				<div class="popup__actions">
-					<button data-close="" type="button" class="popup__btn main-black-btn main-black-btn--no-icon">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<div id="popup-form-submiting" data-no-close-outside="" role="dialog" aria-hidden="false" aria-modal="true" aria-label="The form is being submitted…" class="popup">
-		<div class="popup__wrapper">
-			<div class="popup__content">
-				<a href="tel:+18555471550" class="popup__banner call-now">
-					<span class="call-now__title">Call now for Instant Offer</span>
-					<span class="call-now__phone sub-title btn-phone _icon-phone">
-						<span>855-547-1550</span>
-					</span>
-				</a>
-				<div class="popup__actions popup__actions--gap">
-					<p class="popup__text text text--lh">The form is being submitted…</p>
-					<div class="progress-bar">
-						<div data-progress-bar="" class="progress-bar__line"><span></span></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script async src="js/contact-us.min.js?_v=20250719122401"></script>
+	<script async src="js/contact-us.min.js?_v=20250731195753"></script>
 </body>
 
 </html>

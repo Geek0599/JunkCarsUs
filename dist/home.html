@@ -5,7 +5,7 @@
 	<title>Homepage</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/homepage.min.css?_v=20250719122401">
+	<link rel="stylesheet" href="css/homepage.min.css?_v=20250731195753">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
@@ -20,7 +20,7 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250719122401" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250731195753" rel="stylesheet">
 </head>
 
 <body>
@@ -348,7 +348,11 @@
 						<a href="#" class="content-main-section__btn main-black-btn">Instant offer</a>
 					</div>
 					<div class="main-section__image homepage-bg-img">
-						<picture><source srcset="img/backgrounds/tow-truck.webp, img/backgrounds/tow-truck@2x.webp 2x" type="image/webp"><img width="288" height="166" fetchpriority="high" loading="eager" decoding="async" src="img/backgrounds/tow-truck.png" srcset="img/backgrounds/tow-truck@2x.png 2x" alt="tow truck"></picture>
+						<picture>
+							<source srcset="img/backgrounds/tow-truck-mobile.webp 1x, img/backgrounds/tow-truck-mobile@2x.webp 2x" type="image/webp" media="(max-width: 479.98px)">
+							<source srcset="img/backgrounds/tow-truck.webp 1x, img/backgrounds/tow-truck@2x.webp 2x" type="image/webp" media="(min-width: 479.98px)">
+							<img width="288" height="166" fetchpriority="high" loading="eager" decoding="async" src="img/backgrounds/tow-truck.png" srcset="img/backgrounds/tow-truck@2x.png 2x" alt="tow truck">
+						</picture>
 					</div>
 				</div>
 			</section>
@@ -1872,7 +1876,7 @@
 			</div>
 		</footer>
 	</div>
-	<script async src="js/homepage.min.js?_v=20250719122401"></script>
+	<script async src="js/homepage.min.js?_v=20250731195753"></script>
 </body>
 
 </html>
