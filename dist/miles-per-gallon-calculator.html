@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-	<title>Blog</title>
+	<title>MPG Calculator</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/blog.min.css?_v=20250804162000">
+	<link rel="stylesheet" href="css/miles-per-gallon-calculator.min.css?_v=20250804162000">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
@@ -24,7 +24,7 @@
 </head>
 
 <body>
-	<div class="wrapper wrapper--no-overflow">
+	<div class="wrapper">
 		<header class="header">
 			<div class="header__wrapper">
 				<div class="header__top top-header">
@@ -337,113 +337,78 @@
 			</div>
 		</header>
 		<main class="page">
-			<section class="main-section">
+			<section class="main-section main-section--mb">
 				<nav class="main-section__breadcrumbs breadcrumbs">
 					<div class="breadcrumbs__container">
 						<ul class="breadcrumbs__list">
 							<li class="breadcrumbs__item"><a href="#" class="breadcrumbs__link _icon-home"><span>Home</span></a></li>
-							<li class="breadcrumbs__item"><span class="breadcrumbs__link breadcrumbs__link--current">Blog</span></li>
+							<li class="breadcrumbs__item"><span class="breadcrumbs__link breadcrumbs__link--current">MPG Calculator</span></li>
 						</ul>
 					</div>
 				</nav>
 				<div class="main-section__container">
-					<div class="main-section__content main-section__indent">
-						<h1 class="title">Blog</h1>
+					<div class="main-section__content main-content">
+						<h1 class="main-content__title title">Miles per gallon calculator</h1>
+						<div class="main-content__text text-large">Estimate your car’s real miles per gallon (MPG) in few clicks</div>
 					</div>
 				</div>
 			</section>
-			<div class="page__blog-section blog-section">
-				<div class="blog-section__container">
-					<div class="blog-section__body">
-						<aside class="blog-section__aside aside-blog">
-							<div data-sticky-item class="aside-blog__wrapper">
-								<div class="aside-blog__banner banner-aside-blog">
-									<div class="banner-aside-blog__title title-second">Find out what your Junk car is worth in seconds. Fil out information below:</div>
-									<a href="#" class="banner-aside-blog__btn main-black-btn">Instant offer</a>
-									<div class="banner-aside-blog__image-ibg banner-aside-blog__image-ibg--contain">
-										<picture><source srcset="img/backgrounds/tow-truck.webp, img/backgrounds/tow-truck@2x.webp 2x" type="image/webp"><img width="288" height="166" fetchpriority="high" loading="eager" decoding="async" src="img/backgrounds/tow-truck.png" srcset="img/backgrounds/tow-truck@2x.png 2x" alt="tow truck"></picture>
+
+			<section class="page__mpg mpg">
+				<div class="mpg__container">
+					<div class="mpg__body">
+						<form data-validate action="#" class="mpg__form">
+							<h2 class="mpg__title title-second">Fill the tank, check the miles. Next time check the fuel used and mileage difference since last fill-up</h2>
+							<div class="mpg__form-items">
+								<div class="mpg__form-item form__item">
+									<label class="form__label" for="distance-in-miles">Distance in miles</label>
+									<div class="form__input-body">
+										<input required data-inputmode="numeric" data-number-format type="number" name="distance-in-miles" id="distance-in-miles" placeholder="Distance in miles" class="form__input">
 									</div>
 								</div>
-								<nav class="aside-blog__category category-articles">
-									<div class="category-articles__title title-second">Category of articles</div>
-									<ul class="category-articles__items">
-										<li class="category-articles__item">
-											<a href="#" class="category-articles__link link-arrow">Donate Junk Car to Charity</a>
-										</li>
-										<li class="category-articles__item">
-											<a href="#" class="category-articles__link link-arrow">Junk Car Tips</a>
-										</li>
-										<li class="category-articles__item">
-											<a href="#" class="category-articles__link link-arrow">Transfer a Car Title</a>
-										</li>
-									</ul>
-								</nav>
+								<div class="mpg__form-item form__item">
+									<label class="form__label" for="liters-of-fuel-used">Liters of fuel used</label>
+									<div class="form__input-body">
+										<input required data-inputmode="numeric" data-number-format type="number" name="liters-of-fuel-used" id="liters-of-fuel-used" placeholder="Liters of fuel used" class="form__input">
+									</div>
+								</div>
+								<div class="mpg__form-item form__item">
+									<label class="form__label" for="cost-per-gallon">Cost per US gallon</label>
+									<div class="form__input-body">
+										<span data-symbol-prefix class="form__prefix-symbol">$</span>
+										<input required data-input-prefix data-inputmode="numeric" data-number-format type="number" name="cost-per-gallon" id="cost-per-gallon" placeholder="Cost per US gallon" class="form__input">
+									</div>
+								</div>
 							</div>
-						</aside>
-						<div class="blog-section__content blog-articles">
-							<ul class="blog-articles__items">
-								<li class="blog-articles__item">
-									<a href="#" class="articles-card">
-										<div class="articles-card__image-ibg"><picture><source srcset="img/articles-example/01.webp" type="image/webp"><img width="378" height="226" loading="lazy" decoding="async" src="img/articles-example/01.jpg" alt="Article 01"></picture></div>
-										<div class="articles-card__body">
-											<div class="articles-card__title">Signs and Causes of a Blown Engine and Costs of Repai</div>
-											<div class="articles-card__text text">The phrase "blown engine" can refer to several things that can happen to a vehicle. If you’re a car owner, hearing this phrase should send a few shivers down your spine, knowing that you’re in for a hefty repair bill.</div>
-											<time class="articles-card__date card-date" datetime="2024-09-26">September 26,<br> 2023</time>
-										</div>
-									</a>
-								</li>
-								<li class="blog-articles__item">
-									<a href="#" class="articles-card">
-										<div class="articles-card__image-ibg"><picture><source srcset="img/articles-example/02.webp" type="image/webp"><img width="378" height="226" loading="lazy" decoding="async" src="img/articles-example/02.jpg" alt="Article 02"></picture></div>
-										<div class="articles-card__body">
-											<div class="articles-card__title">What Might Cause Rattling Noise While Accelerating and How to Fix It</div>
-											<div class="articles-card__text text">The phrase "blown engine" can refer to several things that can happen to a vehicle. If you’re a car owner, hearing this phrase should send a few shivers down your spine, knowing that you’re in for a hefty repair bill.</div>
-											<time class="articles-card__date card-date" datetime="2024-09-26">Updated:<br> September 26</time>
-										</div>
-									</a>
-								</li>
-								<li class="blog-articles__item">
-									<a href="#" class="articles-card">
-										<div class="articles-card__image-ibg"><picture><source srcset="img/articles-example/03.webp" type="image/webp"><img width="378" height="226" loading="lazy" decoding="async" src="img/articles-example/03.jpg" alt="Article 03"></picture></div>
-										<div class="articles-card__body">
-											<div class="articles-card__title">3 Ways How to Legally Get Rid of a Junk Car With a Lien</div>
-											<div class="articles-card__text text">If you have a lien on your car, it will be difficult (if not impossible) for you to sell without first getting the lien off the title. Read on how you can do that and what to do next now that you have a clean title for your junk car.</div>
-											<time class="articles-card__date card-date" datetime="2024-09-26">September 26,<br> 2023</time>
-										</div>
-									</a>
-								</li>
-								<li class="blog-articles__item">
-									<a href="#" class="articles-card">
-										<div class="articles-card__image-ibg"><picture><source srcset="img/articles-example/01.webp" type="image/webp"><img width="378" height="226" loading="lazy" decoding="async" src="img/articles-example/01.jpg" alt="Article 01"></picture></div>
-										<div class="articles-card__body">
-											<div class="articles-card__title">Signs and Causes of a Blown Engine and Costs of Repair</div>
-											<div class="articles-card__text text">The phrase "blown engine" can refer to several things that can happen to a vehicle. If you’re a car owner, hearing this phrase should send a few shivers down your spine, knowing that you’re in for a hefty repair bill.</div>
-											<time class="articles-card__date card-date" datetime="2024-09-26">September 26,<br> 2023</time>
-										</div>
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div class="blog-section__pagination">
-							<div class="pagination">
-								<!-- <a href="" disabled="" class="pagination__arrow pagination__arrow_left"></a> -->
-								<ul class="pagination__list">
-									<li class="pagination__item">
-										<div class="pagination__link active">1</div>
-									</li>
-									<li class="pagination__item">
-										<a href="#" class="pagination__link">2</a>
-									</li>
-									<li class="pagination__item">
-										<a href="#" class="pagination__link">3</a>
-									</li>
-								</ul>
-								<a href="#" title="Next page" class="pagination__arrow pagination__arrow_right gray-btn _icon-arrow-right">Next</a>
+							<div class="mpg__buttons">
+								<button type="submit" class="mpg__btn main-yellow-btn">CALCULATE</button>
+								<button type="reset" class="mpg__btn main-black-btn main-yellow-btn--no-icon">CLEAR</button>
+							</div>
+						</form>
+						<div class="mpg__results mpg-results">
+							<div class="mpg-results__items">
+								<div class="mpg-results__text text-title">Miles per US Gallon (MPG)</div>
+								<div class="mpg-results__value text-title">0</div>
+								<div class="mpg-results__text text-title">Km per Liter (KPL)</div>
+								<div class="mpg-results__value text-title">0</div>
+								<div class="mpg-results__text text-title">Liter per 100km</div>
+								<div class="mpg-results__value text-title">0</div>
+								<div class="mpg-results__text text-title">Km per US Gallon (KPG) </div>
+								<div class="mpg-results__value text-title">0</div>
+								<div class="mpg-results__text text-title">Miles per Liter (MPL)</div>
+								<div class="mpg-results__value text-title">0</div>
+								<div class="mpg-results__text text-title">Trip price</div>
+								<div class="mpg-results__value text-title">$0</div>
 							</div>
 						</div>
 					</div>
+					<div class="mpg__text text">
+						Does your car consume too much fuel? Calculate fuel savings by switching to an electriс vehicle using our <a href="#">EV vs. Gas cost savings calculator</a>
+						If you decide to sell your old car — whether it's wrecked, doesn’t have title or has issues, you can sell it to a junk car buyer in one day. No paperwork. Free towing.
+					</div>
 				</div>
-			</div>
+			</section>
+
 		</main>
 		<footer class="footer">
 			<div class="footer__container">
@@ -583,7 +548,8 @@
 			</div>
 		</footer>
 	</div>
-	<script async src="js/blog.min.js?_v=20250804162000"></script>
+
+	<script async src="js/miles-per-gallon-calculator.min.js?_v=20250804162000"></script>
 </body>
 
 </html>
