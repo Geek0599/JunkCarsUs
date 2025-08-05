@@ -5461,6 +5461,10 @@ html.with-fancybox body.hide-scrollbar {
     position: sticky;
     top: 8.3125rem;
   }
+
+  .mpg__btn {
+    min-width: 30.2457466919%;
+  }
 }
 
 @media (min-width: 77em) {
@@ -6369,7 +6373,7 @@ html.with-fancybox body.hide-scrollbar {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
   .mpg__btn {

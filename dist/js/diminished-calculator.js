@@ -492,14 +492,30 @@
                     });
                     return isError;
                 }
-                if (input.hasAttribute("data-number-format")) if (!/^\d+$/.test(value)) {
-                    isError = true;
-                    showTextNotice({
-                        input,
-                        text: "Only numbers are allowed",
-                        isTextNotice
-                    });
-                    return isError;
+                if (input.hasAttribute("data-number-format")) {
+                    const isValidDecimal = /^(\d+([.,]\d+)?)?$/.test(value);
+                    if (!isValidDecimal) {
+                        isError = true;
+                        showTextNotice({
+                            input,
+                            text: "Only numbers are allowed",
+                            isTextNotice
+                        });
+                        return isError;
+                    }
+                }
+                if (input.hasAttribute("data-number-float-format")) {
+                    const value = input.value;
+                    const isValidDecimal = /^\d*([.,]\d*)?$/.test(value);
+                    if (!isValidDecimal) {
+                        isError = true;
+                        showTextNotice({
+                            input,
+                            text: "Only numbers, a single dot or comma are allowed",
+                            isTextNotice
+                        });
+                        return isError;
+                    }
                 }
                 if (input.hasAttribute("data-text-format")) if (!/^[a-zA-Z\s]+$/.test(value)) {
                     isError = true;
@@ -585,6 +601,17 @@
                 if (input.value.length > maxLength) input.value = input.value.slice(0, maxLength);
             }
             if (input.hasAttribute("data-number-format")) input.value = input.value.replace(/\D/g, "");
+            if (input.hasAttribute("data-number-float-format")) {
+                input.type = "text";
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                let value = input.value;
+                value = value.replace(/[^0-9.,]/g, "");
+                const parts = value.split(/[.,]/);
+                if (parts.length > 2) value = parts[0] + (value.includes(".") ? "." : ",") + parts[1];
+                input.value = value;
+                input.setSelectionRange(start, end);
+            }
         }
         function addError(input) {
             input.classList.remove("_validated");
@@ -9033,19 +9060,20 @@
         const resultElem = document.querySelector("[data-result]");
         const currencySymbol = resultElem.getAttribute("data-result");
         const mileage = document.getElementById("mileage");
-        const preAccidentInput = document.getElementById("pre-accident-value");
         const damageInput = document.getElementById("damage");
+        const preAccidentInput = document.getElementById("pre-accident-value");
         const resultElemValue = resultElem.textContent;
-        const percentOfAmount = 10;
         if (preAccidentInput && damageInput && mileage && resultElem) [ preAccidentInput, damageInput, mileage ].forEach((input => {
             input.addEventListener("input", (e => {
-                const preAccidentValue = preAccidentInput.value;
-                const damageValue = damageInput.value;
-                const mileageValue = mileage.value;
-                if (preAccidentValue && damageValue && mileageValue) {
-                    const deductedEstimatedValue = preAccidentValue / 100 * percentOfAmount;
-                    const calcResultValue = preAccidentValue - deductedEstimatedValue * damageValue;
-                    resultElem.textContent = currencySymbol ? `${currencySymbol} ${calcResultValue}` : calcResultValue;
+                const preAccidentValue = parseFloat(preAccidentInput.value);
+                const damageValue = parseFloat(damageInput.value);
+                const mileageValue = parseFloat(mileage.value);
+                if (preAccidentValue && (damageValue || damageValue === 0 && damageValue !== "") && mileageValue) {
+                    const baseLoss = preAccidentValue * .1;
+                    let mileageMultiplier = 0;
+                    if (mileageValue < 2e4) mileageMultiplier = 1; else if (mileageValue <= 29999) mileageMultiplier = .8; else if (mileageValue <= 59999) mileageMultiplier = .6; else if (mileageValue <= 79999) mileageMultiplier = .4; else if (mileageValue <= 99999) mileageMultiplier = .2; else mileageMultiplier = 0;
+                    const diminishedCalcedValue = preAccidentValue - baseLoss * damageValue * mileageMultiplier;
+                    resultElem.textContent = currencySymbol ? `${currencySymbol} ${diminishedCalcedValue}` : diminishedCalcedValue;
                 } else resultElem.textContent !== resultElemValue ? resultElem.textContent = resultElemValue : null;
             }));
         }));

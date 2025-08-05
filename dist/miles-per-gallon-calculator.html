@@ -5,7 +5,7 @@
 	<title>MPG Calculator</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/miles-per-gallon-calculator.min.css?_v=20250804162000">
+	<link rel="stylesheet" href="css/miles-per-gallon-calculator.min.css?_v=20250805113325">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
@@ -20,7 +20,7 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250804162000" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250805113325" rel="stylesheet">
 </head>
 
 <body>
@@ -337,19 +337,21 @@
 			</div>
 		</header>
 		<main class="page">
-			<section class="main-section main-section--mb">
+			<section class="main-section">
 				<nav class="main-section__breadcrumbs breadcrumbs">
 					<div class="breadcrumbs__container">
 						<ul class="breadcrumbs__list">
 							<li class="breadcrumbs__item"><a href="#" class="breadcrumbs__link _icon-home"><span>Home</span></a></li>
-							<li class="breadcrumbs__item"><span class="breadcrumbs__link breadcrumbs__link--current">MPG Calculator</span></li>
+							<li class="breadcrumbs__item"><span class="breadcrumbs__link breadcrumbs__link--current">MPG
+									Calculator</span></li>
 						</ul>
 					</div>
 				</nav>
 				<div class="main-section__container">
 					<div class="main-section__content main-content">
 						<h1 class="main-content__title title">Miles per gallon calculator</h1>
-						<div class="main-content__text text-large">Estimate your car’s real miles per gallon (MPG) in few clicks</div>
+						<div class="main-content__text text-large">Estimate your car’s real miles per gallon (MPG) in few
+							clicks</div>
 					</div>
 				</div>
 			</section>
@@ -357,26 +359,27 @@
 			<section class="page__mpg mpg">
 				<div class="mpg__container">
 					<div class="mpg__body">
-						<form data-validate action="#" class="mpg__form">
-							<h2 class="mpg__title title-second">Fill the tank, check the miles. Next time check the fuel used and mileage difference since last fill-up</h2>
+						<form data-mpg-calculator data-validate action="#" class="mpg__form">
+							<h2 class="mpg__title title-second">Fill the tank, check the miles. Next time check the fuel used
+								and mileage difference since last fill-up</h2>
 							<div class="mpg__form-items">
 								<div class="mpg__form-item form__item">
 									<label class="form__label" for="distance-in-miles">Distance in miles</label>
 									<div class="form__input-body">
-										<input required data-inputmode="numeric" data-number-format type="number" name="distance-in-miles" id="distance-in-miles" placeholder="Distance in miles" class="form__input">
+										<input required data-inputmode="decimal" data-number-float-format type="text" name="distance-in-miles" id="distance-in-miles" placeholder="Distance in miles" class="form__input">
 									</div>
 								</div>
 								<div class="mpg__form-item form__item">
 									<label class="form__label" for="liters-of-fuel-used">Liters of fuel used</label>
 									<div class="form__input-body">
-										<input required data-inputmode="numeric" data-number-format type="number" name="liters-of-fuel-used" id="liters-of-fuel-used" placeholder="Liters of fuel used" class="form__input">
+										<input required data-inputmode="decimal" data-number-float-format type="text" name="liters-of-fuel-used" id="liters-of-fuel-used" placeholder="Liters of fuel used" class="form__input">
 									</div>
 								</div>
 								<div class="mpg__form-item form__item">
 									<label class="form__label" for="cost-per-gallon">Cost per US gallon</label>
 									<div class="form__input-body">
 										<span data-symbol-prefix class="form__prefix-symbol">$</span>
-										<input required data-input-prefix data-inputmode="numeric" data-number-format type="number" name="cost-per-gallon" id="cost-per-gallon" placeholder="Cost per US gallon" class="form__input">
+										<input required data-inputmode="decimal" data-input-prefix data-number-float-format type="text" name="cost-per-gallon" id="cost-per-gallon" placeholder="Cost per US gallon" class="form__input">
 									</div>
 								</div>
 							</div>
@@ -385,30 +388,113 @@
 								<button type="reset" class="mpg__btn main-black-btn main-yellow-btn--no-icon">CLEAR</button>
 							</div>
 						</form>
-						<div class="mpg__results mpg-results">
+						<div data-results class="mpg__results mpg-results">
 							<div class="mpg-results__items">
 								<div class="mpg-results__text text-title">Miles per US Gallon (MPG)</div>
-								<div class="mpg-results__value text-title">0</div>
+								<div data-result="mpg" class="mpg-results__value text-title">0</div>
 								<div class="mpg-results__text text-title">Km per Liter (KPL)</div>
-								<div class="mpg-results__value text-title">0</div>
+								<div data-result="kpl" class="mpg-results__value text-title">0</div>
 								<div class="mpg-results__text text-title">Liter per 100km</div>
-								<div class="mpg-results__value text-title">0</div>
+								<div data-result="lp100" class="mpg-results__value text-title">0</div>
 								<div class="mpg-results__text text-title">Km per US Gallon (KPG) </div>
-								<div class="mpg-results__value text-title">0</div>
+								<div data-result="kpg" class="mpg-results__value text-title">0</div>
 								<div class="mpg-results__text text-title">Miles per Liter (MPL)</div>
-								<div class="mpg-results__value text-title">0</div>
+								<div data-result="mpl" class="mpg-results__value text-title">0</div>
 								<div class="mpg-results__text text-title">Trip price</div>
-								<div class="mpg-results__value text-title">$0</div>
+								<div data-result="trip-price" class="mpg-results__value text-title">$0</div>
 							</div>
 						</div>
 					</div>
 					<div class="mpg__text text">
-						Does your car consume too much fuel? Calculate fuel savings by switching to an electriс vehicle using our <a href="#">EV vs. Gas cost savings calculator</a>
-						If you decide to sell your old car — whether it's wrecked, doesn’t have title or has issues, you can sell it to a junk car buyer in one day. No paperwork. Free towing.
+						Does your car consume too much fuel? Calculate fuel savings by switching to an electriс vehicle using
+						our <a href="#">EV vs. Gas cost savings calculator</a>
+						If you decide to sell your old car — whether it's wrecked, doesn’t have title or has issues, you can
+						sell it to a junk car buyer in one day. No paperwork. Free towing.
 					</div>
 				</div>
 			</section>
 
+			<script>
+				const mpgCalc = document.querySelector('[data-mpg-calculator]');
+				if (mpgCalc) {
+
+					const resultBlock = document.querySelector('[data-results]');
+
+					const getInputValue = (name) => {
+						const input = document.querySelector(`input[name="${name}"]`);
+						if (!input) return 0;
+						const value = input.value.replace(',', '.');
+						return parseFloat(value) || 0;
+					};
+
+					const setResult = (resultName, value) => {
+						const element = document.querySelector(`[data-result="${resultName}"]`);
+						if (element) {
+							element.innerHTML = value;
+						}
+					};
+
+					mpgCalc.addEventListener('form-validation-success', function(e) {
+
+						const milesDistance = getInputValue('distance-in-miles');
+						const liters = getInputValue('liters-of-fuel-used');
+						const costPerGallon = getInputValue('cost-per-gallon');
+
+						const OneGallonInLitters = 3.78541;
+						const OneMileInKM = 1.60934;
+
+						const gallons = liters / OneGallonInLitters; // Gallons used
+						const km = milesDistance * OneMileInKM; // Distance in km
+
+						const toFixedNum = 3
+
+						// 1. MPG (miles per gallon)
+						const mpg = milesDistance / gallons;
+						setResult('mpg', mpg.toFixed(toFixedNum));
+
+						// 2. KPL (kilometers per liter)
+						const kpl = km / liters;
+						setResult('kpl', kpl.toFixed(toFixedNum));
+
+						// 3. L/100km
+						const lp100 = (liters / km) * 100;
+						setResult('lp100', lp100.toFixed(toFixedNum));
+
+						// 4. KPG (kilometers per gallon)
+						const kpg = km / gallons;
+						setResult('kpg', kpg.toFixed(toFixedNum));
+
+						// 5. MPL (miles per liter)
+						const mpl = milesDistance / liters;
+						setResult('mpl', mpl.toFixed(toFixedNum));
+
+						// 6. Trip price
+						const tripPrice = gallons * costPerGallon
+						setResult('trip-price', "$" + tripPrice.toFixed(toFixedNum));
+
+						if (window.innerWidth <= 490) {
+							const header = document.querySelector('.header__wrapper');
+							const headerHeight = header.offsetHeight;
+							const blockTop = resultBlock.getBoundingClientRect().top + window.scrollY;
+							const scrollTo = blockTop - headerHeight - 20;
+							window.scrollTo({
+								top: scrollTo,
+								behavior: 'smooth'
+							});
+						}
+
+					})
+
+					mpgCalc.addEventListener('reset', function(e) {
+						setResult('mpl', 0);
+						setResult('kpl', 0);
+						setResult('mpg', 0);
+						setResult('lp100', 0);
+						setResult('kpg', 0);
+						setResult('trip-price', "$" + 0);
+					})
+				}
+			</script>
 		</main>
 		<footer class="footer">
 			<div class="footer__container">
@@ -549,7 +635,7 @@
 		</footer>
 	</div>
 
-	<script async src="js/miles-per-gallon-calculator.min.js?_v=20250804162000"></script>
+	<script async src="js/miles-per-gallon-calculator.min.js?_v=20250805113325"></script>
 </body>
 
 </html>
