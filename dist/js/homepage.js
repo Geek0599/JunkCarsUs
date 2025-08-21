@@ -666,7 +666,13 @@
                     removeTextNotice({
                         input
                     });
-                }
+                } else input.forEach((elInput => {
+                    elInput.classList.remove("_no-validated", "_validated");
+                    elInput.removeAttribute("aria-invalid");
+                    removeTextNotice({
+                        input: elInput
+                    });
+                }));
             }
             function isEmailValid(input) {
                 return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(input.value);
@@ -693,7 +699,7 @@
             }
             function scrollToInput({input}) {
                 const inputWithError = Array.isArray(input) ? input[0] : input;
-                const errorNotice = input.parentElement.querySelector(".form__item-notice");
+                const errorNotice = inputWithError.parentElement.querySelector(".form__item-notice");
                 (errorNotice && inputWithError.offsetWidth === 0 ? errorNotice : inputWithError).scrollIntoView({
                     behavior: "smooth",
                     block: "center"
