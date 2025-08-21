@@ -5,7 +5,7 @@
 	<title>Instant Offer</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/offer.min.css?_v=20250805113325">
+	<link rel="stylesheet" href="css/offer.min.css?_v=20250821212312">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
@@ -20,7 +20,7 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250805113325" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250821212312" rel="stylesheet">
 </head>
 
 <body>
@@ -373,17 +373,40 @@
 										<div class="form__item form-part-offer__item">
 											<label class="form__label" for="year">Car Year *</label>
 											<select required id="year" name="year" class="form__select">
-												<option selected value="">Select</option>
-												<option value="Option #1">2024</option>
-												<option value="Option #2">2023</option>
-												<option value="Option #3">2022</option>
-												<option value="Option #3">2021</option>
+												<option selected value="">Select year</option>
+												<option value="2025">2025</option>
+												<option value="2024">2024</option>
+												<option value="2023">2023</option>
+												<option value="2022">2022</option>
+												<option value="2021">2021</option>
+												<option value="2020">2020</option>
+												<option value="2019">2019</option>
+												<option value="2018">2018</option>
+												<option value="2017">2017</option>
+												<option value="2016">2016</option>
+												<option value="2015">2015</option>
+												<option value="2014">2014</option>
+												<option value="2013">2013</option>
+												<option value="2012">2012</option>
+												<option value="2011">2011</option>
+												<option value="2010">2010</option>
+												<option value="2009">2009</option>
+												<option value="2008">2008</option>
+												<option value="2007">2007</option>
+												<option value="2006">2006</option>
+												<option value="2005">2005</option>
+												<option value="2004">2004</option>
+												<option value="2003">2003</option>
+												<option value="2002">2002</option>
+												<option value="2001">2001</option>
+												<option value="2000">2000</option>
+												<option value="1999">1999</option>
 											</select>
 										</div>
 										<div class="form__item form-part-offer__item">
 											<label class="form__label" for="make">Car Make *</label>
 											<select required id="make" name="make" class="form__select">
-												<option selected value="">Select</option>
+												<option selected value="">Select make</option>
 												<option value="Option #1">Option #1</option>
 												<option value="Option #2">Option #2</option>
 												<option value="Option #3">Option #3</option>
@@ -392,7 +415,16 @@
 										<div class="form__item form-part-offer__item">
 											<label class="form__label" for="model">Car Model *</label>
 											<select required id="model" name="model" class="form__select">
-												<option selected value="">Select</option>
+												<option selected value="">Select model</option>
+												<option value="Option #1">Option #1</option>
+												<option value="Option #2">Option #2</option>
+												<option value="Option #3">Option #3</option>
+											</select>
+										</div>
+										<div class="form__item form-part-offer__item hidden">
+											<label class="form__label" for="trim">Car Trim *</label>
+											<select required data-skip-validation id="trim" name="trim" class="form__select">
+												<option selected value="">Select trim</option>
 												<option value="Option #1">Option #1</option>
 												<option value="Option #2">Option #2</option>
 												<option value="Option #3">Option #3</option>
@@ -412,6 +444,10 @@
 										<div class="form__item form-part-offer__item form-part-offer__item--phone">
 											<label class="form__label" for="user-phone">Phone nubmer *</label>
 											<input required data-phone-mask data-inputmode="numeric" autocomplete="tel" name="user_phone" id="user-phone" class="form__input" type="text">
+										</div>
+										<div class="form__item form-part-offer__item">
+											<label class="form__label" for="user-email">Email *</label>
+											<input required class="form__input" type="email" id="user-email" name="user_email" placeholder="mail@example.com">
 										</div>
 										<div class="form__item form-part-offer__item form-part-offer__item--zipcode">
 											<label class="form__label" for="user-zip-code">Zip Code *</label>
@@ -1600,7 +1636,7 @@
 		}
 	</script>
 
-	<script async src="js/offer.min.js?_v=20250805113325"></script>
+	<script async src="js/offer.min.js?_v=20250821212312"></script>
 </body>
 
 </html>

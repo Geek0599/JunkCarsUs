@@ -5,7 +5,7 @@
 	<title>Diesel vs. Gas vs. Electric Car Cost Calculator</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/ev-calculator.min.css?_v=20250805113325">
+	<link rel="stylesheet" href="css/ev-calculator.min.css?_v=20250821212312">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
@@ -20,7 +20,7 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250805113325" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250821212312" rel="stylesheet">
 </head>
 
 <body>
@@ -343,14 +343,16 @@
 						<div class="breadcrumbs__container">
 							<ul class="breadcrumbs__list">
 								<li class="breadcrumbs__item"><a href="#" class="breadcrumbs__link _icon-home"><span>Home</span></a></li>
-								<li class="breadcrumbs__item"><span class="breadcrumbs__link breadcrumbs__link--current">EV Calculator</span></li>
+								<li class="breadcrumbs__item"><span class="breadcrumbs__link breadcrumbs__link--current">EV
+										Calculator</span></li>
 							</ul>
 						</div>
 					</nav>
 					<div class="main-section__container">
 						<div class="main-section__content main-content">
 							<h1 class="main-content__title title">Diesel vs. Gas vs. Electric Car Cost Calculator</h1>
-							<div class="main-content__text text-large">Calculate gas vs. electric car expenses: how much can you save buying an electric car?</div>
+							<div class="main-content__text text-large">Calculate gas vs. electric car expenses: how much can
+								you save buying an electric car?</div>
 						</div>
 					</div>
 				</section>
@@ -421,45 +423,47 @@
 											<label class="form__label" for="miles-per-weekdays">Miles per weekdays *</label>
 											<div class="form__input-body">
 												<span data-symbol-prefix class="form__prefix-symbol">~</span>
-												<input data-input-prefix inputmode="numeric" type="number" name="miles_per_weekdays" id="miles-per-weekdays" required placeholder="~ Miles per weekdays" class="form__input">
+												<input data-input-prefix data-number-float-format required data-inputmode="decimal" type="text" name="miles_per_weekdays" id="miles-per-weekdays" placeholder="~ Miles per weekdays" class="form__input">
 											</div>
 										</div>
 										<div class="form__item">
 											<label class="form__label" for="miles-per-weekends">Miles per weekends *</label>
 											<div class="form__input-body">
 												<span data-symbol-prefix class="form__prefix-symbol">~</span>
-												<input data-input-prefix inputmode="numeric" type="number" name="miles_per_weekends" id="miles-per-weekends" required placeholder="~ Miles per weekends" class="form__input">
+												<input data-input-prefix data-number-float-format required data-inputmode="decimal" type="text" name="miles_per_weekends" id="miles-per-weekends" placeholder="~ Miles per weekends" class="form__input">
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div data-stage class="stage-calc__stage">
+							<div data-stage class="stage-calc__stage _disabled">
 								<h2 class="stage-calc__title sub-title">What do you want to compare</h2>
 								<div class="stage-calc__form-wrapper">
-									<div data-spollers class="stage-calc__form-body stage-calc__form-body--spollers form">
+									<div data-spollers class="stage-calc__form-body stage-calc__form-body--spollers form _spoller-init">
 										<div data-compare-type class="form__item checkbox-spoller checkbox-toggle">
-											<input required type="checkbox" name="diesel" class="checkbox-toggle__input">
-											<button data-spoller class="checkbox-spoller__button checkbox-toggle__btn">
+											<input required type="checkbox" name="diesel" class="checkbox-toggle__input" tabindex="-1">
+											<button data-spoller class="checkbox-spoller__button checkbox-toggle__btn" tabindex="-1">
 												Diesel
 												<span class="checkbox-toggle__toggle"><i></i></span>
 											</button>
-											<div class="checkbox-spoller__body checkbox-spoller-body">
+											<div class="checkbox-spoller__body checkbox-spoller-body" hidden="">
 												<div class="checkbox-spoller-body__items">
 													<div class="checkbox-spoller-body__item">
 														<label for="diesel-mpg" class="form__label">Diesel MPG</label>
-														<input required data-ev-value="mpg" id="diesel-mpg" inputmode="numeric" type="number" name="diesel_mpg" placeholder="Miles per Gallon" class="form__input">
+														<input required data-number-float-format data-ev-value="mpg" id="diesel-mpg" data-inputmode="decimal" type="text" name="diesel_mpg" placeholder="Miles per Gallon" class="form__input" tabindex="-1">
 													</div>
 													<div class="checkbox-spoller-body__item">
-														<label for="diesel-prch-price" class="form__label">Diesel Vehicle Purchase Price</label>
+														<label for="diesel-prch-price" class="form__label">Diesel Vehicle Purchase
+															Price</label>
 														<div class="form__input-body">
 															<span data-symbol-prefix class="form__prefix-symbol">$</span>
-															<input required data-ev-value="purchase-price" data-input-prefix id="diesel-prch-price" inputmode="numeric" name="diesel_vehicle_purchase_price" type="number" placeholder="$, Price" class="form__input">
+															<input required data-number-float-format data-ev-value="purchase-price" data-input-prefix data-inputmode="decimal" type="text" id="diesel-prch-price" name="diesel_vehicle_purchase_price" placeholder="$, Price" class="form__input" tabindex="-1">
 														</div>
 													</div>
 													<div class="checkbox-spoller-body__item">
-														<label class="form__label" for="years-of-ownership_diesel">Years of ownership</label>
-														<select required data-ev-value="year-ownership" id="years-of-ownership_diesel" name="years_of_ownership_diesel" class="form__select">
+														<label class="form__label" for="years-of-ownership_diesel">Years of
+															ownership</label>
+														<select required data-ev-value="year-ownership" id="years-of-ownership_diesel" name="years_of_ownership_diesel" class="form__select" tabindex="-1">
 															<option selected value="">Years</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
@@ -476,59 +480,65 @@
 													<div class="checkbox-spoller-body__item">
 														<label for="diesel-price" class="form__label">Diesel Price</label>
 														<div class="form__input-body">
-															<span data-symbol-prefix class="form__prefix-symbol">$</span>
-															<input required data-ev-value="fuel-cost" data-input-prefix data-num-format id="diesel-price" name="diesel_price" value="6.245" inputmode="numeric" type="text" placeholder="$, Price" class="form__input">
+															<span data-symbol-prefix class="form__prefix-symbol _show-prefix">$</span>
+															<input required data-ev-value="fuel-cost" data-input-prefix data-number-float-format type="text" data-inputmode="decimal" id="diesel-price" name="diesel_price" value="6.245" placeholder="$, Price" class="form__input" tabindex="-1">
 														</div>
 													</div>
-													<div class="checkbox-spoller-body__text text">Price information from <a href="#">website.com.</a> If the price differs from the real one, enter the correct one.</div>
+													<div class="checkbox-spoller-body__text text">Price information from <a href="#" tabindex="-1">website.com.</a> If the price differs from the real one,
+														enter the correct one.</div>
 												</div>
 												<div class="checkbox-spoller-body__results compare-results">
 													<div class="compare-results__item">
 														<div class="compare-results__title">Yearly fuel cost</div>
 														<div class="compare-results__result">
 															No Result
-															<span data-ev-label="yearly-cost" class="compare-info-label">Fill Diesel MPG information</span>
+															<span data-ev-label="yearly-cost" class="compare-info-label">Fill Diesel
+																MPG information</span>
 														</div>
 													</div>
 													<div class="compare-results__item">
 														<div class="compare-results__title">Fuel cost per mile</div>
 														<div class="compare-results__result">
 															No Result
-															<span data-ev-label="cost-p-mile" class="compare-info-label">Fill Diesel MPG information</span>
+															<span data-ev-label="cost-p-mile" class="compare-info-label">Fill Diesel
+																MPG information</span>
 														</div>
 													</div>
 													<div class="compare-results__item">
 														<div class="compare-results__title">Diesel vehicle total cost</div>
 														<div class="compare-results__result">
 															No Result
-															<span data-ev-label="vehic-t-cost" class="compare-info-label">Enter Year and Price of the Vehicle</span>
+															<span data-ev-label="vehic-t-cost" class="compare-info-label">Enter Year
+																and Price of the Vehicle</span>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 										<div data-compare-type class="form__item checkbox-spoller checkbox-toggle">
-											<input required type="checkbox" name="gas" class="checkbox-toggle__input">
-											<button data-spoller class="checkbox-spoller__button checkbox-toggle__btn">
+											<input required type="checkbox" name="gas" class="checkbox-toggle__input" tabindex="-1">
+											<button data-spoller class="checkbox-spoller__button checkbox-toggle__btn" tabindex="-1">
 												Gas
 												<span class="checkbox-toggle__toggle"><i></i></span>
 											</button>
-											<div class="checkbox-spoller__body checkbox-spoller-body">
+											<div class="checkbox-spoller__body checkbox-spoller-body" hidden>
 												<div class="checkbox-spoller-body__items">
 													<div class="checkbox-spoller-body__item">
 														<label for="gas-mpg" class="form__label">Gas MPG</label>
-														<input required data-ev-value="mpg" id="gas-mpg" name="gas_mpg" inputmode="numeric" type="number" placeholder="Miles per Gallon" class="form__input">
+														<input required data-number-float-format data-ev-value="mpg" id="gas-mpg" name="gas_mpg" data-inputmode="decimal" type="text" placeholder="Miles per Gallon" class="form__input" tabindex="-1">
 													</div>
 													<div class="checkbox-spoller-body__item">
-														<label for="gas-prch-price" class="form__label">Gas Vehicle Purchase Price</label>
+														<label for="gas-prch-price" class="form__label">Gas Vehicle Purchase
+															Price</label>
 														<div class="form__input-body">
 															<span data-symbol-prefix class="form__prefix-symbol">$</span>
-															<input required data-ev-value="purchase-price" data-input-prefix id="gas-prch-price" name="gas_vehicle_purchase_price" inputmode="numeric" type="number" placeholder="$, Price" class="form__input">
+															<input required data-number-float-format data-ev-value="purchase-price" data-input-prefix id="gas-prch-price" name="gas_vehicle_purchase_price" data-inputmode="decimal" type="text" placeholder="$, Price" class="form__input" tabindex="-1">
 														</div>
 													</div>
 													<div class="checkbox-spoller-body__item">
-														<label class="form__label" for="years-of-ownership_gas">Years of ownership</label>
-														<select required data-ev-value="year-ownership" id="years-of-ownership_gas" name="years_of_ownership_gas" class="form__select">
+														<label class="form__label" for="years-of-ownership_gas">Years of
+															ownership</label>
+														<select required data-ev-value="year-ownership" id="years-of-ownership_gas" name="years_of_ownership_gas" class="form__select" tabindex="-1">
 															<option selected value="">Years</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
@@ -545,59 +555,65 @@
 													<div class="checkbox-spoller-body__item">
 														<label for="gas-price" class="form__label">Gas Price</label>
 														<div class="form__input-body">
-															<span data-symbol-prefix class="form__prefix-symbol">$</span>
-															<input required data-ev-value="fuel-cost" data-input-prefix data-num-format id="gas-price" name="gas_price" value="4.240" inputmode="numeric" type="text" placeholder="$, Price" class="form__input">
+															<span data-symbol-prefix class="form__prefix-symbol _show-prefix">$</span>
+															<input required data-ev-value="fuel-cost" data-input-prefix data-number-float-format id="gas-price" name="gas_price" value="4.240" data-inputmode="decimal" type="text" placeholder="$, Price" class="form__input" tabindex="-1">
 														</div>
 													</div>
-													<div class="checkbox-spoller-body__text text">Price information from <a href="#">website.com.</a> If the price differs from the real one, enter the correct one.</div>
+													<div class="checkbox-spoller-body__text text">Price information from <a href="#" tabindex="-1">website.com.</a> If the price differs from the real one,
+														enter the correct one.</div>
 												</div>
 												<div class="checkbox-spoller-body__results compare-results">
 													<div class="compare-results__item">
 														<div class="compare-results__title">Yearly fuel cost</div>
 														<div class="compare-results__result">
 															No Result
-															<span data-ev-label="yearly-cost" class="compare-info-label">Fill Gas MPG information</span>
+															<span data-ev-label="yearly-cost" class="compare-info-label">Fill Gas MPG
+																information</span>
 														</div>
 													</div>
 													<div class="compare-results__item">
 														<div class="compare-results__title">Fuel cost per mile</div>
 														<div class="compare-results__result">
 															No Result
-															<span data-ev-label="cost-p-mile" class="compare-info-label">Fill Gas MPG information</span>
+															<span data-ev-label="cost-p-mile" class="compare-info-label">Fill Gas MPG
+																information</span>
 														</div>
 													</div>
 													<div class="compare-results__item">
 														<div class="compare-results__title">Gas vehicle total cost</div>
 														<div class="compare-results__result">
 															No Result
-															<span data-ev-label="vehic-t-cost" class="compare-info-label">Enter Year and Price of the Vehicle</span>
+															<span data-ev-label="vehic-t-cost" class="compare-info-label">Enter Year
+																and Price of the Vehicle</span>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 										<div data-compare-type class="form__item checkbox-spoller checkbox-toggle">
-											<input required type="checkbox" name="electricity" class="checkbox-toggle__input">
-											<button data-spoller class="checkbox-spoller__button checkbox-toggle__btn">
+											<input required type="checkbox" name="electricity" class="checkbox-toggle__input" tabindex="-1">
+											<button data-spoller class="checkbox-spoller__button checkbox-toggle__btn" tabindex="-1">
 												Electricity
 												<span class="checkbox-toggle__toggle"><i></i></span>
 											</button>
-											<div class="checkbox-spoller__body checkbox-spoller-body">
+											<div class="checkbox-spoller__body checkbox-spoller-body" hidden>
 												<div class="checkbox-spoller-body__items">
 													<div class="checkbox-spoller-body__item">
 														<label for="miles-per-kwhr" class="form__label">Miles per kWhr</label>
-														<input required data-ev-value="mpg" id="miles-per-kwhr" name="miles_per_kwhr" inputmode="numeric" type="number" class="form__input" placeholder="Miles per kWhr">
+														<input required data-number-float-format data-ev-value="mpg" id="miles-per-kwhr" name="miles_per_kwhr" data-inputmode="decimal" type="text" class="form__input" placeholder="Miles per kWhr" tabindex="-1">
 													</div>
 													<div class="checkbox-spoller-body__item">
-														<label for="electric-vehicle-purchase-price" class="form__label">Electric vehicle purchase price</label>
+														<label for="electric-vehicle-purchase-price" class="form__label">Electric
+															vehicle purchase price</label>
 														<div class="form__input-body">
 															<span data-symbol-prefix class="form__prefix-symbol">$ </span>
-															<input required data-ev-value="purchase-price" data-input-prefix id="electric-vehicle-purchase-price" name="electric_vehicle_purchase_price" inputmode="numeric" type="number" placeholder="$, Price" class="form__input">
+															<input required data-number-float-format data-ev-value="purchase-price" data-input-prefix id="electric-vehicle-purchase-price" name="electric_vehicle_purchase_price" data-inputmode="decimal" type="text" placeholder="$, Price" class="form__input" tabindex="-1">
 														</div>
 													</div>
 													<div class="checkbox-spoller-body__item">
-														<label class="form__label" for="years-of-ownership_electric">Years of ownership</label>
-														<select required data-ev-value="year-ownership" id="years-of-ownership_electric" name="years_of_ownership_electric" class="form__select">
+														<label class="form__label" for="years-of-ownership_electric">Years of
+															ownership</label>
+														<select required data-ev-value="year-ownership" id="years-of-ownership_electric" name="years_of_ownership_electric" class="form__select" tabindex="-1">
 															<option selected value="">Years</option>
 															<option value="1">1</option>
 															<option value="2">2</option>
@@ -614,32 +630,36 @@
 													<div class="checkbox-spoller-body__item">
 														<label for="electricity-price" class="form__label">Electricity price</label>
 														<div class="form__input-body">
-															<span data-symbol-prefix class="form__prefix-symbol">$</span>
-															<input required data-ev-value="fuel-cost" data-input-prefix data-num-format id="electricity-price" name="electricity_price" value="0.149" inputmode="numeric" type="text" placeholder="$, Price" class="form__input">
+															<span data-symbol-prefix class="form__prefix-symbol _show-prefix">$</span>
+															<input required data-ev-value="fuel-cost" data-input-prefix data-number-float-format id="electricity-price" name="electricity_price" value="0.149" data-inputmode="decimal" type="text" placeholder="$, Price" class="form__input" tabindex="-1">
 														</div>
 													</div>
-													<div class="checkbox-spoller-body__text text">Price information from <a href="#">website.com.</a> If the price differs from the real one, enter the correct one.</div>
+													<div class="checkbox-spoller-body__text text">Price information from <a href="#" tabindex="-1">website.com.</a> If the price differs from the real one,
+														enter the correct one.</div>
 												</div>
 												<div class="checkbox-spoller-body__results compare-results">
 													<div class="compare-results__item">
 														<div class="compare-results__title">Yearly fuel cost</div>
 														<div class="compare-results__result">
 															No Result
-															<span data-ev-label="yearly-cost" class="compare-info-label">Fill Electricity MPG information</span>
+															<span data-ev-label="yearly-cost" class="compare-info-label">Fill
+																Electricity MPG information</span>
 														</div>
 													</div>
 													<div class="compare-results__item">
 														<div class="compare-results__title">Fuel cost per mile</div>
 														<div class="compare-results__result">
 															No Result
-															<span data-ev-label="cost-p-mile" class="compare-info-label">Fill Electricity MPG information</span>
+															<span data-ev-label="cost-p-mile" class="compare-info-label">Fill
+																Electricity MPG information</span>
 														</div>
 													</div>
 													<div class="compare-results__item">
 														<div class="compare-results__title">Electricity vehicle total cost</div>
 														<div class="compare-results__result">
 															No Result
-															<span data-ev-label="vehic-t-cost" class="compare-info-label">Enter Year and Price of the Vehicle</span>
+															<span data-ev-label="vehic-t-cost" class="compare-info-label">Enter Year
+																and Price of the Vehicle</span>
 														</div>
 													</div>
 												</div>
@@ -880,7 +900,8 @@
 							<div class="call-us-section__left">
 								<h2 class="call-us-section__title">Call us now <a href="tel:8555471550" class="call-us-section__phone btn-phone _icon-phone">(855) 547-1550</a></h2>
 								<div class="call-us-section__subtitle title-second">or email us to <a href="mailto:support@junkcarsus.com">support@junkcarsus.com</a></div>
-								<div class="call-us-section__text">Receive a guaranteed highest price quote for your junk car from the best junk car buyer by filling out the form online.</div>
+								<div class="call-us-section__text">Receive a guaranteed highest price quote for your junk car
+									from the best junk car buyer by filling out the form online.</div>
 							</div>
 							<div class="call-us-section__right">
 								<a href="#" class="call-us-section__btn main-black-btn">Book Online</a>
@@ -1193,23 +1214,38 @@
 			<section class="elem-indent page__text-section text-section">
 				<div class="text-section__container">
 					<div class="text-section__columns">
-						<h2 class="text-section__title title">Junk Car Buyer Vs. Junkyard Vs. Auto Recycler Vs. Auto Wrecker</h2>
+						<h2 class="text-section__title title">Junk Car Buyer Vs. Junkyard Vs. Auto Recycler Vs. Auto Wrecker
+						</h2>
 						<div class="text-section__content">
 							<div class="text-section__item">
 								<h3 class="text-section__subtitle sub-title">How to Sell a Car to a Junkyard?</h3>
-								<div class="text-section__text">Selling a car to salvage yards in Baltimore, Maryland can be a straightforward procedure provided you partner with a trusted junker. In most cases, all you need to get started is to send a request via the website of a scrap yard in Baltimore, Maryland and wait for a call. Afterward, you schedule a quick appointment with a local buyer representative, get and sign an offer, and arrange a pickup time. Provided that all the documentation is handled by a junker, getting rid of your used car is as simple as making a few calls and appointments.</div>
+								<div class="text-section__text">Selling a car to salvage yards in Baltimore, Maryland can be a
+									straightforward procedure provided you partner with a trusted junker. In most cases, all you
+									need to get started is to send a request via the website of a scrap yard in Baltimore,
+									Maryland and wait for a call. Afterward, you schedule a quick appointment with a local buyer
+									representative, get and sign an offer, and arrange a pickup time. Provided that all the
+									documentation is handled by a junker, getting rid of your used car is as simple as making a
+									few calls and appointments.</div>
 							</div>
 							<div class="text-section__item">
 								<h3 class="text-section__subtitle sub-title">How Can I Get The Best Deal For My Junk Car?</h3>
-								<div class="text-section__text">When you sell a junk car for salvage yards in Baltimore, MD, be aware of several key factors that impact the end cost offered. Among them are the following:</div>
+								<div class="text-section__text">When you sell a junk car for salvage yards in Baltimore, MD, be
+									aware of several key factors that impact the end cost offered. Among them are the following:
+								</div>
 								<div class="point-item text-section__point-item _icon-arrow-right">
 									<p>Condition of the Car.</p>
 								</div>
-								<div class="text-section__text">The state of the used car is a crucial price-formation factor. Wrecked, flooded, and just cars in poor conditions are cheaper than ones that still can run. That’s why you should always do timely technical maintenance or at least check your vehicle before contacting auto wreckers. </div>
+								<div class="text-section__text">The state of the used car is a crucial price-formation factor.
+									Wrecked, flooded, and just cars in poor conditions are cheaper than ones that still can run.
+									That’s why you should always do timely technical maintenance or at least check your vehicle
+									before contacting auto wreckers. </div>
 								<div class="point-item  text-section__point-item _icon-arrow-right">
 									<p>Mileage.</p>
 								</div>
-								<div class="text-section__text">The state of the used car is a crucial price-formation factor. Wrecked, flooded, and just cars in poor conditions are cheaper than ones that still can run. That’s why you should always do timely technical maintenance or at least check your vehicle before contacting auto wreckers. </div>
+								<div class="text-section__text">The state of the used car is a crucial price-formation factor.
+									Wrecked, flooded, and just cars in poor conditions are cheaper than ones that still can run.
+									That’s why you should always do timely technical maintenance or at least check your vehicle
+									before contacting auto wreckers. </div>
 							</div>
 						</div>
 					</div>
@@ -1221,24 +1257,44 @@
 						<h2 class="spoller-text__main-title title">Frequently Asked Questions</h2>
 						<ul data-spollers class="spoller-text__wrapper">
 							<li class="spoller-text__item">
-								<button type="button" data-spoller class="spoller-text__title">Is it legal to sell a flooded car?</button>
-								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in water for a long time, the battery also could have desalinated. In our blog, you'll find out how to handle this situation with all necessary information included so that you can make an informed decision on what action needs to be taken next!</div>
+								<button type="button" data-spoller class="spoller-text__title">Is it legal to sell a flooded
+									car?</button>
+								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in
+									water for a long time, the battery also could have desalinated. In our blog, you'll find out
+									how to handle this situation with all necessary information included so that you can make an
+									informed decision on what action needs to be taken next!</div>
 							</li>
 							<li class="spoller-text__item">
-								<button type="button" data-spoller class="spoller-text__title">Is it possible to fix a flood-damaged car? </button>
-								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in water for a long time, the battery also could have desalinated. In our blog, you'll find out how to handle this situation with all necessary information included so that you can make an informed decision on what action needs to be taken next!</div>
+								<button type="button" data-spoller class="spoller-text__title">Is it possible to fix a
+									flood-damaged car? </button>
+								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in
+									water for a long time, the battery also could have desalinated. In our blog, you'll find out
+									how to handle this situation with all necessary information included so that you can make an
+									informed decision on what action needs to be taken next!</div>
 							</li>
 							<li class="spoller-text__item">
-								<button type="button" data-spoller class="spoller-text__title">Can I sell a flooded car?</button>
-								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in water for a long time, the battery also could have desalinated. In our blog, you'll find out how to handle this situation with all necessary information included so that you can make an informed decision on what action needs to be taken next!</div>
+								<button type="button" data-spoller class="spoller-text__title">Can I sell a flooded
+									car?</button>
+								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in
+									water for a long time, the battery also could have desalinated. In our blog, you'll find out
+									how to handle this situation with all necessary information included so that you can make an
+									informed decision on what action needs to be taken next!</div>
 							</li>
 							<li class="spoller-text__item">
-								<button type="button" data-spoller class="spoller-text__title">Is it legal to sell a flooded car? </button>
-								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in water for a long time, the battery also could have desalinated. In our blog, you'll find out how to handle this situation with all necessary information included so that you can make an informed decision on what action needs to be taken next!</div>
+								<button type="button" data-spoller class="spoller-text__title">Is it legal to sell a flooded
+									car? </button>
+								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in
+									water for a long time, the battery also could have desalinated. In our blog, you'll find out
+									how to handle this situation with all necessary information included so that you can make an
+									informed decision on what action needs to be taken next!</div>
 							</li>
 							<li class="spoller-text__item">
-								<button type="button" data-spoller class="spoller-text__title">Can I sell a flooded car?</button>
-								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in water for a long time, the battery also could have desalinated. In our blog, you'll find out how to handle this situation with all necessary information included so that you can make an informed decision on what action needs to be taken next!</div>
+								<button type="button" data-spoller class="spoller-text__title">Can I sell a flooded
+									car?</button>
+								<div class="spoller-text__body">The car's engine may be damaged, and if it has been submerged in
+									water for a long time, the battery also could have desalinated. In our blog, you'll find out
+									how to handle this situation with all necessary information included so that you can make an
+									informed decision on what action needs to be taken next!</div>
 							</li>
 						</ul>
 					</div>
@@ -1383,7 +1439,52 @@
 			</div>
 		</footer>
 	</div>
-	<script async src="js/ev-calculator.min.js?_v=20250805113325"></script>
+
+	<script>
+		falidateEvCalcForm()
+
+		function falidateEvCalcForm() {
+			const compareTypes = document.querySelectorAll('[data-compare-type]');
+			if (compareTypes.length) {
+				compareTypes.forEach((compType) => {
+					// inputs
+					const mpg = compType.querySelector('[data-ev-value="mpg"]');
+					const vehiclePurchase = compType.querySelector('[data-ev-value="purchase-price"]');
+					const yearsOwnsh = compType.querySelector('[data-ev-value="year-ownership"]');
+					const fuelConst = compType.querySelector('[data-ev-value="fuel-cost"]');
+					const inputs = [mpg, vehiclePurchase, yearsOwnsh];
+					//labels
+					const yearlyCostLabel = compType.querySelector('[data-ev-label="yearly-cost"]');
+					const costPerMile = compType.querySelector('[data-ev-label="cost-p-mile"]');
+					const vehicTotCost = compType.querySelector('[data-ev-label="vehic-t-cost"]');
+
+					if (mpg && vehiclePurchase && yearsOwnsh && fuelConst && yearlyCostLabel && costPerMile && vehicTotCost) {
+						inputs.forEach((input) => {
+							input.addEventListener('input', (e) => {
+								if (mpg.value !== '') {
+									yearlyCostLabel.style.display = 'none'
+									costPerMile.style.display = 'none'
+									console.log(`MPG Value: ${mpg.value}`);
+								} else {
+									yearlyCostLabel.removeAttribute('style')
+									costPerMile.removeAttribute('style')
+								}
+
+								if (yearsOwnsh.value !== '' && vehiclePurchase.value !== '') {
+									vehicTotCost.style.display = 'none'
+									console.log(`Years of ownership: ${yearsOwnsh.value}, Vehicle Purchase Price: ${vehiclePurchase.value}, Cost of fuel: ${fuelConst.value}`);
+								} else {
+									vehicTotCost.removeAttribute('style')
+								}
+							})
+						})
+					}
+				})
+			}
+		}
+	</script>
+
+	<script async src="js/ev-calculator.min.js?_v=20250821212312"></script>
 </body>
 
 </html>

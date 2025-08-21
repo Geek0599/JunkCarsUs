@@ -5,7 +5,7 @@
 	<title>Diminished Value Calculator</title>
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="css/сar-life-expect-calculator.min.css?_v=20250805113325">
+	<link rel="stylesheet" href="css/сar-life-expect-calculator.min.css?_v=20250821212312">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
@@ -20,7 +20,7 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250805113325" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap&_v=20250821212312" rel="stylesheet">
 </head>
 
 <body>
@@ -1230,7 +1230,179 @@
 			</div>
 		</footer>
 	</div>
-	<script async src="js/сar-life-expect-calculator.min.js?_v=20250805113325"></script>
+
+	<script>
+		function findRadioCheckboxGroup(parentSelector, type) {
+			const radioGroups = new Map();
+			parentSelector.querySelectorAll(`input[type="${type}"]`).forEach(radio => {
+				const name = radio.getAttribute('name');
+				if (!radioGroups.has(name)) {
+					radioGroups.set(name, []);
+				}
+				radioGroups.get(name).push(radio);
+			});
+
+			return radioGroups
+		}
+
+		function stepsFillingAndValidate() {
+			const steps = document.querySelector('[data-steps]')
+			if (steps) {
+				const allSteps = Array.from(steps.querySelectorAll('[data-step]'));
+				const btnPrevStep = steps.querySelector('[data-step-back]');
+				const btnNextStep = steps.querySelector('[data-step-next]');
+				const btnReset = steps.querySelector('[data-reset]');
+				const allStepsWrapper = steps.querySelector('[data-steps-body]')
+				const finalResultBlock = steps.querySelector('[data-final-result]')
+				let currentStep = 1;
+				if (allSteps && allSteps.length > 1 && btnPrevStep && btnNextStep) {
+					showHideStep(allSteps, currentStep, btnNextStep, btnPrevStep, true)
+					Array.from([btnPrevStep, btnNextStep, btnReset]).forEach((btn) => {
+						btn.addEventListener('click', (e) => {
+							if (btn === btnNextStep || btn === btnPrevStep) {
+								// if show final result
+								if (btn === btnNextStep && currentStep === allSteps.length) {
+									showFinalResult()
+									hide(allStepsWrapper)
+									show(finalResultBlock)
+								}
+								if (btn === btnPrevStep && currentStep > 1) {
+									// if move step - 1
+									currentStep -= 1;
+								} else if (btn === btnNextStep && currentStep < allSteps.length) {
+									// if move step + 1
+									currentStep += 1;
+								}
+							} else {
+								// if we start filling out the form from the beginning
+								currentStep = 1
+								const form = steps.closest('form');
+								form ? form.reset() : null;
+								const inputs = form.querySelectorAll('input,select,textarea');
+								inputs.length && inputs.forEach((input) => input.classList.remove('_no-validated', '_validated'))
+								changeTextBtnNext(btnNextStep)
+								hide(finalResultBlock)
+								show(allStepsWrapper)
+							}
+							showHideStep(allSteps, currentStep, btnNextStep, btnPrevStep)
+							validateStepsForm(allSteps[currentStep - 1], btnNextStep)
+						})
+					});
+					// immediately run validation of the current step
+					validateStepsForm(allSteps[currentStep - 1], btnNextStep)
+					// validate inputs in each step on input, change Events
+					allSteps.forEach((step) => {
+						const allInputsInStep = step.querySelectorAll('input,select,textarea');
+						if (allInputsInStep.length) {
+							allInputsInStep.forEach((input) => {
+								['input', 'change', 'inputChange'].forEach((event) => {
+									input.addEventListener(event, (e) => {
+										const step = e.target.closest('[data-step]');
+										validateStepsForm(step, btnNextStep)
+									})
+								})
+							})
+						}
+					})
+				}
+			}
+
+			function showHideStep(allSteps, currentStep, btnNextStep, btnPrevStep, init) {
+				allSteps.forEach((step, index) => {
+					const stepStage = index + 1
+					if (stepStage === currentStep) {
+						show(step)
+					} else {
+						hide(step)
+					}
+
+					if (init) {
+						step.querySelector('.stage-calc__title').setAttribute('data-step', stepStage)
+						const spanStepNumbers = step.querySelector('[data-steps-number]');
+						const spanStepStage = step.querySelector('[data-step-stage]')
+						spanStepNumbers.textContent = allSteps.length;
+						spanStepStage.textContent = stepStage;
+					}
+				})
+				if (currentStep > 1) {
+					btnPrevStep.removeAttribute('hidden')
+				} else {
+					btnPrevStep.setAttribute('hidden', '')
+				}
+				if (btnNextStep.getAttribute('data-step-next')) {
+					if (currentStep === allSteps.length) {
+						changeTextBtnNext(btnNextStep)
+						btnNextStep.classList.add('_changed');
+					} else {
+						if (btnNextStep.classList.contains('_changed')) {
+							changeTextBtnNext(btnNextStep)
+							btnNextStep.classList.remove('_changed');
+						}
+					}
+				}
+			}
+
+			function validateStepsForm(step, btnNextStep) {
+				if (step && btnNextStep) {
+					const inputs = step.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]), select, textarea');
+					const groupRadios = findRadioCheckboxGroup(step, 'radio');
+					const groupCheckbox = findRadioCheckboxGroup(step, 'checkbox');
+					let allInputs = [...inputs];
+					[groupRadios, groupCheckbox].forEach((groupType) => {
+						groupType.forEach((group) => {
+							allInputs.push(group)
+						})
+					})
+					let error = 0
+					allInputs.forEach((input) => {
+						if (Array.isArray(input)) {
+							// validation of intup group of radio button, checkboxes
+							let isGroupFilled = input.some((radioOrCheckbox) => radioOrCheckbox.checked === true)
+							if (!isGroupFilled) {
+								error++
+							}
+						} else {
+							// validate == when you want at least one field from a group or or or
+							if (input.closest('[data-inputs-or]')) {
+								let inputs = input.closest('[data-inputs-or]').querySelectorAll('input,select,textarea');
+								inputs.length ? inputs = Array.from(inputs) : null
+								const isInpustOrFilled = inputs.some((input) => input.value !== '');
+								!isInpustOrFilled ? error++ : null;
+							} else {
+								// basic inpute check
+								if (input.value === "") {
+									error++
+								}
+							}
+						}
+					})
+					error ? btnNextStep.setAttribute('disabled', '') : btnNextStep.removeAttribute('disabled');
+				}
+			}
+
+			function changeTextBtnNext(btnNextStep) {
+				const currentText = btnNextStep.textContent;
+				btnNextStep.textContent = btnNextStep.getAttribute('data-step-next')
+				btnNextStep.setAttribute('data-step-next', currentText)
+			}
+
+			function showFinalResult() {
+				console.log('Show Final Result');
+			}
+
+			function show(block) {
+				block.removeAttribute('hidden')
+			}
+
+			function hide(block) {
+				block.setAttribute('hidden', '')
+			}
+		}
+
+		stepsFillingAndValidate()
+	</script>
+
+	<script async src="js/сar-life-expect-calculator.min.js?_v=20250821212312"></script>
 </body>
 
 </html>

@@ -650,8 +650,10 @@
                         input = e.target.closest(".radio").querySelector('input[type="radio"]');
                         input ? input.checked = true : null;
                     }
-                    let event = new Event("inputChange");
-                    input ? input.dispatchEvent(event) : null;
+                    let event = new Event("change", {
+                        bubbles: true
+                    });
+                    input?.dispatchEvent(event);
                 }
             }));
             window.addEventListener("keydown", (e => {
@@ -667,8 +669,10 @@
                             input = focusedElement.closest(".radio").querySelector('input[type="radio"]');
                             input ? input.checked = true : null;
                         }
-                        let event = new Event("inputChange");
-                        input ? input.dispatchEvent(event) : null;
+                        let event = new Event("change", {
+                            bubbles: true
+                        });
+                        input?.dispatchEvent(event);
                     }
                 }
             }));

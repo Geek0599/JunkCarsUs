@@ -522,10 +522,22 @@
         function formValidate() {
             const validateForms = document.querySelectorAll("[data-validate]");
             if (validateForms.length) validateForms.forEach((form => {
-                const inputs = form.querySelectorAll('input:not([type="hidden"]), select, textarea');
                 const btnSubmit = form.querySelector('button[type="submit"]');
+                const inputs = Array.from(form.querySelectorAll("input:not([data-no-required]), select, textarea"));
+                const groupRadios = findRadioCheckboxGroup(form, "radio");
+                const groupCheckbox = findRadioCheckboxGroup(form, "checkbox");
+                [ groupRadios, groupCheckbox ].forEach((groupType => {
+                    (groupType || []).forEach((group => inputs.push(group)));
+                }));
                 if (inputs.length > 0) {
                     form.addEventListener("submit", (e => {
+                        checkInputs({
+                            inputs,
+                            form,
+                            event: e
+                        });
+                    }));
+                    form.addEventListener("update-validation", (e => {
                         checkInputs({
                             inputs,
                             form,
@@ -540,27 +552,27 @@
                         });
                     }));
                     inputs.forEach((input => {
-                        input.addEventListener("input", (e => formatInput(input)));
-                        input.addEventListener("change", (() => setTimeout((() => {
-                            checkInput({
-                                input,
-                                form
-                            });
-                        }), 0)));
-                        input.addEventListener("blur", (() => {
-                            setTimeout((() => {
-                                if (input.value !== "") checkInput({
-                                    input,
-                                    form
+                        if (!Array.isArray(input)) {
+                            input.addEventListener("input", (e => formatInput(input)));
+                            input.addEventListener("change", (() => setTimeout((() => {
+                                checkInput({
+                                    input
                                 });
-                            }), 0);
-                        }));
+                            }), 0)));
+                            input.addEventListener("blur", (() => {
+                                setTimeout((() => {
+                                    if (input.value !== "") checkInput({
+                                        input
+                                    });
+                                }), 0);
+                            }));
+                        }
                     }));
                     form.addEventListener("reset", (e => {
-                        inputs.forEach((input => removeStatus(input)));
+                        inputs.forEach((input => removeStatus({
+                            input
+                        })));
                     }));
-                    const recaptchaField = form.querySelector("#g-recaptcha-response-field-contacts");
-                    if (recaptchaField) setupRecaptchaHandler(form, recaptchaField);
                 }
             }));
             async function checkInputs({inputs, form, event, onSuccessFormValidateCallback, onErrorFormValidateCallback}) {
@@ -570,19 +582,19 @@
                 form.setAttribute("novalidate", true);
                 let errors = 0;
                 let firstErrorFound = false;
-                for (const input of inputs) if (await checkInput({
-                    input,
-                    form
+                form.dispatchEvent(new CustomEvent("start-validation"));
+                for (const input of inputs) if (checkInput({
+                    input
                 })) {
                     errors++;
                     if (!firstErrorFound) {
-                        input.scrollIntoView({
-                            behavior: "smooth",
-                            block: "center"
+                        scrollToInput({
+                            input
                         });
                         firstErrorFound = true;
                     }
                 }
+                form.dispatchEvent(new CustomEvent("end-validation"));
                 if (!errors) {
                     const successEvent = new Event("form-validation-success");
                     form.dispatchEvent(successEvent);
@@ -593,66 +605,86 @@
                     if (onErrorFormValidateCallback) onErrorFormValidateCallback();
                 }
             }
-            async function checkInput({input, form, isTextNotice = false}) {
-                const value = input.value.trim();
+            function checkInput({input, isTextNotice = false}) {
                 let isError = false;
-                if (input.required || value !== "") {
+                if (!Array.isArray(input) && input.hasAttribute("data-skip-validation")) return isError = false;
+                if (Array.isArray(input)) {
+                    const isRequired = input.every((radioOrCheckbox => radioOrCheckbox.required === true));
+                    let isGroupFilled = input.some((radioOrCheckbox => radioOrCheckbox.checked === true));
+                    if (isRequired && !isGroupFilled) {
+                        showTextNotice({
+                            input,
+                            text: "Choose value",
+                            isTextNotice
+                        });
+                        return isError = true;
+                    }
+                    return isError = false;
+                }
+                const value = input.value.trim();
+                if (input.required || input.hasAttribute("data-required") || value !== "") {
                     if (value === "") {
-                        isError = true;
                         showTextNotice({
                             input,
                             text: "This field is required",
                             isTextNotice
                         });
-                        return isError;
+                        return isError = true;
+                    }
+                    if (input.hasAttribute("data-math-field")) {
+                        const forMathField = input.getAttribute("data-math-field");
+                        const forMatchInput = input.form.querySelector("input[data-for-math]");
+                        if (forMathField && forMatchInput && forMathField === forMatchInput.getAttribute("data-for-math")) if (input.value !== forMatchInput.value) {
+                            showTextNotice({
+                                input,
+                                text: `This field must match ${forMathField} field`,
+                                isTextNotice
+                            });
+                            return isError = true;
+                        }
                     }
                     if (input.hasAttribute("data-number-format")) {
                         const isValidDecimal = /^(\d+([.,]\d+)?)?$/.test(value);
                         if (!isValidDecimal) {
-                            isError = true;
                             showTextNotice({
                                 input,
                                 text: "Only numbers are allowed",
                                 isTextNotice
                             });
-                            return isError;
+                            return isError = true;
                         }
                     }
                     if (input.hasAttribute("data-number-float-format")) {
                         const value = input.value;
-                        const isValidDecimal = /^\d*([.,]\d*)?$/.test(value);
+                        const isValidDecimal = /^(\d+[.,]?\d*|\d*[.,]?\d+)$/g.test(value);
                         if (!isValidDecimal) {
-                            isError = true;
                             showTextNotice({
                                 input,
-                                text: "Only numbers, a single dot or comma are allowed",
+                                text: "Only valid numbers are allowed",
                                 isTextNotice
                             });
-                            return isError;
+                            return isError = true;
                         }
                     }
                     if (input.hasAttribute("data-text-format")) if (!/^[a-zA-Z\s]+$/.test(value)) {
-                        isError = true;
                         showTextNotice({
                             input,
                             text: `Only ${/[а-яА-Я]/.test(value) ? "Latin" : ""} letters are allowed`,
                             isTextNotice
                         });
-                        return isError;
+                        return isError = true;
                     }
                     if (input.type === "email") if (value !== "" && !isEmailValid(input)) {
-                        isError = true;
                         showTextNotice({
                             input,
                             text: "Your email address must be in the format of name@domain.com",
                             isTextNotice
                         });
-                        return isError;
+                        return isError = true;
                     }
                     const minLength = input.hasAttribute("data-minlength") ? Number(input.dataset.minlength) : null;
                     const maxLength = input.hasAttribute("data-maxlength") ? Number(input.dataset.maxlength) : null;
                     if (minLength !== null && value.length < minLength) {
-                        isError = true;
                         if (input.id == "year") showTextNotice({
                             input,
                             text: "Please enter the correct year",
@@ -662,51 +694,55 @@
                             text: `Please enter at least ${minLength} characters`,
                             isTextNotice
                         });
-                        return isError;
+                        return isError = true;
                     }
                     if (maxLength !== null && value.length > maxLength) {
-                        isError = true;
                         showTextNotice({
                             input,
                             text: `Please enter less than ${minLength} characters`,
                             isTextNotice
                         });
-                        return isError;
+                        return isError = true;
                     }
                     const minValue = input.hasAttribute("data-min-value") ? Number(input.dataset.minValue) : null;
                     const maxValue = input.hasAttribute("data-max-value") ? Number(input.dataset.maxValue) : null;
                     if (minValue !== null && Number(value) < minValue) {
-                        isError = true;
                         showTextNotice({
                             input,
                             text: `Please enter a value greater than or equal to ${minValue}`,
                             isTextNotice
                         });
-                        return isError;
+                        return isError = true;
                     }
                     if (maxValue !== null && Number(value) > maxValue) {
-                        isError = true;
                         showTextNotice({
                             input,
                             text: `Please enter a value less than or equal to ${maxValue}`,
                             isTextNotice
                         });
-                        return isError;
+                        return isError = true;
                     }
                     if (input.inputmask) {
                         const status = !input.inputmask.isComplete();
                         if (status && value !== "") {
-                            isError = true;
                             showTextNotice({
                                 input,
                                 text: "Please enter full phone number",
                                 isTextNotice
                             });
-                            return isError;
+                            return isError = true;
                         }
                     }
-                    if (input.required || value !== "") if (isError) addError(input); else removeError(input);
-                } else if (value === "") removeStatus(input); else removeError(input);
+                    if (input.required || input.hasAttribute("data-required") || value !== "") if (isError) addError({
+                        input
+                    }); else if (input) removeError({
+                        input
+                    });
+                } else if (value === "") removeStatus({
+                    input
+                }); else removeError({
+                    input
+                });
                 return isError;
             }
             function formatInput(input) {
@@ -727,7 +763,7 @@
                     input.setSelectionRange(start, end);
                 }
             }
-            function addError(input) {
+            function addError({input}) {
                 input.classList.remove("_validated");
                 input.classList.add("_no-validated");
                 input.setAttribute("aria-invalid", "true");
@@ -739,37 +775,63 @@
                     }), 0)));
                     input.wasError = true;
                 }
-                return true;
             }
-            function removeError(input) {
+            function removeError({input}) {
                 input.classList.remove("_no-validated");
                 input.classList.add("_validated");
                 input.setAttribute("aria-invalid", "false");
-                removeTextNotice(input);
+                removeTextNotice({
+                    input
+                });
             }
-            function removeStatus(input) {
-                input.classList.remove("_no-validated", "_validated");
-                input.removeAttribute("aria-invalid");
-                removeTextNotice(input);
+            function removeStatus({input}) {
+                if (!Array.isArray(input)) {
+                    input.classList.remove("_no-validated", "_validated");
+                    input.removeAttribute("aria-invalid");
+                    removeTextNotice({
+                        input
+                    });
+                }
             }
             function isEmailValid(input) {
                 return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(input.value);
             }
             function showTextNotice({input, text, isTextNotice = false}) {
+                input = Array.isArray(input) ? input[0] : input;
                 const isShowNotice = isTextNotice || input.closest("[data-validate]")?.hasAttribute("data-validate-notice");
                 let notice = input.parentElement.querySelector(".form__item-notice");
-                if (isShowNotice) if (notice && notice.textContent !== text) notice.textContent = text; else if (!notice) {
+                const textNotice = input.hasAttribute("data-error-notice") ? input.getAttribute("data-error-notice") : text;
+                if (isShowNotice) if (notice && notice.textContent !== textNotice) notice.textContent = textNotice; else if (!notice) {
                     notice = document.createElement("label");
                     notice.classList.add("form__item-notice");
-                    notice.setAttribute("for", input.id);
-                    notice.textContent = text;
-                    input.insertAdjacentElement("afterend", notice);
+                    input.id ? notice.setAttribute("for", input.id) : null;
+                    notice.textContent = textNotice;
+                    if ([ "radio", "checkbox" ].includes(input.type)) input.parentElement.insertAdjacentElement("beforeend", notice); else input.insertAdjacentElement("afterend", notice);
                 }
-                addError(input);
+                addError({
+                    input
+                });
             }
-            function removeTextNotice(input) {
+            function removeTextNotice({input}) {
                 const notice = input.parentElement.querySelector(".form__item-notice");
                 notice && notice.remove();
+            }
+            function scrollToInput({input}) {
+                const inputWithError = Array.isArray(input) ? input[0] : input;
+                const errorNotice = input.parentElement.querySelector(".form__item-notice");
+                (errorNotice && inputWithError.offsetWidth === 0 ? errorNotice : inputWithError).scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }
+            function findRadioCheckboxGroup(parentSelector, type) {
+                const groups = new Map;
+                parentSelector.querySelectorAll(`input[type="${type}"]`).forEach((radioCheckbox => {
+                    const name = radioCheckbox.getAttribute("name");
+                    if (!groups.has(name)) groups.set(name, []);
+                    groups.get(name).push(radioCheckbox);
+                }));
+                return groups;
             }
             window.formValidate = {
                 showTextNotice,
@@ -778,7 +840,18 @@
                 removeStatus,
                 addError,
                 checkInputs,
-                checkInput
+                checkInput,
+                scrollToInput
+            };
+            return {
+                showTextNotice,
+                removeTextNotice,
+                removeError,
+                removeStatus,
+                addError,
+                checkInputs,
+                checkInput,
+                scrollToInput
             };
         }
         function clickOnLabelKeyEnter() {
@@ -993,8 +1066,10 @@
                         input = e.target.closest(".radio").querySelector('input[type="radio"]');
                         input ? input.checked = true : null;
                     }
-                    let event = new Event("inputChange");
-                    input ? input.dispatchEvent(event) : null;
+                    let event = new Event("change", {
+                        bubbles: true
+                    });
+                    input?.dispatchEvent(event);
                 }
             }));
             window.addEventListener("keydown", (e => {
@@ -1010,8 +1085,10 @@
                             input = focusedElement.closest(".radio").querySelector('input[type="radio"]');
                             input ? input.checked = true : null;
                         }
-                        let event = new Event("inputChange");
-                        input ? input.dispatchEvent(event) : null;
+                        let event = new Event("change", {
+                            bubbles: true
+                        });
+                        input?.dispatchEvent(event);
                     }
                 }
             }));
@@ -12953,7 +13030,7 @@
             const selector = document.querySelector("[data-phone-mask]");
             if (selector) {
                 new bundle({
-                    mask: "+1 999 - 999 99 99",
+                    mask: "+1 999 - 999 9999",
                     clearMaskOnLostFocus: false
                 }).mask(selector);
                 const form = selector.closest("form");
