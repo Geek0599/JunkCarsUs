@@ -476,7 +476,7 @@
         const validateForms = document.querySelectorAll("[data-validate]");
         if (validateForms.length) validateForms.forEach((form => {
             const btnSubmit = form.querySelector('button[type="submit"]');
-            const inputs = Array.from(form.querySelectorAll("input:not([data-no-required]), select, textarea"));
+            const inputs = Array.from(form.querySelectorAll('input:not([type="hidden"]):not([data-no-required]), select, textarea'));
             const groupRadios = findRadioCheckboxGroup(form, "radio");
             const groupCheckbox = findRadioCheckboxGroup(form, "checkbox");
             [ groupRadios, groupCheckbox ].forEach((groupType => {

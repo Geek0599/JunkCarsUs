@@ -3496,21 +3496,16 @@ body::after {
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-@supports (gap: clamp( 1.25rem , -1.8611111111rem  +  6.4814814815vw , 3rem )) {
+@supports (gap: clamp( 1.5rem , -0.3181818182rem  +  2.8409090909vw , 1.8125rem )) {
   .form-part-offer__body {
-    gap: clamp( 1.25rem , -1.8611111111rem  +  6.4814814815vw , 3rem );
+    gap: clamp( 1.5rem , -0.3181818182rem  +  2.8409090909vw , 1.8125rem );
   }
 }
 
-@supports not (gap: clamp( 1.25rem , -1.8611111111rem  +  6.4814814815vw , 3rem )) {
+@supports not (gap: clamp( 1.5rem , -0.3181818182rem  +  2.8409090909vw , 1.8125rem )) {
   .form-part-offer__body {
-    gap: calc(1.25rem + 1.75 * (100vw - 48rem) / 27);
+    gap: calc(1.5rem + 0.3125 * (100vw - 64rem) / 11);
   }
-}
-
-.form-part-offer__body--additional {
-  -ms-grid-columns: 1fr 20.0625rem;
-  grid-template-columns: 1fr 20.0625rem;
 }
 
 .form-part-offer__item .file__label {
@@ -3704,6 +3699,11 @@ body::after {
         align-self: start;
     position: sticky;
     top: 8.3125rem;
+  }
+
+  .form-part-offer__body--additional.form-part-offer__body {
+    -ms-grid-columns: 1fr 20.0625rem;
+    grid-template-columns: 1fr 20.0625rem;
   }
 
   .form-part-offer__item .file__label {
@@ -4135,6 +4135,11 @@ body::after {
 
   .how-it-works-section__columns {
     gap: 2.1875rem;
+  }
+
+  .form-part-offer__body--additional.form-part-offer__body {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 
   .form-offer-bottom {
@@ -4613,13 +4618,6 @@ body::after {
   .cars-list-section__item--increased {
     -ms-grid-column-span: 3;
     grid-column: span 3;
-  }
-}
-
-@media (max-width: 61.99875em) and (min-width: 29.99875em) {
-  .form-part-offer__body--additional {
-    -ms-grid-columns: 1fr;
-    grid-template-columns: 1fr;
   }
 }
 

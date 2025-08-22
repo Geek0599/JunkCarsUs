@@ -504,7 +504,7 @@
             const validateForms = document.querySelectorAll("[data-validate]");
             if (validateForms.length) validateForms.forEach((form => {
                 const btnSubmit = form.querySelector('button[type="submit"]');
-                const inputs = Array.from(form.querySelectorAll("input:not([data-no-required]), select, textarea"));
+                const inputs = Array.from(form.querySelectorAll('input:not([type="hidden"]):not([data-no-required]), select, textarea'));
                 const groupRadios = findRadioCheckboxGroup(form, "radio");
                 const groupCheckbox = findRadioCheckboxGroup(form, "checkbox");
                 [ groupRadios, groupCheckbox ].forEach((groupType => {
@@ -4872,26 +4872,5 @@
             }
         }
         carMakeValidation();
-        function showHideWithValidationTrimField() {
-            const yearInput = document.getElementById("year");
-            const trimInput = document.getElementById("trim");
-            if (!yearInput || !trimInput) return;
-            const trimFormItem = trimInput.closest(".form__item");
-            yearInput.addEventListener("input", (e => {
-                const value = e.target.value;
-                if (Number(value) >= 2e3) {
-                    trimInput.removeAttribute("data-skip-validation");
-                    trimFormItem.classList.remove("hidden");
-                } else if (!trimInput.hasAttribute("data-skip-validation")) {
-                    trimInput.setAttribute("data-skip-validation", "");
-                    trimFormItem.classList.add("hidden");
-                    trimInput.value = "";
-                    window?.formValidate?.removeStatus({
-                        input: trimInput
-                    });
-                }
-            }));
-        }
-        showHideWithValidationTrimField();
     })();
 })();
