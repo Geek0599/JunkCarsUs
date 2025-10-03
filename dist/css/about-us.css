@@ -3220,6 +3220,8 @@ body::after {
 }
 
 .states-map-section__map svg {
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
   -webkit-filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.1));
           filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.1));
   width: 100%;
