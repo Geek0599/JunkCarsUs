@@ -753,21 +753,23 @@
         function showTextNotice({input, text, isTextNotice = false}) {
             input = Array.isArray(input) ? input[0] : input;
             const isShowNotice = isTextNotice || input.closest("[data-validate]")?.hasAttribute("data-validate-notice");
-            let notice = input.parentElement.querySelector(".form__item-notice");
+            let notice = null;
+            if (input.closest(".form__input-wrapper")) notice = input.parentElement.parentElement.querySelector(".form__item-notice"); else notice = input.parentElement.querySelector(".form__item-notice");
             const textNotice = input.hasAttribute("data-error-notice") ? input.getAttribute("data-error-notice") : text;
             if (isShowNotice) if (notice && notice.textContent !== textNotice) notice.textContent = textNotice; else if (!notice) {
                 notice = document.createElement("label");
                 notice.classList.add("form__item-notice");
                 input.id ? notice.setAttribute("for", input.id) : null;
                 notice.textContent = textNotice;
-                if ([ "radio", "checkbox" ].includes(input.type)) input.parentElement.insertAdjacentElement("beforeend", notice); else input.insertAdjacentElement("afterend", notice);
+                if ([ "radio", "checkbox" ].includes(input.type)) input.parentElement.insertAdjacentElement("beforeend", notice); else if (input.closest(".form__input-wrapper")) input.parentElement.insertAdjacentElement("afterend", notice); else input.insertAdjacentElement("afterend", notice);
             }
             addError({
                 input
             });
         }
         function removeTextNotice({input}) {
-            const notice = input.parentElement.querySelector(".form__item-notice");
+            let notice = null;
+            if (input.closest(".form__input-wrapper")) notice = input.parentElement.parentElement.querySelector(".form__item-notice"); else notice = input.parentElement.querySelector(".form__item-notice");
             notice && notice.remove();
         }
         function scrollToInput({input}) {
