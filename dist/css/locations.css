@@ -2558,6 +2558,8 @@ body::after {
   fill: var(--map-bg);
   stroke: var(--white);
   stroke-width: 5;
+  -webkit-transition: fill 0.1s ease;
+  transition: fill 0.1s ease;
 }
 
 .states-map-section__map svg .state-border,
