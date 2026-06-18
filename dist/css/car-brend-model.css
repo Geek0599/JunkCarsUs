@@ -965,6 +965,11 @@ Snippet (HTML): cnt
   line-height: 175%;
 }
 
+.text-base {
+  font-weight: 500;
+  line-height: 187.5%;
+}
+
 .text-title {
   font-weight: 600;
   line-height: 118.75%;
@@ -1381,6 +1386,10 @@ Snippet (HTML): cnt
   }
 }
 
+.page__overflow:last-child {
+  padding-bottom: 0;
+}
+
 [class*=__overflow] {
   overflow: hidden;
 }
@@ -1578,6 +1587,10 @@ body::after {
   margin-left: 0.4375rem;
   padding: 0.1875rem 0.125rem;
   text-decoration-line: underline;
+}
+
+.points-list__title {
+  margin-bottom: 1.5rem;
 }
 
 .points-list__points-title {
@@ -2648,7 +2661,6 @@ body::after {
 }
 
 .content-main-section__text {
-  max-width: 23.75rem;
   line-height: 136.6%;
 }
 
@@ -2710,15 +2722,15 @@ body::after {
   margin-bottom: 0;
 }
 
-@supports (padding-bottom: clamp( 8.125rem , 7.9375rem  +  0.6666666667vw , 8.4375rem )) {
+@supports (padding-bottom: clamp( 10rem , 7rem  +  6.25vw , 11.6875rem )) {
   .page__car-main {
-    padding-bottom: clamp( 8.125rem , 7.9375rem  +  0.6666666667vw , 8.4375rem );
+    padding-bottom: clamp( 10rem , 7rem  +  6.25vw , 11.6875rem );
   }
 }
 
-@supports not (padding-bottom: clamp( 8.125rem , 7.9375rem  +  0.6666666667vw , 8.4375rem )) {
+@supports not (padding-bottom: clamp( 10rem , 7rem  +  6.25vw , 11.6875rem )) {
   .page__car-main {
-    padding-bottom: calc(8.125rem + 0.3125 * (100vw - 28.125rem) / 46.875);
+    padding-bottom: calc(10rem + 1.6875 * (100vw - 48rem) / 27);
   }
 }
 
@@ -2736,18 +2748,6 @@ body::after {
   -webkit-box-flex: 0;
       -ms-flex: 0 1 54%;
           flex: 0 1 54%;
-}
-
-@supports (margin-top: clamp( -7.5rem , -6.8rem  +  -0.9333333333vw , -7.0625rem )) {
-  .page__car-main ~ .page__section-onmain-overhang {
-    margin-top: clamp( -7.5rem , -6.8rem  +  -0.9333333333vw , -7.0625rem );
-  }
-}
-
-@supports not (margin-top: clamp( -7.5rem , -6.8rem  +  -0.9333333333vw , -7.0625rem )) {
-  .page__car-main ~ .page__section-onmain-overhang {
-    margin-top: calc(-7.0625rem + -0.4375 * (100vw - 28.125rem) / 46.875);
-  }
 }
 
 .page__car-main--large .content-main-section {
@@ -2786,8 +2786,21 @@ body::after {
   }
 }
 
+@supports (padding-bottom: clamp( 8.5625rem , 12.5555555556rem  +  -5.3240740741vw , 10rem )) {
+  .page__car-main--onmain-overhang {
+    padding-bottom: clamp( 8.5625rem , 12.5555555556rem  +  -5.3240740741vw , 10rem );
+  }
+}
+
+@supports not (padding-bottom: clamp( 8.5625rem , 12.5555555556rem  +  -5.3240740741vw , 10rem )) {
+  .page__car-main--onmain-overhang {
+    padding-bottom: calc(10rem + -1.4375 * (100vw - 48rem) / 27);
+  }
+}
+
 .car-main-img {
   margin-top: -5.5625rem;
+  margin-bottom: -5rem;
 }
 
 .car-main-img img {
@@ -6172,6 +6185,14 @@ html.with-fancybox body.hide-scrollbar {
     padding: 1.5rem 0 1.5rem 1.5rem;
   }
 
+  .content-main-section__text {
+    max-width: 23.75rem;
+  }
+
+  .page__car-main--onmain-overhang ~ .page__section-onmain-overhang {
+    margin-top: -4.5rem;
+  }
+
   .car-main-img {
     width: 46.984%;
     -webkit-box-flex: 0;
@@ -6606,6 +6627,10 @@ html.with-fancybox body.hide-scrollbar {
     width: 100%;
   }
 
+  .page__car-main ~ .page__section-onmain-overhang {
+    margin-top: -9.0625rem;
+  }
+
   .car-main-img {
     pointer-events: none;
     width: 75%;
@@ -6732,6 +6757,10 @@ html.with-fancybox body.hide-scrollbar {
 
   .slider-actions__btn-next {
     display: none;
+  }
+
+  .page__car-main ~ .page__section-onmain-overhang {
+    margin-top: -7.5rem;
   }
 
   .call-us-section--small {

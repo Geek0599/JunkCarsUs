@@ -959,6 +959,11 @@ Snippet (HTML): cnt
   line-height: 175%;
 }
 
+.text-base {
+  font-weight: 500;
+  line-height: 187.5%;
+}
+
 .text-title {
   font-weight: 600;
   line-height: 118.75%;
@@ -1375,6 +1380,10 @@ Snippet (HTML): cnt
   }
 }
 
+.page__overflow:last-child {
+  padding-bottom: 0;
+}
+
 [class*=__overflow] {
   overflow: hidden;
 }
@@ -1572,6 +1581,10 @@ body::after {
   margin-left: 0.4375rem;
   padding: 0.1875rem 0.125rem;
   text-decoration-line: underline;
+}
+
+.points-list__title {
+  margin-bottom: 1.5rem;
 }
 
 .points-list__points-title {
@@ -2638,7 +2651,6 @@ body::after {
 }
 
 .content-main-section__text {
-  max-width: 23.75rem;
   line-height: 136.6%;
 }
 
@@ -5697,6 +5709,10 @@ html.with-fancybox body.hide-scrollbar {
         -ms-flex: 1 1 33.333%;
             flex: 1 1 33.333%;
     padding: 1.5rem 0 1.5rem 1.5rem;
+  }
+
+  .content-main-section__text {
+    max-width: 23.75rem;
   }
 
   .state-plate-bg-img {

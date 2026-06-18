@@ -952,6 +952,11 @@ Snippet (HTML): cnt
   line-height: 175%;
 }
 
+.text-base {
+  font-weight: 500;
+  line-height: 187.5%;
+}
+
 .text-title {
   font-weight: 600;
   line-height: 118.75%;
@@ -1372,6 +1377,10 @@ Snippet (HTML): cnt
   }
 }
 
+.page__overflow:last-child {
+  padding-bottom: 0;
+}
+
 [class*=__overflow] {
   overflow: hidden;
 }
@@ -1569,6 +1578,10 @@ body::after {
   margin-left: 0.4375rem;
   padding: 0.1875rem 0.125rem;
   text-decoration-line: underline;
+}
+
+.points-list__title {
+  margin-bottom: 1.5rem;
 }
 
 .points-list__points-title {
@@ -2574,6 +2587,7 @@ body::after {
 }
 
 [data-tooltip] {
+  pointer-events: none;
   position: absolute;
   display: inline-block;
   left: 0;

@@ -967,6 +967,11 @@ Snippet (HTML): cnt
   line-height: 175%;
 }
 
+.text-base {
+  font-weight: 500;
+  line-height: 187.5%;
+}
+
 .text-title {
   font-weight: 600;
   line-height: 118.75%;
@@ -1387,6 +1392,10 @@ Snippet (HTML): cnt
   }
 }
 
+.page__overflow:last-child {
+  padding-bottom: 0;
+}
+
 [class*=__overflow] {
   overflow: hidden;
 }
@@ -1584,6 +1593,10 @@ body::after {
   margin-left: 0.4375rem;
   padding: 0.1875rem 0.125rem;
   text-decoration-line: underline;
+}
+
+.points-list__title {
+  margin-bottom: 1.5rem;
 }
 
 .points-list__points-title {
@@ -2614,7 +2627,6 @@ body::after {
 }
 
 .content-main-section__text {
-  max-width: 23.75rem;
   line-height: 136.6%;
 }
 
@@ -3642,6 +3654,7 @@ body::after {
 }
 
 [data-tooltip] {
+  pointer-events: none;
   position: absolute;
   display: inline-block;
   left: 0;
@@ -6640,6 +6653,10 @@ html.with-fancybox body.hide-scrollbar {
       margin-top: calc(0.0000000625rem + -1.6875000625 * (100vw - 62rem) / 13);
     }
 }
+
+  .content-main-section__text {
+    max-width: 23.75rem;
+  }
 
   .text-section__columns {
     display: -ms-grid;

@@ -938,6 +938,11 @@ Snippet (HTML): cnt
   line-height: 175%;
 }
 
+.text-base {
+  font-weight: 500;
+  line-height: 187.5%;
+}
+
 .text-title {
   font-weight: 600;
   line-height: 118.75%;
@@ -1354,6 +1359,10 @@ Snippet (HTML): cnt
   }
 }
 
+.page__overflow:last-child {
+  padding-bottom: 0;
+}
+
 [class*=__overflow] {
   overflow: hidden;
 }
@@ -1551,6 +1560,10 @@ body::after {
   margin-left: 0.4375rem;
   padding: 0.1875rem 0.125rem;
   text-decoration-line: underline;
+}
+
+.points-list__title {
+  margin-bottom: 1.5rem;
 }
 
 .points-list__points-title {
@@ -3256,6 +3269,10 @@ body::after {
   }
 }
 
+.page__text-info-with-indent {
+  padding: 4rem 0 1.5rem;
+}
+
 .text-info--gap .text-info__container {
   row-gap: 1.5rem;
 }
@@ -3277,7 +3294,21 @@ body::after {
   -webkit-column-gap: 2rem;
      -moz-column-gap: 2rem;
           column-gap: 2rem;
-  row-gap: 2.625rem;
+  row-gap: 1.5rem;
+}
+
+.text-info__columns-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.text-info__item-title {
+  line-height: 1.1875;
+  margin-bottom: 2rem;
 }
 
 .text-info__column,
@@ -3301,6 +3332,11 @@ body::after {
 .text-info__row .btn-phone::before {
   font-size: 0.75em;
   top: 52%;
+}
+
+.text-info__column p:not(:last-child),
+.text-info__row p:not(:last-child) {
+  margin-bottom: 1.5rem;
 }
 
 .text-info__column {
@@ -5706,6 +5742,10 @@ html.with-fancybox body.hide-scrollbar {
     padding-bottom: 0.5rem;
   }
 
+  .text-info__title {
+    margin-bottom: 0.5rem;
+  }
+
   .car-estimation-item__image {
     margin-bottom: 1rem;
   }
@@ -6784,6 +6824,10 @@ html.with-fancybox body.hide-scrollbar {
 
   .spoller-text__title {
     padding: 1.6875rem 2.1875rem 1.6875rem 0;
+  }
+
+  .text-info__item-title {
+    margin-bottom: 1.5rem;
   }
 
   .car-estimation__title {

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>arrow-left-right-line</title>
+    <g id="arrow-left-right-line" stroke="none" fill="none" fill-rule="nonzero">
+        <path d="M32.1006,24.0996 L42,33.9992 L32.1006,43.8986 L29.272,41.0702 L34.344,35.9976 L8,35.9992 L8,31.9992 L34.344,31.9976 L29.272,26.928 L32.1006,24.0996 Z M15.8995,4.0996 L18.72792,6.92804 L13.656,11.9976 L40,11.9991 L40,15.9991 L13.656,15.9976 L18.72792,21.0702 L15.8995,23.8986 L6,13.9991 L15.8995,4.0996 Z" id="Shape" fill="#000000"></path>
+    </g>
+</svg>
