@@ -1551,6 +1551,10 @@ body::after {
   text-decoration-line: underline;
 }
 
+.points-list--fw-400 .point-item p {
+  font-weight: 400;
+}
+
 .points-list__title {
   margin-bottom: 1.5rem;
 }

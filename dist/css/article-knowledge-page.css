@@ -1566,6 +1566,14 @@ body::after {
   text-decoration-line: underline;
 }
 
+.points-list--fw-400 .point-item p,
+.points-list--fw-400 .article-knowledge__text ul li p,
+.article-knowledge__text ul .points-list--fw-400 li p,
+.points-list--fw-400 .article-knowledge__wrapper .text-section__content ul li p,
+.article-knowledge__wrapper .text-section__content ul .points-list--fw-400 li p {
+  font-weight: 400;
+}
+
 .points-list__title {
   margin-bottom: 1.5rem;
 }
