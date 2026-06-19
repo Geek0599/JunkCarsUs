@@ -3625,6 +3625,18 @@ body::after {
   margin-bottom: 2rem;
 }
 
+@supports (padding-bottom: clamp( 4.6875rem , 2.8125rem  +  8.3333333333vw , 9.0625rem )) {
+  .page-services-we-buy > :last-child {
+    padding-bottom: clamp( 4.6875rem , 2.8125rem  +  8.3333333333vw , 9.0625rem );
+  }
+}
+
+@supports not (padding-bottom: clamp( 4.6875rem , 2.8125rem  +  8.3333333333vw , 9.0625rem )) {
+  .page-services-we-buy > :last-child {
+    padding-bottom: calc(4.6875rem + 4.375 * (100vw - 22.5rem) / 52.5);
+  }
+}
+
 .page-services-we-buy__indent:not(:last-child) {
   margin-bottom: 4rem;
 }
