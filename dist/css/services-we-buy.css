@@ -3625,15 +3625,15 @@ body::after {
   margin-bottom: 2rem;
 }
 
-@supports (padding-bottom: clamp( 4.6875rem , 2.8125rem  +  8.3333333333vw , 9.0625rem )) {
+@supports (padding-bottom: clamp( 2.375rem , 1.3839285714rem  +  4.4047619048vw , 4.6875rem )) {
   .page-services-we-buy > :last-child {
-    padding-bottom: clamp( 4.6875rem , 2.8125rem  +  8.3333333333vw , 9.0625rem );
+    padding-bottom: clamp( 2.375rem , 1.3839285714rem  +  4.4047619048vw , 4.6875rem );
   }
 }
 
-@supports not (padding-bottom: clamp( 4.6875rem , 2.8125rem  +  8.3333333333vw , 9.0625rem )) {
+@supports not (padding-bottom: clamp( 2.375rem , 1.3839285714rem  +  4.4047619048vw , 4.6875rem )) {
   .page-services-we-buy > :last-child {
-    padding-bottom: calc(4.6875rem + 4.375 * (100vw - 22.5rem) / 52.5);
+    padding-bottom: calc(2.375rem + 2.3125 * (100vw - 22.5rem) / 52.5);
   }
 }
 
