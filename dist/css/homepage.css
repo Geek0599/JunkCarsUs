@@ -3569,7 +3569,7 @@ body::after {
 .service-available__bg {
   position: absolute;
   bottom: 0;
-  right: 12.5%;
+  right: 9%;
   width: 23%;
   min-width: 15.5625rem;
 }
@@ -6439,7 +6439,7 @@ html.with-fancybox body.hide-scrollbar {
 
   .service-available__bottom-body {
     padding-top: 1.5rem;
-    padding-right: 36%;
+    padding-right: 33%;
     padding-bottom: 1.5rem;
   }
 
@@ -6657,15 +6657,15 @@ html.with-fancybox body.hide-scrollbar {
     grid-template-columns: minmax(12.5rem, 1fr) minmax(12.5rem, 1fr) minmax(12.5rem, 1fr);
   }
 
-@supports (right: clamp( 0.0000000625rem , -27.1153843269rem  +  46.1538457692vw , 7.5rem )) {
+@supports (right: clamp( 0.0000000625rem , -23.72596125rem  +  40.384615vw , 6.5625rem )) {
     .service-available__bg {
-      right: clamp( 0.0000000625rem , -27.1153843269rem  +  46.1538457692vw , 7.5rem );
+      right: clamp( 0.0000000625rem , -23.72596125rem  +  40.384615vw , 6.5625rem );
     }
 }
 
-@supports not (right: clamp( 0.0000000625rem , -27.1153843269rem  +  46.1538457692vw , 7.5rem )) {
+@supports not (right: clamp( 0.0000000625rem , -23.72596125rem  +  40.384615vw , 6.5625rem )) {
     .service-available__bg {
-      right: calc(0.0000000625rem + 7.4999999375 * (100vw - 58.75rem) / 16.25);
+      right: calc(0.0000000625rem + 6.5624999375 * (100vw - 58.75rem) / 16.25);
     }
 }
 }

@@ -3278,7 +3278,7 @@ body::after {
 .service-available__bg {
   position: absolute;
   bottom: 0;
-  right: 12.5%;
+  right: 9%;
   width: 23%;
   min-width: 15.5625rem;
 }
@@ -3310,6 +3310,10 @@ body::after {
 
 .page-services-we-buy__points-list {
   margin-bottom: 3rem;
+}
+
+.page-services-we-buy__service-available {
+  padding-top: 0.625rem;
 }
 
 @media (min-width: 29.99875em) {
@@ -3390,7 +3394,7 @@ body::after {
 
   .service-available__bottom-body {
     padding-top: 1.5rem;
-    padding-right: 36%;
+    padding-right: 33%;
     padding-bottom: 1.5rem;
   }
 
@@ -3567,15 +3571,15 @@ body::after {
     grid-template-columns: minmax(12.5rem, 1fr) minmax(12.5rem, 1fr) minmax(12.5rem, 1fr);
   }
 
-@supports (right: clamp( 0.0000000625rem , -27.1153843269rem  +  46.1538457692vw , 7.5rem )) {
+@supports (right: clamp( 0.0000000625rem , -23.72596125rem  +  40.384615vw , 6.5625rem )) {
     .service-available__bg {
-      right: clamp( 0.0000000625rem , -27.1153843269rem  +  46.1538457692vw , 7.5rem );
+      right: clamp( 0.0000000625rem , -23.72596125rem  +  40.384615vw , 6.5625rem );
     }
 }
 
-@supports not (right: clamp( 0.0000000625rem , -27.1153843269rem  +  46.1538457692vw , 7.5rem )) {
+@supports not (right: clamp( 0.0000000625rem , -23.72596125rem  +  40.384615vw , 6.5625rem )) {
     .service-available__bg {
-      right: calc(0.0000000625rem + 7.4999999375 * (100vw - 58.75rem) / 16.25);
+      right: calc(0.0000000625rem + 6.5624999375 * (100vw - 58.75rem) / 16.25);
     }
 }
 }
@@ -3969,6 +3973,10 @@ body::after {
         -ms-flex-pack: center;
             justify-content: center;
   }
+
+  .sell-online-private__img {
+    margin-bottom: 3rem;
+  }
 }
 
 @media (max-width: 61.99875em) and (max-width: 47.99875em) {
@@ -4079,6 +4087,10 @@ body::after {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
+  }
+
+  .sell-online-private__img {
+    margin-bottom: 2rem;
   }
 
   .sell-online-private__column {
@@ -4469,8 +4481,20 @@ body::after {
     margin-bottom: 1.5rem;
   }
 
+  .sell-online-private__img {
+    margin-bottom: 1.5rem;
+  }
+
+  .sell-onl-priv-item__title {
+    margin-bottom: 1.5rem;
+  }
+
   .ready-to-sell__title {
     margin-bottom: 1.5rem;
+  }
+
+  .ready-to-sell__columns {
+    row-gap: 2rem;
   }
 
   .ready-to-sell__title {
