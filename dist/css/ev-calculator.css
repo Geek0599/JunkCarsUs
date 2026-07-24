@@ -1636,6 +1636,70 @@ body::after {
   width: 100%;
 }
 
+.spoller-text__main-title {
+  margin-bottom: 2rem;
+}
+
+.spoller-text__item {
+  border-bottom: 1px solid rgb(229, 229, 229);
+}
+
+.spoller-text__title {
+  text-align: left;
+  font-family: "Barlow Condensed";
+  font-weight: 500;
+  letter-spacing: -0.05rem;
+  padding: 2rem 2.5rem 2rem 0;
+  width: 100%;
+  position: relative;
+}
+
+@supports (font-size: clamp( 1.75rem , 1.6428571429rem  +  0.4761904762vw , 2rem )) {
+  .spoller-text__title {
+    font-size: clamp( 1.75rem , 1.6428571429rem  +  0.4761904762vw , 2rem );
+  }
+}
+
+@supports not (font-size: clamp( 1.75rem , 1.6428571429rem  +  0.4761904762vw , 2rem )) {
+  .spoller-text__title {
+    font-size: calc(1.75rem + 0.25 * (100vw - 22.5rem) / 52.5);
+  }
+}
+
+.spoller-text__title::before,
+.spoller-text__title::after {
+  content: "";
+  height: 0.21875rem;
+  width: 1.5rem;
+  background-color: #000;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.spoller-text__title::after {
+  -webkit-transition: -webkit-transform 0.3s ease 0s;
+  transition: -webkit-transform 0.3s ease 0s;
+  transition: transform 0.3s ease 0s;
+  transition: transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
+  -webkit-transform: translateY(-50%) rotate(-90deg);
+      -ms-transform: translateY(-50%) rotate(-90deg);
+          transform: translateY(-50%) rotate(-90deg);
+}
+
+.spoller-text__title._spoller-active::after {
+  -webkit-transform: translateY(-50%) rotate(0deg);
+      -ms-transform: translateY(-50%) rotate(0deg);
+          transform: translateY(-50%) rotate(0deg);
+}
+
+.spoller-text__body {
+  margin-bottom: 2rem;
+}
+
 .aside-sell-by__title {
   margin-bottom: 2.5rem;
 }
@@ -3398,70 +3462,6 @@ ol.list-cnt-sell-by__list li::before {
 
 .text-section__point-item:not(:last-child) {
   margin-bottom: 0.5rem;
-}
-
-.spoller-text__main-title {
-  margin-bottom: 2rem;
-}
-
-.spoller-text__item {
-  border-bottom: 1px solid rgb(229, 229, 229);
-}
-
-.spoller-text__title {
-  text-align: left;
-  font-family: "Barlow Condensed";
-  font-weight: 500;
-  letter-spacing: -0.05rem;
-  padding: 2rem 2.5rem 2rem 0;
-  width: 100%;
-  position: relative;
-}
-
-@supports (font-size: clamp( 1.75rem , 1.6428571429rem  +  0.4761904762vw , 2rem )) {
-  .spoller-text__title {
-    font-size: clamp( 1.75rem , 1.6428571429rem  +  0.4761904762vw , 2rem );
-  }
-}
-
-@supports not (font-size: clamp( 1.75rem , 1.6428571429rem  +  0.4761904762vw , 2rem )) {
-  .spoller-text__title {
-    font-size: calc(1.75rem + 0.25 * (100vw - 22.5rem) / 52.5);
-  }
-}
-
-.spoller-text__title::before,
-.spoller-text__title::after {
-  content: "";
-  height: 0.21875rem;
-  width: 1.5rem;
-  background-color: #000;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
-}
-
-.spoller-text__title::after {
-  -webkit-transition: -webkit-transform 0.3s ease 0s;
-  transition: -webkit-transform 0.3s ease 0s;
-  transition: transform 0.3s ease 0s;
-  transition: transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
-  -webkit-transform: translateY(-50%) rotate(-90deg);
-      -ms-transform: translateY(-50%) rotate(-90deg);
-          transform: translateY(-50%) rotate(-90deg);
-}
-
-.spoller-text__title._spoller-active::after {
-  -webkit-transform: translateY(-50%) rotate(0deg);
-      -ms-transform: translateY(-50%) rotate(0deg);
-          transform: translateY(-50%) rotate(0deg);
-}
-
-.spoller-text__body {
-  margin-bottom: 2rem;
 }
 
 .page__text-info {
@@ -6961,6 +6961,14 @@ html.with-fancybox body.hide-scrollbar {
     padding-left: 3rem;
   }
 
+  .spoller-text__main-title {
+    margin-bottom: 0.3125rem;
+  }
+
+  .spoller-text__title {
+    padding: 1.6875rem 2.1875rem 1.6875rem 0;
+  }
+
   .aside-sell-by__title {
     line-height: 0.8333333333;
   }
@@ -7132,14 +7140,6 @@ html.with-fancybox body.hide-scrollbar {
 
   .vehicles-card__ranking {
     padding: 0.9375rem 1.5rem;
-  }
-
-  .spoller-text__main-title {
-    margin-bottom: 0.3125rem;
-  }
-
-  .spoller-text__title {
-    padding: 1.6875rem 2.1875rem 1.6875rem 0;
   }
 
   .text-info__item-title {
