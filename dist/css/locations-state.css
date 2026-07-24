@@ -1697,6 +1697,11 @@ body::after {
 .banner-sell-by__title {
   text-transform: unset;
   font-weight: 500;
+  line-height: 1.1875;
+}
+
+.banner-sell-by__text {
+  line-height: 1.375;
 }
 
 .banner-sell-by__bg {
