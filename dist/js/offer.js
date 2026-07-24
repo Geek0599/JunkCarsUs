@@ -964,6 +964,7 @@
             check();
         }
         headerScroll();
+        spollers();
         __webpack_require__(740);
         __webpack_require__(678);
         __webpack_require__(195);
@@ -4844,7 +4845,6 @@
         initInputMask();
         initUploadPhotoInput();
         initPopupSimple();
-        spollers();
         formValidate();
         hoverTooltipOnStatesMap();
         function carMakeValidation() {

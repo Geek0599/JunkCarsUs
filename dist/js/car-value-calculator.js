@@ -929,6 +929,7 @@
             check();
         }
         headerScroll();
+        spollers();
         function ssr_window_esm_isObject(obj) {
             return obj !== null && typeof obj === "object" && "constructor" in obj && obj.constructor === Object;
         }
@@ -7996,7 +7997,6 @@
         }
         initInputMask();
         initPopupSimple();
-        spollers();
         testimonialsSlider();
         setFontSizeForTestimonials();
         formValidate();

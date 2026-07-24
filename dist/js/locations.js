@@ -979,6 +979,7 @@
         check();
     }
     headerScroll();
+    spollers();
     function ssr_window_esm_isObject(obj) {
         return obj !== null && typeof obj === "object" && "constructor" in obj && obj.constructor === Object;
     }
@@ -4301,7 +4302,6 @@
     }
     testimonialsSlider();
     setFontSizeForTestimonials();
-    spollers();
     formValidate();
     hoverTooltipOnStatesMap();
     stretchSpollerListMapSubmenu();
