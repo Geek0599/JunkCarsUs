@@ -7345,9 +7345,18 @@ html.with-fancybox body.hide-scrollbar {
     gap: 1rem;
   }
 
+  .content-sell-by__faq .spoller-text__main-title {
+    margin-bottom: 0.6875rem;
+  }
+
   .content-sell-by__faq .spoller-text__title {
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+
+  .content-sell-by__faq .spoller-text__body {
+    margin-bottom: 1rem;
+    margin-top: -0.5rem;
   }
 
   .banner-cnt-sell-by {
