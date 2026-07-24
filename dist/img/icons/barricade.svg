@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>barricade-line</title>
+    <g id="barricade-line" stroke="none" fill="none" fill-rule="nonzero">
+        <path d="M6.49323,19 L17.5068,19 L16.8401,16 L7.1599,16 L6.49323,19 Z M19.5556,19 L21,19 L21,21 L3,21 L3,19 L4.44444,19 L7.82598,3.78307 C7.92766,3.32553 8.33347,3 8.80217,3 L15.1978,3 C15.6665,3 16.0723,3.32553 16.174,3.78307 L19.5556,19 Z M7.60434,14 L16.3957,14 L15.5068,10 L8.49323,10 L7.60434,14 Z M8.93768,8 L15.0623,8 L14.3957,5 L9.60434,5 L8.93768,8 Z" id="Shape" fill="#000000"></path>
+    </g>
+</svg>

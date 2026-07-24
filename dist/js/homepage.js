@@ -12765,7 +12765,7 @@
             const selector = document.querySelector("[data-phone-mask]");
             if (selector) {
                 new bundle({
-                    mask: "+1 999 - 999 9999",
+                    mask: "+1 999-999-9999",
                     clearMaskOnLostFocus: false
                 }).mask(selector);
                 const form = selector.closest("form");
