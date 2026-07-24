@@ -1694,6 +1694,8 @@ body::after {
 }
 
 .content-sell-by__faq .spoller-text__title {
+  line-height: 1.5;
+  padding-right: 2rem;
   font-size: 1rem;
   font-weight: 700;
   font-family: "VelaSans";
@@ -1765,6 +1767,10 @@ body::after {
 
 .banner-cnt-sell-by__title {
   margin-bottom: 1rem;
+}
+
+.banner-cnt-sell-by__text {
+  line-height: 1.375;
 }
 
 .list-cnt-sell-by__title {
@@ -4487,6 +4493,11 @@ ol.list-cnt-sell-by__list li::before {
 
   .content-sell-by__info {
     gap: 1rem;
+  }
+
+  .content-sell-by__faq .spoller-text__title {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
   .banner-cnt-sell-by {
