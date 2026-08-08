@@ -948,6 +948,7 @@ Snippet (HTML): cnt
 }
 
 .sub-title,
+.number-card__title,
 .sub-menu__title,
 .call-us {
   font-family: "Barlow Condensed";
@@ -2804,18 +2805,7 @@ ol.list-cnt-sell-by__list li::before {
 
 .page__locations-state {
   margin-bottom: 0;
-}
-
-@supports (padding-bottom: clamp( 16.5625rem , 18.8839285714rem  +  -3.0952380952vw , 18.1875rem )) {
-  .page__locations-state {
-    padding-bottom: clamp( 16.5625rem , 18.8839285714rem  +  -3.0952380952vw , 18.1875rem );
-  }
-}
-
-@supports not (padding-bottom: clamp( 16.5625rem , 18.8839285714rem  +  -3.0952380952vw , 18.1875rem )) {
-  .page__locations-state {
-    padding-bottom: calc(18.1875rem + -1.625 * (100vw - 22.5rem) / 52.5);
-  }
+  padding-bottom: 13.125rem;
 }
 
 .page__locations-state .main-section__container {
@@ -2829,9 +2819,9 @@ ol.list-cnt-sell-by__list li::before {
 }
 
 .page__locations-state .content-main-section {
-  -webkit-box-flex: 0;
-      -ms-flex: 0 1 54%;
-          flex: 0 1 54%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 @supports (margin-top: clamp( -11.4375rem , -13.125rem  +  7.5vw , -7.5rem )) {
@@ -2850,6 +2840,20 @@ ol.list-cnt-sell-by__list li::before {
   -webkit-box-flex: 0;
       -ms-flex: 0 1 56%;
           flex: 0 1 56%;
+}
+
+.state-plate-bg-img {
+  margin: 0 auto;
+}
+
+.state-plate-bg-img img {
+  width: 100%;
+  aspect-ratio: 549/553;
+  -o-object-fit: contain;
+     object-fit: contain;
+  display: block;
+  height: initial;
+  max-width: initial;
 }
 
 .page__main {
@@ -4762,6 +4766,44 @@ ol.list-cnt-sell-by__list li::before {
   margin-bottom: 1.625rem;
   line-height: 136%;
   font-weight: 700;
+}
+
+.numbers__title {
+  margin-bottom: 3rem;
+}
+
+.numbers__items {
+  display: -ms-grid;
+  display: grid;
+  -webkit-column-gap: 2rem;
+     -moz-column-gap: 2rem;
+          column-gap: 2rem;
+  row-gap: 3.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(17.25rem, 1fr));
+}
+
+.number-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1.5rem;
+}
+
+.number-card__value {
+  color: #ffd833;
+  font-family: "Barlow Condensed";
+  font-weight: 500;
+  font-size: 6.5rem;
+  letter-spacing: -0.1625rem;
+  line-height: 87.5%;
+}
+
+.number-card__text {
+  line-height: 162.5%;
 }
 
 .swiper {
@@ -6881,23 +6923,30 @@ html.with-fancybox body.hide-scrollbar {
     padding: 1.5rem 0 1.5rem 1.5rem;
   }
 
-  .state-plate-bg-img {
-    margin-left: -1.8%;
-    width: 52.95%;
-    -webkit-box-flex: 0;
-        -ms-flex: 0 1 51%;
-            flex: 0 1 51%;
+  .page__locations-state {
+    padding-bottom: 10rem;
   }
 
-@supports (margin-top: clamp( -1.6875rem , 8.0480772837rem  +  -12.9807697115vw , 0.0000000625rem )) {
+  .page__locations-state .content-main-section__working-info {
+    margin-bottom: 3.125rem;
+  }
+
+  .state-plate-bg-img {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 45.75%;
+            flex: 0 1 45.75%;
+    margin-top: -5.3125rem;
+  }
+
+@supports (margin-top: clamp( -5.3125rem , 7.3076923077rem  +  -16.8269230769vw , -3.125rem )) {
     .state-plate-bg-img {
-      margin-top: clamp( -1.6875rem , 8.0480772837rem  +  -12.9807697115vw , 0.0000000625rem );
+      margin-top: clamp( -5.3125rem , 7.3076923077rem  +  -16.8269230769vw , -3.125rem );
     }
 }
 
-@supports not (margin-top: clamp( -1.6875rem , 8.0480772837rem  +  -12.9807697115vw , 0.0000000625rem )) {
+@supports not (margin-top: clamp( -5.3125rem , 7.3076923077rem  +  -16.8269230769vw , -3.125rem )) {
     .state-plate-bg-img {
-      margin-top: calc(0.0000000625rem + -1.6875000625 * (100vw - 62rem) / 13);
+      margin-top: calc(-3.125rem + -2.1875 * (100vw - 62rem) / 13);
     }
 }
 
@@ -7446,11 +7495,6 @@ html.with-fancybox body.hide-scrollbar {
     width: 100%;
   }
 
-  .state-plate-bg-img {
-    margin-top: 3.75rem;
-    width: 100%;
-  }
-
   .homepage-bg-img {
     right: 0;
     position: relative;
@@ -7690,6 +7734,14 @@ html.with-fancybox body.hide-scrollbar {
 
   .statewide__items {
     margin-bottom: 0.5rem;
+  }
+
+  .numbers__title {
+    margin-bottom: 1.5rem;
+  }
+
+  .numbers__items {
+    row-gap: 1.5rem;
   }
 }
 
