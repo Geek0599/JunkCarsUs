@@ -893,6 +893,7 @@ Snippet (HTML): cnt
   visibility: hidden;
 }
 
+.service-available__bg img,
 .value-calc-aside__image img,
 .average-item__icon img,
 .car-estimation-item__image img,
@@ -3221,18 +3222,6 @@ ol.list-cnt-sell-by__list li::before {
   }
 }
 
-@supports (padding-bottom: clamp( 1.8125rem , 0.9553571429rem  +  3.8095238095vw , 3.8125rem )) {
-  .how-it-works-section__body {
-    padding-bottom: clamp( 1.8125rem , 0.9553571429rem  +  3.8095238095vw , 3.8125rem );
-  }
-}
-
-@supports not (padding-bottom: clamp( 1.8125rem , 0.9553571429rem  +  3.8095238095vw , 3.8125rem )) {
-  .how-it-works-section__body {
-    padding-bottom: calc(1.8125rem + 2 * (100vw - 22.5rem) / 52.5);
-  }
-}
-
 @supports (padding-left: clamp( 1.5rem , -0.5892857143rem  +  9.2857142857vw , 6.375rem )) {
   .how-it-works-section__body {
     padding-left: clamp( 1.5rem , -0.5892857143rem  +  9.2857142857vw , 6.375rem );
@@ -3254,6 +3243,18 @@ ol.list-cnt-sell-by__list li::before {
 @supports not (padding-right: clamp( 1.5rem , -0.5892857143rem  +  9.2857142857vw , 6.375rem )) {
   .how-it-works-section__body {
     padding-right: calc(1.5rem + 4.875 * (100vw - 22.5rem) / 52.5);
+  }
+}
+
+@supports (padding-bottom: clamp( 1.8125rem , 1.2232142857rem  +  2.619047619vw , 3.1875rem )) {
+  .how-it-works-section__body {
+    padding-bottom: clamp( 1.8125rem , 1.2232142857rem  +  2.619047619vw , 3.1875rem );
+  }
+}
+
+@supports not (padding-bottom: clamp( 1.8125rem , 1.2232142857rem  +  2.619047619vw , 3.1875rem )) {
+  .how-it-works-section__body {
+    padding-bottom: calc(1.8125rem + 1.375 * (100vw - 22.5rem) / 52.5);
   }
 }
 
@@ -3297,7 +3298,9 @@ ol.list-cnt-sell-by__list li::before {
 }
 
 .how-it-works-section__img-bg {
-  max-width: 44.0625rem;
+  margin-left: var(--margin-horizontal);
+  margin-right: var(--margin-horizontal);
+  aspect-ratio: 1200/250;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3307,7 +3310,30 @@ ol.list-cnt-sell-by__list li::before {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: 2.5rem auto 0;
+}
+
+@supports (margin-top: clamp( 0.625rem , 2.948943662rem  +  -3.0985915493vw , 2rem )) {
+  .how-it-works-section__img-bg {
+    margin-top: clamp( 0.625rem , 2.948943662rem  +  -3.0985915493vw , 2rem );
+  }
+}
+
+@supports not (margin-top: clamp( 0.625rem , 2.948943662rem  +  -3.0985915493vw , 2rem )) {
+  .how-it-works-section__img-bg {
+    margin-top: calc(2rem + -1.375 * (100vw - 30.625rem) / 44.375);
+  }
+}
+
+@supports (--margin-horizontal: clamp( -6.375rem , 0.5892857143rem  +  -9.2857142857vw , -1.5rem )) {
+  .how-it-works-section__img-bg {
+    --margin-horizontal: clamp( -6.375rem , 0.5892857143rem  +  -9.2857142857vw , -1.5rem );
+  }
+}
+
+@supports not (--margin-horizontal: clamp( -6.375rem , 0.5892857143rem  +  -9.2857142857vw , -1.5rem )) {
+  .how-it-works-section__img-bg {
+    --margin-horizontal: calc(-1.5rem + -4.875 * (100vw - 22.5rem) / 52.5);
+  }
 }
 
 .how-it-works-item {
@@ -3432,6 +3458,11 @@ ol.list-cnt-sell-by__list li::before {
   transition: background 0.3s ease 0s, box-shadow 0.3s ease 0s, -webkit-box-shadow 0.3s ease 0s;
   min-height: 10.4375rem;
   text-align: center;
+}
+
+.car-item--disabled:not(a) {
+  border: 1px solid rgb(201, 201, 201);
+  background-color: unset;
 }
 
 .car-item__image {
@@ -4466,6 +4497,106 @@ ol.list-cnt-sell-by__list li::before {
 
 .number-card__text {
   line-height: 162.5%;
+}
+
+.service-available__top {
+  position: relative;
+}
+
+.service-available__top::before,
+.service-available__top::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.service-available__top::after {
+  content: "";
+  z-index: 0;
+  background: url("../img/some-day/lines-bg.svg") 0 0/auto 100% repeat-x;
+}
+
+.service-available__top::before {
+  z-index: -1;
+  background: -webkit-gradient(linear, left top, right top, from(rgb(247, 247, 246)), to(rgb(255, 255, 255))) 0 0/auto 100% repeat-x;
+  background: linear-gradient(90deg, rgb(247, 247, 246) 0%, rgb(255, 255, 255) 100%) 0 0/auto 100% repeat-x;
+}
+
+.service-available__title {
+  font-family: "Barlow Condensed";
+  position: relative;
+  z-index: 1;
+  font-size: 2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.05rem;
+  line-height: 120%;
+  padding-left: 4.9375rem;
+  padding: 2rem 40% 2rem 4.9375rem;
+}
+
+.service-available__title::before {
+  width: 3rem;
+  height: 3rem;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.service-available__title span {
+  display: block;
+}
+
+.service-available__bottom {
+  background-color: #ffd833;
+}
+
+.service-available__bottom-body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1.25rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.service-available__call {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-column-gap: 1.0625rem;
+     -moz-column-gap: 1.0625rem;
+          column-gap: 1.0625rem;
+  row-gap: 0.3125rem;
+  font-family: "Barlow Condensed";
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.05rem;
+}
+
+.service-available__phone {
+  font-size: 2rem;
+  padding-left: 1.1875em;
+}
+
+.service-available__phone::before {
+  font-size: 0.75em;
+}
+
+.service-available__bg {
+  position: absolute;
+  bottom: 0;
+  right: 9%;
+  width: 23%;
+  min-width: 15.5625rem;
 }
 
 .progress-bar {
@@ -6669,6 +6800,36 @@ html.with-fancybox body.hide-scrollbar {
       padding-left: calc(2.5rem + 3.875 * (100vw - 62rem) / 13);
     }
 }
+
+@supports (padding-left: clamp( 0.0000000625rem , -23.0480766346rem  +  39.2307688462vw , 6.375rem )) {
+    .service-available__top-body {
+      padding-left: clamp( 0.0000000625rem , -23.0480766346rem  +  39.2307688462vw , 6.375rem );
+    }
+}
+
+@supports not (padding-left: clamp( 0.0000000625rem , -23.0480766346rem  +  39.2307688462vw , 6.375rem )) {
+    .service-available__top-body {
+      padding-left: calc(0.0000000625rem + 6.3749999375 * (100vw - 58.75rem) / 16.25);
+    }
+}
+
+  .service-available__bottom-body {
+    padding-top: 1.5rem;
+    padding-right: 33%;
+    padding-bottom: 1.5rem;
+  }
+
+@supports (padding-left: clamp( 0.0000000625rem , -41.35096125rem  +  70.384615vw , 11.4375rem )) {
+    .service-available__bottom-body {
+      padding-left: clamp( 0.0000000625rem , -41.35096125rem  +  70.384615vw , 11.4375rem );
+    }
+}
+
+@supports not (padding-left: clamp( 0.0000000625rem , -41.35096125rem  +  70.384615vw , 11.4375rem )) {
+    .service-available__bottom-body {
+      padding-left: calc(0.0000000625rem + 11.4374999375 * (100vw - 58.75rem) / 16.25);
+    }
+}
 }
 
 @media (min-width: 61.99875em) {
@@ -6962,6 +7123,18 @@ html.with-fancybox body.hide-scrollbar {
     -ms-grid-columns: minmax(12.5rem, 1fr) minmax(12.5rem, 1fr) minmax(12.5rem, 1fr);
     grid-template-columns: minmax(12.5rem, 1fr) minmax(12.5rem, 1fr) minmax(12.5rem, 1fr);
   }
+
+@supports (right: clamp( 0.0000000625rem , -23.72596125rem  +  40.384615vw , 6.5625rem )) {
+    .service-available__bg {
+      right: clamp( 0.0000000625rem , -23.72596125rem  +  40.384615vw , 6.5625rem );
+    }
+}
+
+@supports not (right: clamp( 0.0000000625rem , -23.72596125rem  +  40.384615vw , 6.5625rem )) {
+    .service-available__bg {
+      right: calc(0.0000000625rem + 6.5624999375 * (100vw - 58.75rem) / 16.25);
+    }
+}
 }
 
 @media (max-width: 70em) {
@@ -7512,6 +7685,11 @@ html.with-fancybox body.hide-scrollbar {
     margin-bottom: 0.5rem;
   }
 
+  .how-it-works-section__img-bg {
+    margin-left: -40%;
+    margin-right: -40%;
+  }
+
   .popular-services-section__btn-all {
     margin-top: 1.875rem;
   }
@@ -7582,6 +7760,39 @@ html.with-fancybox body.hide-scrollbar {
 
   .numbers__items {
     row-gap: 1.5rem;
+  }
+
+  .service-available__title {
+    text-align: center;
+    padding: 5rem 0 1.875rem;
+  }
+
+  .service-available__title::before {
+    width: 2.5rem;
+    height: 2.5rem;
+    left: 50%;
+    top: 1.5rem;
+    -webkit-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+  }
+
+  .service-available__bottom-body {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding: 1.5rem 0 1rem;
+  }
+
+  .service-available__call {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+
+  .service-available__bg {
+    display: none;
   }
 }
 
@@ -7969,10 +8180,6 @@ html.with-fancybox body.hide-scrollbar {
     width: 100%;
   }
 
-  .how-it-works-section__img-bg {
-    margin: 2rem -1rem 0;
-  }
-
   .cars-list-section__items {
     -ms-grid-columns: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
@@ -8048,6 +8255,10 @@ html.with-fancybox body.hide-scrollbar {
   .zip-codes__link-all {
     width: 100%;
     min-width: unset;
+  }
+
+  .service-available__btn {
+    width: 100%;
   }
 
   .car-estimation-item__image {
@@ -8226,12 +8437,12 @@ html.with-fancybox body.hide-scrollbar {
     text-decoration: underline;
   }
 
-  .car-item:hover {
+  a.car-item:hover {
     -webkit-box-shadow: 0px 0px 0px 1px rgb(0, 0, 0) inset;
             box-shadow: 0px 0px 0px 1px rgb(0, 0, 0) inset;
   }
 
-  .car-item:hover .car-item__image {
+  a.car-item:hover .car-item__image {
     -webkit-transform: scale(1.1);
         -ms-transform: scale(1.1);
             transform: scale(1.1);

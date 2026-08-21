@@ -2704,18 +2704,6 @@ ol.list-cnt-sell-by__list li::before {
   }
 }
 
-@supports (padding-bottom: clamp( 1.8125rem , 0.9553571429rem  +  3.8095238095vw , 3.8125rem )) {
-  .how-it-works-section__body {
-    padding-bottom: clamp( 1.8125rem , 0.9553571429rem  +  3.8095238095vw , 3.8125rem );
-  }
-}
-
-@supports not (padding-bottom: clamp( 1.8125rem , 0.9553571429rem  +  3.8095238095vw , 3.8125rem )) {
-  .how-it-works-section__body {
-    padding-bottom: calc(1.8125rem + 2 * (100vw - 22.5rem) / 52.5);
-  }
-}
-
 @supports (padding-left: clamp( 1.5rem , -0.5892857143rem  +  9.2857142857vw , 6.375rem )) {
   .how-it-works-section__body {
     padding-left: clamp( 1.5rem , -0.5892857143rem  +  9.2857142857vw , 6.375rem );
@@ -2737,6 +2725,18 @@ ol.list-cnt-sell-by__list li::before {
 @supports not (padding-right: clamp( 1.5rem , -0.5892857143rem  +  9.2857142857vw , 6.375rem )) {
   .how-it-works-section__body {
     padding-right: calc(1.5rem + 4.875 * (100vw - 22.5rem) / 52.5);
+  }
+}
+
+@supports (padding-bottom: clamp( 1.8125rem , 1.2232142857rem  +  2.619047619vw , 3.1875rem )) {
+  .how-it-works-section__body {
+    padding-bottom: clamp( 1.8125rem , 1.2232142857rem  +  2.619047619vw , 3.1875rem );
+  }
+}
+
+@supports not (padding-bottom: clamp( 1.8125rem , 1.2232142857rem  +  2.619047619vw , 3.1875rem )) {
+  .how-it-works-section__body {
+    padding-bottom: calc(1.8125rem + 1.375 * (100vw - 22.5rem) / 52.5);
   }
 }
 
@@ -2780,7 +2780,9 @@ ol.list-cnt-sell-by__list li::before {
 }
 
 .how-it-works-section__img-bg {
-  max-width: 44.0625rem;
+  margin-left: var(--margin-horizontal);
+  margin-right: var(--margin-horizontal);
+  aspect-ratio: 1200/250;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2790,7 +2792,30 @@ ol.list-cnt-sell-by__list li::before {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: 2.5rem auto 0;
+}
+
+@supports (margin-top: clamp( 0.625rem , 2.948943662rem  +  -3.0985915493vw , 2rem )) {
+  .how-it-works-section__img-bg {
+    margin-top: clamp( 0.625rem , 2.948943662rem  +  -3.0985915493vw , 2rem );
+  }
+}
+
+@supports not (margin-top: clamp( 0.625rem , 2.948943662rem  +  -3.0985915493vw , 2rem )) {
+  .how-it-works-section__img-bg {
+    margin-top: calc(2rem + -1.375 * (100vw - 30.625rem) / 44.375);
+  }
+}
+
+@supports (--margin-horizontal: clamp( -6.375rem , 0.5892857143rem  +  -9.2857142857vw , -1.5rem )) {
+  .how-it-works-section__img-bg {
+    --margin-horizontal: clamp( -6.375rem , 0.5892857143rem  +  -9.2857142857vw , -1.5rem );
+  }
+}
+
+@supports not (--margin-horizontal: clamp( -6.375rem , 0.5892857143rem  +  -9.2857142857vw , -1.5rem )) {
+  .how-it-works-section__img-bg {
+    --margin-horizontal: calc(-1.5rem + -4.875 * (100vw - 22.5rem) / 52.5);
+  }
 }
 
 .how-it-works-item {
@@ -2915,6 +2940,11 @@ ol.list-cnt-sell-by__list li::before {
   transition: background 0.3s ease 0s, box-shadow 0.3s ease 0s, -webkit-box-shadow 0.3s ease 0s;
   min-height: 10.4375rem;
   text-align: center;
+}
+
+.car-item--disabled:not(a) {
+  border: 1px solid rgb(201, 201, 201);
+  background-color: unset;
 }
 
 .car-item__image {
@@ -4627,6 +4657,11 @@ ol.list-cnt-sell-by__list li::before {
     grid-template-columns: 1fr 1fr;
   }
 
+  .how-it-works-section__img-bg {
+    margin-left: -40%;
+    margin-right: -40%;
+  }
+
   .instant-offer__image {
     display: none;
   }
@@ -4897,10 +4932,6 @@ ol.list-cnt-sell-by__list li::before {
     margin-bottom: 2rem;
   }
 
-  .how-it-works-section__img-bg {
-    margin: 2rem -1rem 0;
-  }
-
   .cars-list-section__items {
     -ms-grid-columns: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
@@ -5156,12 +5187,12 @@ ol.list-cnt-sell-by__list li::before {
     text-decoration: underline;
   }
 
-  .car-item:hover {
+  a.car-item:hover {
     -webkit-box-shadow: 0px 0px 0px 1px rgb(0, 0, 0) inset;
             box-shadow: 0px 0px 0px 1px rgb(0, 0, 0) inset;
   }
 
-  .car-item:hover .car-item__image {
+  a.car-item:hover .car-item__image {
     -webkit-transform: scale(1.1);
         -ms-transform: scale(1.1);
             transform: scale(1.1);

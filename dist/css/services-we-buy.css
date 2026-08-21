@@ -3635,6 +3635,11 @@ ol.list-cnt-sell-by__list li::before {
   text-align: center;
 }
 
+.car-item--disabled:not(a) {
+  border: 1px solid rgb(201, 201, 201);
+  background-color: unset;
+}
+
 .car-item__image {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -7329,12 +7334,12 @@ html.with-fancybox body.hide-scrollbar {
     text-decoration: underline;
   }
 
-  .car-item:hover {
+  a.car-item:hover {
     -webkit-box-shadow: 0px 0px 0px 1px rgb(0, 0, 0) inset;
             box-shadow: 0px 0px 0px 1px rgb(0, 0, 0) inset;
   }
 
-  .car-item:hover .car-item__image {
+  a.car-item:hover .car-item__image {
     -webkit-transform: scale(1.1);
         -ms-transform: scale(1.1);
             transform: scale(1.1);
