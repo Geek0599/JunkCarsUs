@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Fire Damage</title>
+    <g id="Fire-Damage" stroke="none" fill="none" fill-rule="nonzero">
+        <path d="M24,44.75 C15.71572,44.75 9,38.0342 9,29.75 C9,25.4424 10.81572,21.559 13.72358,18.8232 C16.40806,16.2975 23,11.74902 22,1.75 C34,9.75 40,17.75 28,29.75 C30,29.75 33,29.75 38,24.8092 C38.5394,26.3564 39,28.019 39,29.75 C39,38.0342 32.2842,44.75 24,44.75 Z" id="Path" fill="#000000"></path>
+    </g>
+</svg>

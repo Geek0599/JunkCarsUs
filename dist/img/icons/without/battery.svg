@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Without Battery</title>
+    <g id="Without-Battery" stroke="none" fill="none" fill-rule="evenodd" stroke-width="1">
+        <g id="Group" transform="translate(14, 24)">
+            <polygon id="Combined-Shape-2" fill="#FFD833" points="32.2647059 14.6470588 49.7352941 14.6470588 64 14.6470588 64 17.8230588 64 48 16.3823529 48 16.382 24.9700588 14 24.9705882 14 17.8235294 17.176 17.8230588 17.1764706 14.6470588"></polygon>
+            <path d="M22.5,10.5 L45.5,10.5 L45.4999999,6.5 L63.5,6.5 L63.5,10.5 L67.5,10.5 L67.5,18.5000001 L64.5,18.5 L64.5,47.5 L3.50000003,47.5 L3.5,18.5 L0.500000032,18.5000001 L0.500000032,10.5 L4.5,10.5 L4.50000001,6.5 L22.5000001,6.5 Z" id="Combined-Shape" stroke="#000000"></path>
+            <g transform="translate(24.5156, 18.0808)">
+                <path d="M18.7539599,9.40884956 C18.7539599,4.21238938 14.5558387,0 9.37697994,0 C4.19812119,0 0,4.21238938 0,9.40884956 C0,14.6053097 4.19812119,18.8176991 9.37697994,18.8176991 C14.5558387,18.8176991 18.7539599,14.6053097 18.7539599,9.40884956" id="Fill-12" fill="#000000"></path>
+                <line x1="12.9603762" y1="13.0047788" x2="5.79358363" y2="5.81362832" id="Stroke-14" stroke="#FFFFFF"></line>
+                <line x1="5.79270168" y1="13.0047788" x2="12.9594943" y2="5.81362832" id="Stroke-16" stroke="#FFFFFF"></line>
+            </g>
+            <rect id="Rectangle-35" stroke="#000000" x="8.5" y="0.5" width="10" height="6"></rect>
+            <rect id="Rectangle-36" stroke="#000000" x="49.5" y="0.5" width="10" height="6"></rect>
+        </g>
+    </g>
+</svg>

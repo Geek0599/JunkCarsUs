@@ -2882,7 +2882,8 @@ ol.list-cnt-sell-by__list li::before {
      object-fit: contain;
   display: block;
   height: initial;
-  max-width: initial;
+  max-width: 34.3125rem;
+  margin: 0 auto;
 }
 
 .page__main {
@@ -3550,6 +3551,7 @@ ol.list-cnt-sell-by__list li::before {
 .vehicles-card__image-ibg {
   display: block;
   padding-bottom: 68.4782608696%;
+  background-color: rgb(247, 247, 246);
 }
 
 .vehicles-card__info {
@@ -8108,6 +8110,10 @@ html.with-fancybox body.hide-scrollbar {
 
   .page__stage-calc-main {
     margin-bottom: 2rem;
+  }
+
+  .page__locations-state {
+    padding-bottom: 14.125rem;
   }
 
   .content-main-section__title {

@@ -884,6 +884,7 @@ Snippet (HTML): cnt
   visibility: hidden;
 }
 
+.text-info__image-poster img,
 .car-item__image img,
 .value-calc-aside__image img,
 .service-available__bg img,
@@ -3419,6 +3420,13 @@ ol.list-cnt-sell-by__list li::before {
 
 .text-info__culumns:not(:first-child) {
   margin-top: 1rem;
+}
+
+.text-info__image-poster {
+  border-radius: 0.375rem;
+  overflow: hidden;
+  background-color: rgb(247, 247, 246);
+  margin-top: 0.5rem;
 }
 
 .text-info-columns {

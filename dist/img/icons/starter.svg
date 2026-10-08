@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Starter — duotone vector</title>
+    <g id="Starter-—-duotone-vector" stroke="none" fill="none" fill-rule="nonzero">
+        <path d="M38,19 L38,38 C38,39.1045695 37.1045695,40 36,40 L14.5564107,40 C14.225484,40 13.8997286,39.9178846 13.6083453,39.7610145 L5.05193465,35.1545582 C4.40404015,34.8057556 4,34.1293633 4,33.3935437 L4,23.6064563 C4,22.8706367 4.40404015,22.1942444 5.05193465,21.8454418 L13.6083453,17.2389855 C13.8997286,17.0821154 14.225484,17 14.5564107,17 L36,17 C37.1045695,17 38,17.8954305 38,19 Z" id="Combined-Shape" fill="#000000"></path>
+        <rect id="Rectangle-11" fill="#000000" x="34" y="4" width="5" height="40" rx="2"></rect>
+        <rect id="Rectangle-12" fill="#000000" x="15" y="12" width="4" height="2" rx="1"></rect>
+        <rect id="Rectangle-13" fill="#000000" x="15" y="9" width="4" height="2" rx="1"></rect>
+        <rect id="Rectangle-14" fill="#000000" x="41" y="8" width="3" height="32" rx="1.5"></rect>
+        <rect id="Rectangle-10" fill="#000000" x="17" y="8" width="15" height="7" rx="2"></rect>
+    </g>
+</svg>

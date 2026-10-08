@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Without Title</title>
+    <g id="Without-Title" stroke="none" fill="none">
+        <polygon id="Rectangle-27" fill="#FFD833" fill-rule="evenodd" points="36 40.5 69.6875 40.5 80 50.8125 80 68 36 68"></polygon>
+        <g id="Group" stroke-width="1" fill-rule="evenodd" transform="translate(22.6231, 32.5917)">
+            <path d="M18.7539599,9.40884956 C18.7539599,4.21238938 14.5558387,0 9.37697994,0 C4.19812119,0 0,4.21238938 0,9.40884956 C0,14.6053097 4.19812119,18.8176991 9.37697994,18.8176991 C14.5558387,18.8176991 18.7539599,14.6053097 18.7539599,9.40884956" id="Fill-12" fill="#000000"></path>
+            <line x1="12.9603762" y1="13.0047788" x2="5.79358363" y2="5.81362832" id="Stroke-14" stroke="#FFFFFF"></line>
+            <line x1="5.79270168" y1="13.0047788" x2="12.9594943" y2="5.81362832" id="Stroke-16" stroke="#FFFFFF"></line>
+        </g>
+        <polygon id="Rectangle-26" stroke="#000000" stroke-width="1" points="16 28 65 28 80 43 80 68 16 68"></polygon>
+        <line x1="22.6231083" y1="55.6055194" x2="49.3865284" y2="55.6055194" id="Path-4" stroke="#000000" stroke-width="1" stroke-linecap="square"></line>
+        <line x1="22.6231083" y1="60.6055194" x2="40.5" y2="60.6055194" id="Path-5" stroke="#000000" stroke-width="1" stroke-linecap="square"></line>
+    </g>
+</svg>

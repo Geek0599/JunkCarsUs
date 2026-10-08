@@ -3133,7 +3133,8 @@ ol.list-cnt-sell-by__list li::before {
      object-fit: contain;
   display: block;
   height: initial;
-  max-width: initial;
+  max-width: 34.3125rem;
+  margin: 0 auto;
 }
 
 .poster-yellow-section__body {
@@ -3853,6 +3854,7 @@ ol.list-cnt-sell-by__list li::before {
 .vehicles-card__image-ibg {
   display: block;
   padding-bottom: 68.4782608696%;
+  background-color: rgb(247, 247, 246);
 }
 
 .vehicles-card__info {
@@ -7036,6 +7038,10 @@ html.with-fancybox body.hide-scrollbar {
   .cars-list-section__items {
     -ms-grid-columns: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .page__locations-state {
+    padding-bottom: 14.125rem;
   }
 
   .call-us-section--small .call-us-section__title {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Seized engine — duotone vector</title>
+    <g id="Seized-engine-—-duotone-vector" stroke="none" fill="none" fill-rule="evenodd" stroke-width="1">
+        <g id="Group" transform="translate(4, 8)">
+            <path d="M22.8355483,3 C23.6071021,3 24.309848,3.44380726 24.6414326,4.14047564 L26.954,9 L32,9 C33.1045695,9 34,9.8954305 34,11 L34,30 C34,31.1045695 33.1045695,32 32,32 L21,32 L11,32 C9.8954305,32 9,31.1045695 9,30 L9,5 C9,3.8954305 9.8954305,3 11,3 L22.8355483,3 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero"></path>
+            <rect id="Rectangle-24" fill="#FFFFFF" transform="translate(21.4246, 18.4246) scale(-1, 1) rotate(45) translate(-21.4246, -18.4246)" x="19.9246212" y="9.4246212" width="3" height="18" rx="1.5"></rect>
+            <path d="M36,9 L38,9 C39.1045695,9 40,9.8954305 40,11 L40,30 C40,31.1045695 39.1045695,32 38,32 L36,32 L36,9 Z" id="Rectangle-19" fill="#000000" fill-rule="nonzero"></path>
+            <rect id="Rectangle-20" fill="#000000" fill-rule="nonzero" x="33" y="18" width="4" height="5"></rect>
+            <rect id="Rectangle-18" fill="#000000" fill-rule="nonzero" x="0" y="6" width="3" height="20" rx="1.5"></rect>
+            <path d="M7,10 L11,10 L11,22 L7,22 C5.8954305,22 5,21.1045695 5,20 L5,12 C5,10.8954305 5.8954305,10 7,10 Z" id="Rectangle-17" fill="#000000" fill-rule="nonzero"></path>
+            <rect id="Rectangle-22" fill="#000000" fill-rule="nonzero" x="11" y="-2" width="12" height="3" rx="1.5"></rect>
+            <rect id="Rectangle-23" fill="#000000" fill-rule="nonzero" x="13" y="1" width="8" height="5"></rect>
+            <rect id="Rectangle-21" fill="#000000" fill-rule="nonzero" x="2" y="14" width="4" height="4"></rect>
+        </g>
+    </g>
+</svg>

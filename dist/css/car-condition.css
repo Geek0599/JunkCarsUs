@@ -2988,15 +2988,15 @@ ol.list-cnt-sell-by__list li::before {
   margin-bottom: 0;
 }
 
-@supports (padding-bottom: clamp( 10rem , 7rem  +  6.25vw , 11.6875rem )) {
+@supports (padding-bottom: clamp( 10rem , 8.3333333333rem  +  3.4722222222vw , 10.9375rem )) {
   .page__car-main {
-    padding-bottom: clamp( 10rem , 7rem  +  6.25vw , 11.6875rem );
+    padding-bottom: clamp( 10rem , 8.3333333333rem  +  3.4722222222vw , 10.9375rem );
   }
 }
 
-@supports not (padding-bottom: clamp( 10rem , 7rem  +  6.25vw , 11.6875rem )) {
+@supports not (padding-bottom: clamp( 10rem , 8.3333333333rem  +  3.4722222222vw , 10.9375rem )) {
   .page__car-main {
-    padding-bottom: calc(10rem + 1.6875 * (100vw - 48rem) / 27);
+    padding-bottom: calc(10rem + 0.9375 * (100vw - 48rem) / 27);
   }
 }
 
@@ -3065,13 +3065,21 @@ ol.list-cnt-sell-by__list li::before {
 }
 
 .car-main-img {
-  margin-top: -5.5625rem;
-  margin-bottom: -5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  aspect-ratio: 549/549;
+  width: 100%;
 }
 
 .car-main-img img {
-  -webkit-filter: sepia(1);
-          filter: sepia(1);
+  max-width: 34.3125rem;
 }
 
 .car-main-img--no-indent {
@@ -3084,12 +3092,9 @@ ol.list-cnt-sell-by__list li::before {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-top: 0;
 }
 
 .car-main-img--no-indent img {
-  -webkit-filter: none;
-          filter: none;
   max-width: 18.125rem;
 }
 
@@ -4140,6 +4145,7 @@ ol.list-cnt-sell-by__list li::before {
 .vehicles-card__image-ibg {
   display: block;
   padding-bottom: 68.4782608696%;
+  background-color: rgb(247, 247, 246);
 }
 
 .vehicles-card__info {
@@ -6737,11 +6743,23 @@ html.with-fancybox body.hide-scrollbar {
   }
 
   .car-main-img {
-    width: 46.984%;
+    width: 47.0034246575%;
     -webkit-box-flex: 0;
-        -ms-flex: 0 1 46.984%;
-            flex: 0 1 46.984%;
+        -ms-flex: 0 1 47.0034246575%;
+            flex: 0 1 47.0034246575%;
   }
+
+@supports (margin-top: clamp( -8.4375rem , 11.3942307692rem  +  -26.4423076923vw , -5rem )) {
+    .car-main-img {
+      margin-top: clamp( -8.4375rem , 11.3942307692rem  +  -26.4423076923vw , -5rem );
+    }
+}
+
+@supports not (margin-top: clamp( -8.4375rem , 11.3942307692rem  +  -26.4423076923vw , -5rem )) {
+    .car-main-img {
+      margin-top: calc(-5rem + -3.4375 * (100vw - 62rem) / 13);
+    }
+}
 
   .text-section__columns {
     display: -ms-grid;
@@ -7251,18 +7269,6 @@ html.with-fancybox body.hide-scrollbar {
 
   .page__car-main ~ .page__section-onmain-overhang {
     margin-top: -9.0625rem;
-  }
-
-  .car-main-img {
-    pointer-events: none;
-    width: 75%;
-    margin: 0 auto;
-    margin-top: -8%;
-  }
-
-  .car-main-img--no-indent {
-    padding-top: 20%;
-    padding-bottom: 20%;
   }
 
   .car-main-img--no-indent img {
@@ -7817,7 +7823,6 @@ html.with-fancybox body.hide-scrollbar {
   }
 
   .car-main-img {
-    margin-top: 0;
     width: 100%;
   }
 

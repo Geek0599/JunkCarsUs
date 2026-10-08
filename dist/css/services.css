@@ -3470,7 +3470,8 @@ ol.list-cnt-sell-by__list li::before {
      object-fit: contain;
   display: block;
   height: initial;
-  max-width: initial;
+  max-width: 34.3125rem;
+  margin: 0 auto;
 }
 
 .progress-bar {
@@ -4925,6 +4926,10 @@ ol.list-cnt-sell-by__list li::before {
 
   .instant-val-car-form__btn {
     width: 100%;
+  }
+
+  .page__locations-state {
+    padding-bottom: 14.125rem;
   }
 }
 

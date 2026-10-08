@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Fuel Pump Failure</title>
+    <g id="Fuel-Pump-Failure" stroke="none" fill="none" fill-rule="nonzero">
+        <path d="M6,38 L6,8 C6,6.89544 6.89544,6 8,6 L26,6 C27.1046,6 28,6.89544 28,8 L28,24 L32,24 C34.2092,24 36,25.7908 36,28 L36,36 C36,37.1046 36.8954,38 38,38 C39.1046,38 40,37.1046 40,36 L40,22 L36,22 C34.8954,22 34,21.1046 34,20 L34,12.82842 L30.6862,9.51472 L33.5148,6.6863 L43.4142,16.58578 C43.8048,16.97632 44,17.48816 44,18 L44,36 C44,39.3138 41.3138,42 38,42 C34.6862,42 32,39.3138 32,36 L32,28 L28,28 L28,38 L30,38 L30,42 L4,42 L4,38 L6,38 Z M10,10 L10,22 L24,22 L24,10 L10,10 Z" id="Shape" fill="#000000"></path>
+    </g>
+</svg>
