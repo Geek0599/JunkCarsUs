@@ -3807,17 +3807,17 @@ ol.list-cnt-sell-by__list li::before {
   font-family: "Barlow Condensed";
 }
 
-@supports (font-size: clamp( 1.375rem , 1.1527777778rem  +  0.462962963vw , 1.5rem )) {
+@supports (font-size: clamp( 1.25rem , 0.8055555556rem  +  0.9259259259vw , 1.5rem )) {
   .compare-steps__step,
   .compare-steps__target {
-    font-size: clamp( 1.375rem , 1.1527777778rem  +  0.462962963vw , 1.5rem );
+    font-size: clamp( 1.25rem , 0.8055555556rem  +  0.9259259259vw , 1.5rem );
   }
 }
 
-@supports not (font-size: clamp( 1.375rem , 1.1527777778rem  +  0.462962963vw , 1.5rem )) {
+@supports not (font-size: clamp( 1.25rem , 0.8055555556rem  +  0.9259259259vw , 1.5rem )) {
   .compare-steps__step,
   .compare-steps__target {
-    font-size: calc(1.375rem + 0.125 * (100vw - 48rem) / 27);
+    font-size: calc(1.25rem + 0.25 * (100vw - 48rem) / 27);
   }
 }
 
@@ -4112,7 +4112,7 @@ ol.list-cnt-sell-by__list li::before {
     -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
             transform: translateY(-50%);
-    right: -17.5%;
+    right: -16.25%;
   }
 
   .compare-steps__target {
@@ -4874,7 +4874,8 @@ ol.list-cnt-sell-by__list li::before {
 
   .compare-steps__step {
     width: 100%;
-    max-width: 14.375rem;
+    height: 9.6875rem;
+    max-width: 14.6875rem;
   }
 }
 
@@ -5055,6 +5056,11 @@ ol.list-cnt-sell-by__list li::before {
         -ms-flex-direction: column;
             flex-direction: column;
     gap: 2.5rem;
+  }
+
+  .compare-steps__step,
+  .compare-steps__target {
+    font-size: 1.375rem;
   }
 
   .compare-steps__step::after {
