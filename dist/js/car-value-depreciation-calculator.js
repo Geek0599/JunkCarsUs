@@ -4533,22 +4533,28 @@
         }
         const bundle = lib_inputmask;
         function initInputMask() {
-            const selector = document.querySelector("[data-phone-mask]");
-            if (selector) {
+            const selectors = document.querySelectorAll("[data-phone-mask]");
+            selectors.forEach((selector => {
                 new bundle({
-                    mask: "+1 999-999-9999",
-                    clearMaskOnLostFocus: false
+                    mask: "+1 A99-999-9999",
+                    clearMaskOnLostFocus: false,
+                    definitions: {
+                        A: {
+                            validator: "[2-9]"
+                        }
+                    },
+                    onBeforePaste: value => value.replace(/\D/g, "").replace(/^[01]+/, "")
                 }).mask(selector);
                 const form = selector.closest("form");
                 if (form) form.addEventListener("reset", (() => {
                     selector.value = "";
                 }));
                 selector.addEventListener("focus", (() => {
-                    setTimeout((function() {
+                    setTimeout((() => {
                         selector.click();
                     }), 300);
                 }));
-            }
+            }));
         }
         function initUploadPhotoInput() {
             const filesUpload = document.querySelectorAll(".file");

@@ -3849,6 +3849,10 @@ ol.list-cnt-sell-by__list li::before {
   }
 }
 
+.form-part-offer__item--specify {
+  grid-column: 1/-1;
+}
+
 .form-part-offer__item .file__label {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;

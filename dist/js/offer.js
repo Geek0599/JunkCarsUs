@@ -4576,22 +4576,28 @@
         }
         const bundle = lib_inputmask;
         function initInputMask() {
-            const selector = document.querySelector("[data-phone-mask]");
-            if (selector) {
+            const selectors = document.querySelectorAll("[data-phone-mask]");
+            selectors.forEach((selector => {
                 new bundle({
-                    mask: "+1 999-999-9999",
-                    clearMaskOnLostFocus: false
+                    mask: "+1 A99-999-9999",
+                    clearMaskOnLostFocus: false,
+                    definitions: {
+                        A: {
+                            validator: "[2-9]"
+                        }
+                    },
+                    onBeforePaste: value => value.replace(/\D/g, "").replace(/^[01]+/, "")
                 }).mask(selector);
                 const form = selector.closest("form");
                 if (form) form.addEventListener("reset", (() => {
                     selector.value = "";
                 }));
                 selector.addEventListener("focus", (() => {
-                    setTimeout((function() {
+                    setTimeout((() => {
                         selector.click();
                     }), 300);
                 }));
-            }
+            }));
         }
         function initPopupSimple() {
             class PopupSimple {
@@ -4847,32 +4853,5 @@
         initPopupSimple();
         formValidate();
         hoverTooltipOnStatesMap();
-        function carMakeValidation() {
-            const junkForm = document.querySelector("[data-instant-offer-form]");
-            if (junkForm) {
-                const selectCarMake = document.querySelector('select[name="make"]');
-                const selectCarModel = document.querySelector('select[name="model"]');
-                if (selectCarMake && selectCarModel) {
-                    let placeholderOption = selectCarModel.options[selectCarModel.selectedIndex];
-                    placeholderOption = placeholderOption && placeholderOption.value === "" ? placeholderOption.textContent.trim() : "Select model";
-                    selectCarMake.addEventListener("change", (e => {
-                        const value = e.target.value;
-                        const query = value.trim();
-                        if (query === placeholderOption || query === "") {
-                            reset();
-                            return false;
-                        }
-                        junkForm.addEventListener("reset", (() => {
-                            reset();
-                        }));
-                        function reset() {
-                            selectCarModel.classList.remove("_validated");
-                            selectCarModel.innerHTML = `<option value=''>${placeholderOption}</option>`;
-                        }
-                    }));
-                }
-            }
-        }
-        carMakeValidation();
     })();
 })();

@@ -3906,6 +3906,7 @@ ol.list-cnt-sell-by__list li::before {
   display: block;
   padding-bottom: 68.4782608696%;
   background-color: rgb(247, 247, 246);
+  cursor: pointer;
 }
 
 .vehicles-card__info {
@@ -4471,6 +4472,7 @@ ol.list-cnt-sell-by__list li::before {
 .articles-card__image-ibg {
   display: block;
   padding-bottom: 59.7883597884%;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .articles-card__body {
